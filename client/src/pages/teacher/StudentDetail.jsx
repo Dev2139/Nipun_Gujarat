@@ -218,6 +218,32 @@ export default function StudentDetail() {
                         {p.hintsUsed > 0 && <span>• 💡 સંકેત: {p.hintsUsed}</span>}
                       </div>
 
+                      {p.competencyCode === 'M-02' && (
+                        <div className="mt-2 flex flex-wrap items-center gap-1.5 text-[10px] font-gujarati">
+                          <span className="font-bold text-slate-700">સ્થાનિક ક્ષમતાઓ:</span>
+                          <span className={`px-2 py-0.5 rounded font-bold ${
+                            p.weakAreas?.some(w => w.includes('ઉપર અને નીચે')) ? 'bg-amber-100 text-amber-900 border border-amber-300' : 'bg-emerald-100 text-emerald-900 border border-emerald-300'
+                          }`}>
+                            ઉપર / નીચે {p.weakAreas?.some(w => w.includes('ઉપર અને નીચે')) ? '⚠️' : '✓'}
+                          </span>
+                          <span className={`px-2 py-0.5 rounded font-bold ${
+                            p.weakAreas?.some(w => w.includes('ની ઉપર')) ? 'bg-amber-100 text-amber-900 border border-amber-300' : 'bg-emerald-100 text-emerald-900 border border-emerald-300'
+                          }`}>
+                            ની ઉપર / ની નીચે {p.weakAreas?.some(w => w.includes('ની ઉપર')) ? '⚠️' : '✓'}
+                          </span>
+                          <span className={`px-2 py-0.5 rounded font-bold ${
+                            p.weakAreas?.some(w => w.includes('ક્રમ')) ? 'bg-amber-100 text-amber-900 border border-amber-300' : 'bg-emerald-100 text-emerald-900 border border-emerald-300'
+                          }`}>
+                            ક્રમ (ઉપર-નીચે) {p.weakAreas?.some(w => w.includes('ક્રમ')) ? '⚠️' : '✓'}
+                          </span>
+                          <span className={`px-2 py-0.5 rounded font-bold ${
+                            p.weakAreas?.some(w => w.includes('નજીક')) ? 'bg-amber-100 text-amber-900 border border-amber-300' : 'bg-rose-100 text-rose-900 border border-rose-300'
+                          }`}>
+                            નજીક / દૂર {p.weakAreas?.some(w => w.includes('નજીક')) ? '✕' : '✓'}
+                          </span>
+                        </div>
+                      )}
+
                       {p.weakAreas && p.weakAreas.length > 0 && (
                         <div className="mt-1.5 flex flex-wrap items-center gap-1 text-[10px] font-gujarati">
                           <span className="font-black text-rose-700">નબળો મુદ્દો:</span>

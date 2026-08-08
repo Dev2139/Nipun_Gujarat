@@ -81,9 +81,23 @@ exports.submitAssessment = async (req, res, next) => {
         if (isCorrect) {
           correctCount += 1;
         } else {
-          // Classify weakness
+          // Classify weakness based on competency and question context
           const qText = (question.promptGujarati || '').toLowerCase();
-          if (question.questionType === 'image_choice' || qText.includes('સમૂહ') || qText.includes('જૂથ') || qText.includes('વસ્તુ')) {
+          const compCode = (competencyCode || '').toUpperCase();
+
+          if (compCode === 'M-02' || qText.includes('નજીક') || qText.includes('દૂર') || qText.includes('ઉપર') || qText.includes('નીચે')) {
+            if (qText.includes('નજીક') || qText.includes('દૂર')) {
+              missedCategories.add('નજીક અને દૂર (Near & Far)');
+            } else if (qText.includes('ઉપરથી નીચે') || qText.includes('નીચેથી ઉપર') || qText.includes('ક્રમ')) {
+              missedCategories.add('ઉપરથી નીચે / નીચેથી ઉપર (Vertical Ordering)');
+            } else if (qText.includes('ની ઉપર') || qText.includes('ની નીચે')) {
+              missedCategories.add('ની ઉપર અને ની નીચે (Relative Position: Above & Below)');
+            } else if (qText.includes('ઉપર') || qText.includes('નીચે')) {
+              missedCategories.add('ઉપર અને નીચે (Basic Up & Down)');
+            } else {
+              missedCategories.add('સ્થાનિક સંકલ્પના (Spatial Concepts)');
+            }
+          } else if (question.questionType === 'image_choice' || qText.includes('સમૂહ') || qText.includes('જૂથ') || qText.includes('વસ્તુ')) {
             missedCategories.add('વસ્તુ સમૂહ સરખામણી (Visual Groups)');
           } else if (qText.includes('ક્રમમાં') || qText.includes('ગોઠવો')) {
             missedCategories.add('સંખ્યા ક્રમ (Number Ordering)');

@@ -140,109 +140,131 @@
   },
   {
     "competencyCode": "M-02",
-    "titleGujarati": "ઉપર-નીચે, ની ઉપર, ની નીચે, ઊંચે, નજીક-દૂરની સંકલ્પના સમજે છે - મૂલ્યાંકન કસોટી",
-    "titleEnglish": "Understands spatial concepts (Top-Bottom, High-Low, Near-Far) - Assessment",
+    "titleGujarati": "ઉપર, નીચે, ઉપર-નીચે, નીચે-ઉપર, દૂર અને નજીક - મૂલ્યાંકન કસોટી",
+    "titleEnglish": "Spatial concepts: Up, Down, Above, Below, Vertical Ordering, Near and Far - Assessment",
     "passingPercentage": 80,
-    "timeLimitMinutes": 10,
+    "timeLimitMinutes": 15,
     "questions": [
       {
         "questionId": "Q-M-02-1",
-        "promptGujarati": "પંખી આકાશમાં ક્યાં ઊડે છે?",
-        "promptEnglish": "Question 1 for M-02",
+        "promptGujarati": "પક્ષી વૃક્ષની ક્યાં છે? (🐦 ઉપર / 🌳 વૃક્ષ)",
+        "promptEnglish": "Where is the bird relative to the tree?",
         "options": [
-          {
-            "id": "opt1",
-            "textGujarati": "ઊંચે આકાશમાં 🦅",
-            "emoji": "🦅"
-          },
-          {
-            "id": "opt2",
-            "textGujarati": "જમીનની અંદર",
-            "emoji": "🕳️"
-          }
+          { "id": "opt1", "textGujarati": "ઉપર (Up ⬆️)", "emoji": "🐦" },
+          { "id": "opt2", "textGujarati": "નીચે (Down ⬇️)", "emoji": "🌳" }
         ],
         "correctOptionId": "opt1",
-        "explanationGujarati": "ઉપર-નીચે, ની ઉપર, ની નીચે, ઊંચે, નજીક-દૂરની સંકલ્પના સમજે છે ની સમજ મુજબ સાચો જવાબ છે.",
+        "explanationGujarati": "પક્ષી વૃક્ષની ડાળી પર ઉપર (Up) બેઠેલું છે.",
         "points": 1
       },
       {
         "questionId": "Q-M-02-2",
-        "promptGujarati": "ટેબલની નીચે શું હોઈ શકે?",
-        "promptEnglish": "Question 2 for M-02",
+        "promptGujarati": "કૂતરો વૃક્ષની ક્યાં બેઠો છે? (🌳 વૃક્ષ / 🐶 નીચે)",
+        "promptEnglish": "Where is the dog relative to the tree?",
         "options": [
-          {
-            "id": "opt1",
-            "textGujarati": "દડો ⚽",
-            "emoji": "⚽"
-          },
-          {
-            "id": "opt2",
-            "textGujarati": "વાદળ ☁️",
-            "emoji": "☁️"
-          }
+          { "id": "opt1", "textGujarati": "નીચે (Down / Below ⬇️)", "emoji": "🐶" },
+          { "id": "opt2", "textGujarati": "ઉપર (Up / Above ⬆️)", "emoji": "🌳" }
         ],
         "correctOptionId": "opt1",
-        "explanationGujarati": "ઉપર-નીચે, ની ઉપર, ની નીચે, ઊંચે, નજીક-દૂરની સંકલ્પના સમજે છે ની સમજ મુજબ સાચો જવાબ છે.",
+        "explanationGujarati": "કૂતરો વૃક્ષની નીચે (Down) બેઠો છે.",
         "points": 1
       },
       {
         "questionId": "Q-M-02-3",
-        "promptGujarati": "તમારા ઘરની સૌથી નજીક શું છે?",
-        "promptEnglish": "Question 3 for M-02",
+        "promptGujarati": "સફરજન ટોપલીની ક્યાં છે? (🍎 સફરજન / 🧺 ટોપલી)",
+        "promptEnglish": "Where is the apple relative to the basket?",
         "options": [
-          {
-            "id": "opt1",
-            "textGujarati": "આંગણું / ઝાડ 🌳",
-            "emoji": "🌳"
-          },
-          {
-            "id": "opt2",
-            "textGujarati": "ચંદ્ર 🌙",
-            "emoji": "🌙"
-          }
+          { "id": "opt1", "textGujarati": "ટોપલીની ઉપર (Above basket)", "emoji": "🍎" },
+          { "id": "opt2", "textGujarati": "ટોપલીની નીચે (Below basket)", "emoji": "🧺" }
         ],
         "correctOptionId": "opt1",
-        "explanationGujarati": "ઉપર-નીચે, ની ઉપર, ની નીચે, ઊંચે, નજીક-દૂરની સંકલ્પના સમજે છે ની સમજ મુજબ સાચો જવાબ છે.",
+        "explanationGujarati": "સફરજન ટોપલીની ઉપર મૂકેલું છે.",
         "points": 1
       },
       {
         "questionId": "Q-M-02-4",
-        "promptGujarati": "કૂવાની અંદર કે બહાર?",
-        "promptEnglish": "Question 4 for M-02",
+        "promptGujarati": "છોકરો પતંગની ક્યાં ઊભો છે? (🪁 પતંગ / 👦 છોકરો)",
+        "promptEnglish": "Where is the boy relative to the flying kite?",
         "options": [
-          {
-            "id": "opt1",
-            "textGujarati": "પાણી અંદર હોય છે 💧",
-            "emoji": "💧"
-          },
-          {
-            "id": "opt2",
-            "textGujarati": "પાણી આકાશમાં",
-            "emoji": "☁️"
-          }
+          { "id": "opt1", "textGujarati": "પતંગની નીચે (Below kite ⬇️)", "emoji": "👦" },
+          { "id": "opt2", "textGujarati": "પતંગની ઉપર (Above kite ⬆️)", "emoji": "🪁" }
         ],
         "correctOptionId": "opt1",
-        "explanationGujarati": "ઉપર-નીચે, ની ઉપર, ની નીચે, ઊંચે, નજીક-દૂરની સંકલ્પના સમજે છે ની સમજ મુજબ સાચો જવાબ છે.",
+        "explanationGujarati": "પતંગ આકાશમાં ઊંચે છે અને છોકરો પતંગની નીચે જમીન પર છે.",
         "points": 1
       },
       {
         "questionId": "Q-M-02-5",
-        "promptGujarati": "છતની ઉપર શું હોય છે?",
-        "promptEnglish": "Question 5 for M-02",
+        "promptGujarati": "ફળોને ઉપરથી નીચેના ક્રમમાં (૧ ➔ ૨ ➔ ૩) ઓળખો: (🍎 ઉપર, 🍌 વચ્ચે, 🍊 નીચે)",
+        "promptEnglish": "Identify the top-to-bottom order of fruits",
         "options": [
-          {
-            "id": "opt1",
-            "textGujarati": "ધાબું / પતંગ 🪁",
-            "emoji": "🪁"
-          },
-          {
-            "id": "opt2",
-            "textGujarati": "જમીન",
-            "emoji": "🌱"
-          }
+          { "id": "opt1", "textGujarati": "૧: 🍎 સફરજન → ૨: 🍌 કેળું → ૩: 🍊 નારંગી", "emoji": "⬇️" },
+          { "id": "opt2", "textGujarati": "૧: 🍊 નારંગી → ૨: 🍌 કેળું → ૩: 🍎 સફરજન", "emoji": "⬆️" },
+          { "id": "opt3", "textGujarati": "૧: 🍌 કેળું → ૨: 🍎 સફરજન → ૩: 🍊 નારંગી", "emoji": "❌" }
         ],
         "correctOptionId": "opt1",
-        "explanationGujarati": "ઉપર-નીચે, ની ઉપર, ની નીચે, ઊંચે, નજીક-દૂરની સંકલ્પના સમજે છે ની સમજ મુજબ સાચો જવાબ છે.",
+        "explanationGujarati": "ઉપરથી નીચેનો સાચો ક્રમ: સફરજન (ઉપર) → કેળું (વચ્ચે) → નારંગી (નીચે).",
+        "points": 1
+      },
+      {
+        "questionId": "Q-M-02-6",
+        "promptGujarati": "નીચેથી ઉપરના ક્રમમાં (⬆️) ગોઠવણી કઈ સાચી છે? (🌳 જમીન પર, 🐱 ડાળ પર, 🐦 ટોચ પર)",
+        "promptEnglish": "Identify bottom-to-top order",
+        "options": [
+          { "id": "opt1", "textGujarati": "૧: 🌳 વૃક્ષ → ૨: 🐱 બિલાડી → ૩: 🐦 પક્ષી", "emoji": "⬆️" },
+          { "id": "opt2", "textGujarati": "૧: 🐦 પક્ષી → ૨: 🐱 બિલાડી → ૩: 🌳 વૃક્ષ", "emoji": "⬇️" },
+          { "id": "opt3", "textGujarati": "૧: 🐱 બિલાડી → ૨: 🌳 વૃક્ષ → ૩: 🐦 પક્ષી", "emoji": "❌" }
+        ],
+        "correctOptionId": "opt1",
+        "explanationGujarati": "નીચેથી ઉપર (Bottom to Top) ક્રમ: વૃક્ષ (સૌથી નીચે) → બિલાડી (વચ્ચે) → પક્ષી (સૌથી ઉપર).",
+        "points": 1
+      },
+      {
+        "questionId": "Q-M-02-7",
+        "promptGujarati": "ચિત્ર જુઓ: 👦 ⚽ — બોલ બાળકની ક્યાં છે?",
+        "promptEnglish": "Where is the ball relative to the child?",
+        "options": [
+          { "id": "opt1", "textGujarati": "નજીક છે (Near 👦⚽)", "emoji": "🤏" },
+          { "id": "opt2", "textGujarati": "દૂર છે (Far 👦 ... ⚽)", "emoji": "📏" }
+        ],
+        "correctOptionId": "opt1",
+        "explanationGujarati": "બોલ બાળકના પગ પાસે ખૂબ નજીક (Near) છે.",
+        "points": 1
+      },
+      {
+        "questionId": "Q-M-02-8",
+        "promptGujarati": "ચિત્ર જુઓ: 👦 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 🏠 — ઘર બાળકથી કેવું છે?",
+        "promptEnglish": "Where is the house relative to the child?",
+        "options": [
+          { "id": "opt1", "textGujarati": "દૂર છે (Far 🏠)", "emoji": "🏞️" },
+          { "id": "opt2", "textGujarati": "નજીક છે (Near 🏠)", "emoji": "🚪" }
+        ],
+        "correctOptionId": "opt1",
+        "explanationGujarati": "બાળક અને ઘર વચ્ચે વધુ અંતર હોવાથી ઘર દૂર (Far) છે.",
+        "points": 1
+      },
+      {
+        "questionId": "Q-M-02-9",
+        "promptGujarati": "બિલાડી ખુરશીની ક્યાં સંતાઈ છે? (🪑 ખુરશી / 🐱 બિલાડી)",
+        "promptEnglish": "Where is the cat hiding relative to the chair?",
+        "options": [
+          { "id": "opt1", "textGujarati": "ખુરશીની નીચે (Under / Below chair ⬇️)", "emoji": "🐱" },
+          { "id": "opt2", "textGujarati": "ખુરશીની ઉપર (On chair ⬆️)", "emoji": "🪑" }
+        ],
+        "correctOptionId": "opt1",
+        "explanationGujarati": "બિલાડી ખુરશીના પાયા વચ્ચે નીચે (Below) બેઠી છે.",
+        "points": 1
+      },
+      {
+        "questionId": "Q-M-02-10",
+        "promptGujarati": "રંગબેરંગી ફુગ્ગો ઘરની ક્યાં ઊડી રહ્યો છે? (🎈 ફુગ્ગો / 🏠 ઘર)",
+        "promptEnglish": "Where is the balloon flying relative to the house?",
+        "options": [
+          { "id": "opt1", "textGujarati": "ઘરની ઉપર આકાશમાં (Above house ⬆️)", "emoji": "🎈" },
+          { "id": "opt2", "textGujarati": "ઘરની નીચે જમીનમાં (Below house ⬇️)", "emoji": "🏠" }
+        ],
+        "correctOptionId": "opt1",
+        "explanationGujarati": "ફુગ્ગો હવા ભરેલો હોવાથી ઘરની ઉપર (Above) આકાશમાં ઊડે છે.",
         "points": 1
       }
     ]
