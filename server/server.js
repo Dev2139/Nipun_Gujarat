@@ -60,6 +60,45 @@ if (process.env.NODE_ENV === 'development') {
   app.use(morgan('dev'));
 }
 
+const PORT = process.env.PORT || 5000;
+const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://127.0.0.1:27017/nipun_gujarat';
+
+// Database connection logic (handles both standalone Express server and Vercel serverless)
+let cachedDb = null;
+const connectDB = async () => {
+  if (cachedDb && mongoose.connection.readyState === 1) {
+    return cachedDb;
+  }
+  try {
+    cachedDb = await mongoose.connect(MONGODB_URI, {
+      serverSelectionTimeoutMS: 5000,
+    });
+    console.log(`✅ MongoDB connected successfully`);
+    return cachedDb;
+  } catch (err) {
+    console.error('❌ MongoDB connection error:', err.message);
+    return null;
+  }
+};
+
+// Database connection middleware for all incoming requests (MUST be before routes)
+app.use(async (req, res, next) => {
+  if (req.path === '/api/health' || req.path === '/') {
+    return next();
+  }
+  if (mongoose.connection.readyState !== 1) {
+    const db = await connectDB();
+    if (!db || mongoose.connection.readyState !== 1) {
+      return res.status(503).json({
+        success: false,
+        message: 'ડેટાબેઝ કનેક્શન ઉપલબ્ધ નથી (Database connection unavailable). Please verify MONGODB_URI in Vercel settings.',
+        hint: 'Make sure MONGODB_URI (MongoDB Atlas connection string) is set in your Vercel Environment Variables.',
+      });
+    }
+  }
+  next();
+});
+
 // Rate Limiting for Auth
 const authLimiter = rateLimit({
   windowMs: 15 * 60 * 1000, // 15 minutes
@@ -75,6 +114,7 @@ app.get('/api/health', (req, res) => {
     platform: 'Nipun Gujarat FLN Platform',
     academicYear: '2026-27',
     version: '1.0.0',
+    dbState: mongoose.connection.readyState === 1 ? 'connected' : 'disconnected',
     timestamp: new Date().toISOString(),
   });
 });
@@ -82,8 +122,27 @@ app.get('/api/health', (req, res) => {
 app.get('/', (req, res) => {
   res.status(200).json({
     message: 'Nipun Gujarat API Server is Live',
+    dbStatus: mongoose.connection.readyState === 1 ? 'connected' : 'disconnected',
     endpoints: '/api/health, /api/auth, /api/curriculum, /api/progress, /api/assessments',
   });
+});
+
+// Online Database Seeder Endpoint (Useful for seeding cloud MongoDB Atlas on Vercel)
+app.get('/api/admin/seed', async (req, res) => {
+  const { key } = req.query;
+  if (key !== 'nipun2026' && process.env.NODE_ENV === 'production') {
+    return res.status(403).json({ success: false, message: 'Unauthorized. Pass ?key=nipun2026' });
+  }
+
+  try {
+    const seedRunner = require('./seed/seedRunner');
+    res.status(200).json({
+      success: true,
+      message: 'Seeding triggered. Please check server logs or query students after 5 seconds.',
+    });
+  } catch (err) {
+    res.status(500).json({ success: false, error: err.message });
+  }
 });
 
 // Mount Routes
@@ -98,32 +157,6 @@ app.use('/api/reports', reportRoutes);
 
 // Error Handler Middleware
 app.use(errorHandler);
-
-const PORT = process.env.PORT || 5000;
-const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://127.0.0.1:27017/nipun_gujarat';
-
-// Database connection logic (handles both standalone Express server and Vercel serverless)
-let cachedDb = null;
-const connectDB = async () => {
-  if (cachedDb && mongoose.connection.readyState === 1) {
-    return cachedDb;
-  }
-  try {
-    cachedDb = await mongoose.connect(MONGODB_URI);
-    console.log(`✅ MongoDB connected successfully to ${MONGODB_URI}`);
-    return cachedDb;
-  } catch (err) {
-    console.error('❌ MongoDB connection error:', err);
-  }
-};
-
-// Middleware for serverless requests
-app.use(async (req, res, next) => {
-  if (mongoose.connection.readyState !== 1) {
-    await connectDB();
-  }
-  next();
-});
 
 if (process.env.NODE_ENV !== 'production' || !process.env.VERCEL) {
   connectDB().then(() => {
