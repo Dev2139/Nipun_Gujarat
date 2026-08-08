@@ -1,0 +1,37 @@
+[
+  {
+    "badgeKey": "first_skill_mastered",
+    "titleGujarati": "પ્રથમ સિદ્ધિ ⭐",
+    "titleEnglish": "First Skill Mastered",
+    "descriptionGujarati": "તમે તમારી પ્રથમ ક્ષમતામાં ૮૦% કે તેથી વધુ ગુણ મેળવી નિપુણ બન્યા!",
+    "iconEmoji": "⭐"
+  },
+  {
+    "badgeKey": "gujarati_explorer",
+    "titleGujarati": "ગુજરાતી ભાષા વિજેતા 📖",
+    "titleEnglish": "Gujarati Explorer",
+    "descriptionGujarati": "ગુજરાતી વિષયમાં ૩ ક્ષમતાઓ પૂર્ણ કરી!",
+    "iconEmoji": "📖"
+  },
+  {
+    "badgeKey": "math_explorer",
+    "titleGujarati": "ગણિત ગણીતજ્ઞ 🔢",
+    "titleEnglish": "Math Explorer",
+    "descriptionGujarati": "ગણિત વિષયમાં ૩ ક્ષમતાઓ પૂર્ણ કરી!",
+    "iconEmoji": "🔢"
+  },
+  {
+    "badgeKey": "learning_streak_3",
+    "titleGujarati": "અવિરત શીખનાર 🔥",
+    "titleEnglish": "Learning Streak (3 Days)",
+    "descriptionGujarati": "સતત ૩ દિવસ સુધી અધ્યયન કર્યું!",
+    "iconEmoji": "🔥"
+  },
+  {
+    "badgeKey": "fln_champion",
+    "titleGujarati": "નિપુણ ગુજરાત ચેમ્પિયન 🏆",
+    "titleEnglish": "FLN Champion",
+    "descriptionGujarati": "તમે FLN લક્ષ્યો હાંસલ કરી ઉત્કૃષ્ટ સિદ્ધિ નોંધાવી!",
+    "iconEmoji": "🏆"
+  }
+]

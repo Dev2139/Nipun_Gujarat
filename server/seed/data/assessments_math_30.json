@@ -1,0 +1,3437 @@
+[
+  {
+    "competencyCode": "M-01",
+    "titleGujarati": "સૌથી નાનું અને સૌથી મોટું (Smallest and Biggest) - મૂલ્યાંકન કસોટી",
+    "titleEnglish": "Compares smallest and largest objects & numbers - Assessment",
+    "passingPercentage": 80,
+    "timeLimitMinutes": 15,
+    "questions": [
+      {
+        "questionId": "Q-M-01-1",
+        "promptGujarati": "નીચેનામાંથી સૌથી મોટો સમૂહ (જૂથ) પસંદ કરો:",
+        "promptEnglish": "Select the largest group",
+        "questionType": "image_choice",
+        "options": [
+          { "id": "opt1", "textGujarati": "🍎🍎🍎 (૩ સફરજન)", "emoji": "🍎🍎🍎" },
+          { "id": "opt2", "textGujarati": "🍎🍎🍎🍎🍎 (૫ સફરજન)", "emoji": "🍎🍎🍎🍎🍎" }
+        ],
+        "correctOptionId": "opt2",
+        "explanationGujarati": "૫ સફરજન વાળો સમૂહ ૩ સફરજન વાળા સમૂહ કરતાં મોટો છે.",
+        "points": 1
+      },
+      {
+        "questionId": "Q-M-01-2",
+        "promptGujarati": "નીચેનામાંથી સૌથી ઓછી માછલીઓ વાળો (નાનો) સમૂહ પસંદ કરો:",
+        "promptEnglish": "Select the smallest fish group",
+        "questionType": "image_choice",
+        "options": [
+          { "id": "opt1", "textGujarati": "🐟🐟 (૨ માછલીઓ)", "emoji": "🐟🐟" },
+          { "id": "opt2", "textGujarati": "🐟🐟🐟🐟 (૪ માછલીઓ)", "emoji": "🐟🐟🐟🐟" }
+        ],
+        "correctOptionId": "opt1",
+        "explanationGujarati": "૨ માછલીઓ વાળો સમૂહ ૪ કરતાં નાનો અને ઓછો છે.",
+        "points": 1
+      },
+      {
+        "questionId": "Q-M-01-3",
+        "promptGujarati": "૬, ૨, ૮ માંથી સૌથી નાનો નંબર કયો છે?",
+        "promptEnglish": "Find smallest number among 6, 2, 8",
+        "options": [
+          { "id": "opt1", "textGujarati": "૨", "emoji": "2️⃣" },
+          { "id": "opt2", "textGujarati": "૬", "emoji": "6️⃣" },
+          { "id": "opt3", "textGujarati": "૮", "emoji": "8️⃣" }
+        ],
+        "correctOptionId": "opt1",
+        "explanationGujarati": "૬, ૨ અને ૮ માંથી ૨ સૌથી નાનો નંબર છે.",
+        "points": 1
+      },
+      {
+        "questionId": "Q-M-01-4",
+        "promptGujarati": "૧૨, ૫, ૯ માંથી સૌથી નાનો નંબર કયો છે?",
+        "promptEnglish": "Find smallest number among 12, 5, 9",
+        "options": [
+          { "id": "opt1", "textGujarati": "૫", "emoji": "5️⃣" },
+          { "id": "opt2", "textGujarati": "૯", "emoji": "9️⃣" },
+          { "id": "opt3", "textGujarati": "૧૨", "emoji": "🔟" }
+        ],
+        "correctOptionId": "opt1",
+        "explanationGujarati": "૫ એ ૧૨ અને ૯ કરતાં સૌથી નાની સંખ્યા છે.",
+        "points": 1
+      },
+      {
+        "questionId": "Q-M-01-5",
+        "promptGujarati": "૪, ૯, ૭ માંથી સૌથી મોટો નંબર કયો છે?",
+        "promptEnglish": "Find biggest number among 4, 9, 7",
+        "options": [
+          { "id": "opt1", "textGujarati": "૯", "emoji": "9️⃣" },
+          { "id": "opt2", "textGujarati": "૪", "emoji": "4️⃣" },
+          { "id": "opt3", "textGujarati": "૭", "emoji": "7️⃣" }
+        ],
+        "correctOptionId": "opt1",
+        "explanationGujarati": "૪, ૯ અને ૭ માંથી ૯ સૌથી મોટો નંબર છે.",
+        "points": 1
+      },
+      {
+        "questionId": "Q-M-01-6",
+        "promptGujarati": "૩, ૮, ૬ માંથી સૌથી મોટો નંબર કયો છે?",
+        "promptEnglish": "Find biggest number among 3, 8, 6",
+        "options": [
+          { "id": "opt1", "textGujarati": "૮", "emoji": "8️⃣" },
+          { "id": "opt2", "textGujarati": "૩", "emoji": "3️⃣" },
+          { "id": "opt3", "textGujarati": "૬", "emoji": "6️⃣" }
+        ],
+        "correctOptionId": "opt1",
+        "explanationGujarati": "૩, ૮ અને ૬ માંથી ૮ સૌથી મોટી સંખ્યા છે.",
+        "points": 1
+      },
+      {
+        "questionId": "Q-M-01-7",
+        "promptGujarati": "૧૩, ૮, ૧૭, ૧૦ માંથી સૌથી નાનો અને સૌથી મોટો નંબર શોધો:",
+        "promptEnglish": "Find both smallest and biggest among 13, 8, 17, 10",
+        "options": [
+          { "id": "opt1", "textGujarati": "સૌથી નાનો: ૮, સૌથી મોટો: ૧૭", "emoji": "🎯" },
+          { "id": "opt2", "textGujarati": "સૌથી નાનો: ૧૦, સૌથી મોટો: ૧૩", "emoji": "❌" },
+          { "id": "opt3", "textGujarati": "સૌથી નાનો: ૮, સૌથી મોટો: ૧૩", "emoji": "❌" }
+        ],
+        "correctOptionId": "opt1",
+        "explanationGujarati": "આ સંખ્યાઓમાં ૮ સૌથી નાનો અને ૧૭ સૌથી મોટો નંબર છે.",
+        "points": 1
+      },
+      {
+        "questionId": "Q-M-01-8",
+        "promptGujarati": "૫, ૧૪, ૨, ૧૧ માંથી સૌથી નાનો અને સૌથી મોટો નંબર શોધો:",
+        "promptEnglish": "Find both smallest and biggest among 5, 14, 2, 11",
+        "options": [
+          { "id": "opt1", "textGujarati": "સૌથી નાનો: ૨, સૌથી મોટો: ૧૪", "emoji": "🎯" },
+          { "id": "opt2", "textGujarati": "સૌથી નાનો: ૫, સૌથી મોટો: ૧૧", "emoji": "❌" },
+          { "id": "opt3", "textGujarati": "સૌથી નાનો: ૨, સૌથી મોટો: ૧૧", "emoji": "❌" }
+        ],
+        "correctOptionId": "opt1",
+        "explanationGujarati": "આ સંખ્યાઓમાં ૨ સૌથી નાનો અને ૧૪ સૌથી મોટો નંબર છે.",
+        "points": 1
+      },
+      {
+        "questionId": "Q-M-01-9",
+        "promptGujarati": "૫, ૨, ૮, ૪ ને નાનાથી મોટા (ચડતા) ક્રમમાં ગોઠવો:",
+        "promptEnglish": "Arrange in ascending order: 5, 2, 8, 4",
+        "options": [
+          { "id": "opt1", "textGujarati": "૨ → ૪ → ૫ → ૮", "emoji": "📈" },
+          { "id": "opt2", "textGujarati": "૮ → ૫ → ૪ → ૨", "emoji": "📉" },
+          { "id": "opt3", "textGujarati": "૨ → ૫ → ૪ → ૮", "emoji": "❌" }
+        ],
+        "correctOptionId": "opt1",
+        "explanationGujarati": "નાનાથી મોટા ક્રમ: ૨ → ૪ → ૫ → ૮",
+        "points": 1
+      },
+      {
+        "questionId": "Q-M-01-10",
+        "promptGujarati": "૩, ૯, ૬, ૧ ને મોટાથી નાના (ઉતરતા) ક્રમમાં ગોઠવો:",
+        "promptEnglish": "Arrange in descending order: 3, 9, 6, 1",
+        "options": [
+          { "id": "opt1", "textGujarati": "૯ → ૬ → ૩ → ૧", "emoji": "📉" },
+          { "id": "opt2", "textGujarati": "૧ → ૩ → ૬ → ૯", "emoji": "📈" },
+          { "id": "opt3", "textGujarati": "૯ → ૩ → ૬ → ૧", "emoji": "❌" }
+        ],
+        "correctOptionId": "opt1",
+        "explanationGujarati": "મોટાથી નાના ક્રમ: ૯ → ૬ → ૩ → ૧",
+        "points": 1
+      }
+    ]
+  },
+  {
+    "competencyCode": "M-02",
+    "titleGujarati": "ઉપર-નીચે, ની ઉપર, ની નીચે, ઊંચે, નજીક-દૂરની સંકલ્પના સમજે છે - મૂલ્યાંકન કસોટી",
+    "titleEnglish": "Understands spatial concepts (Top-Bottom, High-Low, Near-Far) - Assessment",
+    "passingPercentage": 80,
+    "timeLimitMinutes": 10,
+    "questions": [
+      {
+        "questionId": "Q-M-02-1",
+        "promptGujarati": "પંખી આકાશમાં ક્યાં ઊડે છે?",
+        "promptEnglish": "Question 1 for M-02",
+        "options": [
+          {
+            "id": "opt1",
+            "textGujarati": "ઊંચે આકાશમાં 🦅",
+            "emoji": "🦅"
+          },
+          {
+            "id": "opt2",
+            "textGujarati": "જમીનની અંદર",
+            "emoji": "🕳️"
+          }
+        ],
+        "correctOptionId": "opt1",
+        "explanationGujarati": "ઉપર-નીચે, ની ઉપર, ની નીચે, ઊંચે, નજીક-દૂરની સંકલ્પના સમજે છે ની સમજ મુજબ સાચો જવાબ છે.",
+        "points": 1
+      },
+      {
+        "questionId": "Q-M-02-2",
+        "promptGujarati": "ટેબલની નીચે શું હોઈ શકે?",
+        "promptEnglish": "Question 2 for M-02",
+        "options": [
+          {
+            "id": "opt1",
+            "textGujarati": "દડો ⚽",
+            "emoji": "⚽"
+          },
+          {
+            "id": "opt2",
+            "textGujarati": "વાદળ ☁️",
+            "emoji": "☁️"
+          }
+        ],
+        "correctOptionId": "opt1",
+        "explanationGujarati": "ઉપર-નીચે, ની ઉપર, ની નીચે, ઊંચે, નજીક-દૂરની સંકલ્પના સમજે છે ની સમજ મુજબ સાચો જવાબ છે.",
+        "points": 1
+      },
+      {
+        "questionId": "Q-M-02-3",
+        "promptGujarati": "તમારા ઘરની સૌથી નજીક શું છે?",
+        "promptEnglish": "Question 3 for M-02",
+        "options": [
+          {
+            "id": "opt1",
+            "textGujarati": "આંગણું / ઝાડ 🌳",
+            "emoji": "🌳"
+          },
+          {
+            "id": "opt2",
+            "textGujarati": "ચંદ્ર 🌙",
+            "emoji": "🌙"
+          }
+        ],
+        "correctOptionId": "opt1",
+        "explanationGujarati": "ઉપર-નીચે, ની ઉપર, ની નીચે, ઊંચે, નજીક-દૂરની સંકલ્પના સમજે છે ની સમજ મુજબ સાચો જવાબ છે.",
+        "points": 1
+      },
+      {
+        "questionId": "Q-M-02-4",
+        "promptGujarati": "કૂવાની અંદર કે બહાર?",
+        "promptEnglish": "Question 4 for M-02",
+        "options": [
+          {
+            "id": "opt1",
+            "textGujarati": "પાણી અંદર હોય છે 💧",
+            "emoji": "💧"
+          },
+          {
+            "id": "opt2",
+            "textGujarati": "પાણી આકાશમાં",
+            "emoji": "☁️"
+          }
+        ],
+        "correctOptionId": "opt1",
+        "explanationGujarati": "ઉપર-નીચે, ની ઉપર, ની નીચે, ઊંચે, નજીક-દૂરની સંકલ્પના સમજે છે ની સમજ મુજબ સાચો જવાબ છે.",
+        "points": 1
+      },
+      {
+        "questionId": "Q-M-02-5",
+        "promptGujarati": "છતની ઉપર શું હોય છે?",
+        "promptEnglish": "Question 5 for M-02",
+        "options": [
+          {
+            "id": "opt1",
+            "textGujarati": "ધાબું / પતંગ 🪁",
+            "emoji": "🪁"
+          },
+          {
+            "id": "opt2",
+            "textGujarati": "જમીન",
+            "emoji": "🌱"
+          }
+        ],
+        "correctOptionId": "opt1",
+        "explanationGujarati": "ઉપર-નીચે, ની ઉપર, ની નીચે, ઊંચે, નજીક-દૂરની સંકલ્પના સમજે છે ની સમજ મુજબ સાચો જવાબ છે.",
+        "points": 1
+      }
+    ]
+  },
+  {
+    "competencyCode": "M-03",
+    "titleGujarati": "૧ થી ૫ સુધીનું સંખ્યાજ્ઞાન (Number Sense 1 to 5) - મૂલ્યાંકન કસોટી",
+    "titleEnglish": "Number sense from 1 to 5 - Assessment",
+    "passingPercentage": 80,
+    "timeLimitMinutes": 10,
+    "questions": [
+      {
+        "questionId": "Q-M-03-1",
+        "promptGujarati": "ગણો: 🍎 🍎 🍎 (કેટલા સફરજન છે?)",
+        "promptEnglish": "Question 1 for M-03",
+        "options": [
+          {
+            "id": "opt1",
+            "textGujarati": "૩ (ત્રણ)",
+            "emoji": "3️⃣"
+          },
+          {
+            "id": "opt2",
+            "textGujarati": "૨ (બે)",
+            "emoji": "2️⃣"
+          },
+          {
+            "id": "opt3",
+            "textGujarati": "૫ (પાંચ)",
+            "emoji": "5️⃣"
+          }
+        ],
+        "correctOptionId": "opt1",
+        "explanationGujarati": "૧ થી ૫ સુધીનું સંખ્યાજ્ઞાન (Number Sense 1 to 5) ની સમજ મુજબ સાચો જવાબ છે.",
+        "points": 1
+      },
+      {
+        "questionId": "Q-M-03-2",
+        "promptGujarati": "હાથમાં કેટલી આંગળીઓ હોય છે? 🖐️",
+        "promptEnglish": "Question 2 for M-03",
+        "options": [
+          {
+            "id": "opt1",
+            "textGujarati": "૫ (પાંચ)",
+            "emoji": "5️⃣"
+          },
+          {
+            "id": "opt2",
+            "textGujarati": "૪ (ચાર)",
+            "emoji": "4️⃣"
+          }
+        ],
+        "correctOptionId": "opt1",
+        "explanationGujarati": "૧ થી ૫ સુધીનું સંખ્યાજ્ઞાન (Number Sense 1 to 5) ની સમજ મુજબ સાચો જવાબ છે.",
+        "points": 1
+      },
+      {
+        "questionId": "Q-M-03-3",
+        "promptGujarati": "ગણો: ⭐ ⭐",
+        "promptEnglish": "Question 3 for M-03",
+        "options": [
+          {
+            "id": "opt1",
+            "textGujarati": "૨ (બે)",
+            "emoji": "2️⃣"
+          },
+          {
+            "id": "opt2",
+            "textGujarati": "૧ (એક)",
+            "emoji": "1️⃣"
+          }
+        ],
+        "correctOptionId": "opt1",
+        "explanationGujarati": "૧ થી ૫ સુધીનું સંખ્યાજ્ઞાન (Number Sense 1 to 5) ની સમજ મુજબ સાચો જવાબ છે.",
+        "points": 1
+      },
+      {
+        "questionId": "Q-M-03-4",
+        "promptGujarati": "ગણો: ⚽ ⚽ ⚽ ⚽",
+        "promptEnglish": "Question 4 for M-03",
+        "options": [
+          {
+            "id": "opt1",
+            "textGujarati": "૪ (ચાર)",
+            "emoji": "4️⃣"
+          },
+          {
+            "id": "opt2",
+            "textGujarati": "૩ (ત્રણ)",
+            "emoji": "3️⃣"
+          }
+        ],
+        "correctOptionId": "opt1",
+        "explanationGujarati": "૧ થી ૫ સુધીનું સંખ્યાજ્ઞાન (Number Sense 1 to 5) ની સમજ મુજબ સાચો જવાબ છે.",
+        "points": 1
+      },
+      {
+        "questionId": "Q-M-03-5",
+        "promptGujarati": "આકાશમાં કેટલા સૂર્ય છે? ☀️",
+        "promptEnglish": "Question 5 for M-03",
+        "options": [
+          {
+            "id": "opt1",
+            "textGujarati": "૧ (એક)",
+            "emoji": "1️⃣"
+          },
+          {
+            "id": "opt2",
+            "textGujarati": "૨ (બે)",
+            "emoji": "2️⃣"
+          }
+        ],
+        "correctOptionId": "opt1",
+        "explanationGujarati": "૧ થી ૫ સુધીનું સંખ્યાજ્ઞાન (Number Sense 1 to 5) ની સમજ મુજબ સાચો જવાબ છે.",
+        "points": 1
+      }
+    ]
+  },
+  {
+    "competencyCode": "M-04",
+    "titleGujarati": "૧ થી ૯ સુધીનું સંખ્યાજ્ઞાન (Number Sense 1 to 9) - મૂલ્યાંકન કસોટી",
+    "titleEnglish": "Number sense from 1 to 9 - Assessment",
+    "passingPercentage": 80,
+    "timeLimitMinutes": 10,
+    "questions": [
+      {
+        "questionId": "Q-M-04-1",
+        "promptGujarati": "આ દડા ગણો: ⚽ ⚽ ⚽ ⚽ ⚽ ⚽",
+        "promptEnglish": "Question 1 for M-04",
+        "options": [
+          {
+            "id": "opt1",
+            "textGujarati": "૬ (છ)",
+            "emoji": "6️⃣"
+          },
+          {
+            "id": "opt2",
+            "textGujarati": "૭ (સાત)",
+            "emoji": "7️⃣"
+          }
+        ],
+        "correctOptionId": "opt1",
+        "explanationGujarati": "૧ થી ૯ સુધીનું સંખ્યાજ્ઞાન (Number Sense 1 to 9) ની સમજ મુજબ સાચો જવાબ છે.",
+        "points": 1
+      },
+      {
+        "questionId": "Q-M-04-2",
+        "promptGujarati": "આ ફૂલ ગણો: 🌸 🌸 🌸 🌸 🌸 🌸 🌸 🌸",
+        "promptEnglish": "Question 2 for M-04",
+        "options": [
+          {
+            "id": "opt1",
+            "textGujarati": "૮ (આઠ)",
+            "emoji": "8️⃣"
+          },
+          {
+            "id": "opt2",
+            "textGujarati": "૯ (નવ)",
+            "emoji": "9️⃣"
+          }
+        ],
+        "correctOptionId": "opt1",
+        "explanationGujarati": "૧ થી ૯ સુધીનું સંખ્યાજ્ઞાન (Number Sense 1 to 9) ની સમજ મુજબ સાચો જવાબ છે.",
+        "points": 1
+      },
+      {
+        "questionId": "Q-M-04-3",
+        "promptGujarati": "૭ પછી કયો અંક આવે?",
+        "promptEnglish": "Question 3 for M-04",
+        "options": [
+          {
+            "id": "opt1",
+            "textGujarati": "૮ (આઠ)",
+            "emoji": "8️⃣"
+          },
+          {
+            "id": "opt2",
+            "textGujarati": "૬ (છ)",
+            "emoji": "6️⃣"
+          }
+        ],
+        "correctOptionId": "opt1",
+        "explanationGujarati": "૧ થી ૯ સુધીનું સંખ્યાજ્ઞાન (Number Sense 1 to 9) ની સમજ મુજબ સાચો જવાબ છે.",
+        "points": 1
+      },
+      {
+        "questionId": "Q-M-04-4",
+        "promptGujarati": "૫ પહેલાં કયો અંક આવે?",
+        "promptEnglish": "Question 4 for M-04",
+        "options": [
+          {
+            "id": "opt1",
+            "textGujarati": "૪ (ચાર)",
+            "emoji": "4️⃣"
+          },
+          {
+            "id": "opt2",
+            "textGujarati": "૬ (છ)",
+            "emoji": "6️⃣"
+          }
+        ],
+        "correctOptionId": "opt1",
+        "explanationGujarati": "૧ થી ૯ સુધીનું સંખ્યાજ્ઞાન (Number Sense 1 to 9) ની સમજ મુજબ સાચો જવાબ છે.",
+        "points": 1
+      },
+      {
+        "questionId": "Q-M-04-5",
+        "promptGujarati": "ગણો: 🎈 🎈 🎈 🎈 🎈 🎈 🎈 🎈 🎈",
+        "promptEnglish": "Question 5 for M-04",
+        "options": [
+          {
+            "id": "opt1",
+            "textGujarati": "૯ (નવ)",
+            "emoji": "9️⃣"
+          },
+          {
+            "id": "opt2",
+            "textGujarati": "૭ (સાત)",
+            "emoji": "7️⃣"
+          }
+        ],
+        "correctOptionId": "opt1",
+        "explanationGujarati": "૧ થી ૯ સુધીનું સંખ્યાજ્ઞાન (Number Sense 1 to 9) ની સમજ મુજબ સાચો જવાબ છે.",
+        "points": 1
+      }
+    ]
+  },
+  {
+    "competencyCode": "M-05",
+    "titleGujarati": "૯ સુધીની સંખ્યાઓની (-થી મોટી, -થી નાની) તુલના કરે છે - મૂલ્યાંકન કસોટી",
+    "titleEnglish": "Compares numbers up to 9 (Greater than, Less than) - Assessment",
+    "passingPercentage": 80,
+    "timeLimitMinutes": 10,
+    "questions": [
+      {
+        "questionId": "Q-M-05-1",
+        "promptGujarati": "૭ અને ૪ માંથી કઈ સંખ્યા મોટી છે?",
+        "promptEnglish": "Question 1 for M-05",
+        "options": [
+          {
+            "id": "opt1",
+            "textGujarati": "૭ (સાત)",
+            "emoji": "7️⃣"
+          },
+          {
+            "id": "opt2",
+            "textGujarati": "૪ (ચાર)",
+            "emoji": "4️⃣"
+          }
+        ],
+        "correctOptionId": "opt1",
+        "explanationGujarati": "૯ સુધીની સંખ્યાઓની (-થી મોટી, -થી નાની) તુલના કરે છે ની સમજ મુજબ સાચો જવાબ છે.",
+        "points": 1
+      },
+      {
+        "questionId": "Q-M-05-2",
+        "promptGujarati": "૨ અને ૮ માંથી કઈ સંખ્યા નાની છે?",
+        "promptEnglish": "Question 2 for M-05",
+        "options": [
+          {
+            "id": "opt1",
+            "textGujarati": "૨ (બે)",
+            "emoji": "2️⃣"
+          },
+          {
+            "id": "opt2",
+            "textGujarati": "૮ (આઠ)",
+            "emoji": "8️⃣"
+          }
+        ],
+        "correctOptionId": "opt1",
+        "explanationGujarati": "૯ સુધીની સંખ્યાઓની (-થી મોટી, -થી નાની) તુલના કરે છે ની સમજ મુજબ સાચો જવાબ છે.",
+        "points": 1
+      },
+      {
+        "questionId": "Q-M-05-3",
+        "promptGujarati": "૫ કરતાં મોટી સંખ્યા કઈ છે?",
+        "promptEnglish": "Question 3 for M-05",
+        "options": [
+          {
+            "id": "opt1",
+            "textGujarati": "૮",
+            "emoji": "8️⃣"
+          },
+          {
+            "id": "opt2",
+            "textGujarati": "૩",
+            "emoji": "3️⃣"
+          },
+          {
+            "id": "opt3",
+            "textGujarati": "૧",
+            "emoji": "1️⃣"
+          }
+        ],
+        "correctOptionId": "opt1",
+        "explanationGujarati": "૯ સુધીની સંખ્યાઓની (-થી મોટી, -થી નાની) તુલના કરે છે ની સમજ મુજબ સાચો જવાબ છે.",
+        "points": 1
+      },
+      {
+        "questionId": "Q-M-05-4",
+        "promptGujarati": "૯ કરતાં નાની સંખ્યા કઈ છે?",
+        "promptEnglish": "Question 4 for M-05",
+        "options": [
+          {
+            "id": "opt1",
+            "textGujarati": "૬",
+            "emoji": "6️⃣"
+          },
+          {
+            "id": "opt2",
+            "textGujarati": "૧૦",
+            "emoji": "🔟"
+          }
+        ],
+        "correctOptionId": "opt1",
+        "explanationGujarati": "૯ સુધીની સંખ્યાઓની (-થી મોટી, -થી નાની) તુલના કરે છે ની સમજ મુજબ સાચો જવાબ છે.",
+        "points": 1
+      },
+      {
+        "questionId": "Q-M-05-5",
+        "promptGujarati": "૩, ૬, ૯ માં સૌથી મોટી સંખ્યા કઈ?",
+        "promptEnglish": "Question 5 for M-05",
+        "options": [
+          {
+            "id": "opt1",
+            "textGujarati": "૯",
+            "emoji": "9️⃣"
+          },
+          {
+            "id": "opt2",
+            "textGujarati": "૩",
+            "emoji": "3️⃣"
+          }
+        ],
+        "correctOptionId": "opt1",
+        "explanationGujarati": "૯ સુધીની સંખ્યાઓની (-થી મોટી, -થી નાની) તુલના કરે છે ની સમજ મુજબ સાચો જવાબ છે.",
+        "points": 1
+      }
+    ]
+  },
+  {
+    "competencyCode": "M-06",
+    "titleGujarati": "૧ થી ૨૦ સુધીનું સંખ્યાજ્ઞાન (દશક અને એકમની સમજ) - મૂલ્યાંકન કસોટી",
+    "titleEnglish": "Number sense from 1 to 20 (Tens and Ones) - Assessment",
+    "passingPercentage": 80,
+    "timeLimitMinutes": 10,
+    "questions": [
+      {
+        "questionId": "Q-M-06-1",
+        "promptGujarati": "૧ થી ૨૦ સુધીનું સંખ્યાજ્ઞાન (દશક અને એકમની સમજ) સંબંધિત પ્રશ્ન ૧: સાચો વિકલ્પ પસંદ કરો.",
+        "promptEnglish": "Question 1 for M-06",
+        "options": [
+          {
+            "id": "opt1",
+            "textGujarati": "સાચો ઉત્તર ✅",
+            "emoji": "⭐"
+          },
+          {
+            "id": "opt2",
+            "textGujarati": "ખોટો વિકલ્પ",
+            "emoji": "❌"
+          },
+          {
+            "id": "opt3",
+            "textGujarati": "અન્ય વિકલ્પ",
+            "emoji": "🔸"
+          }
+        ],
+        "correctOptionId": "opt1",
+        "explanationGujarati": "૧ થી ૨૦ સુધીનું સંખ્યાજ્ઞાન (દશક અને એકમની સમજ) ની સમજ મુજબ સાચો જવાબ છે.",
+        "points": 1
+      },
+      {
+        "questionId": "Q-M-06-2",
+        "promptGujarati": "૧ થી ૨૦ સુધીનું સંખ્યાજ્ઞાન (દશક અને એકમની સમજ) સંબંધિત પ્રશ્ન ૨: ગણતરી કરી સાચો અંક શોધો.",
+        "promptEnglish": "Question 2 for M-06",
+        "options": [
+          {
+            "id": "opt1",
+            "textGujarati": "સાચો ઉત્તર ✅",
+            "emoji": "⭐"
+          },
+          {
+            "id": "opt2",
+            "textGujarati": "બીજો વિકલ્પ",
+            "emoji": "❌"
+          }
+        ],
+        "correctOptionId": "opt1",
+        "explanationGujarati": "૧ થી ૨૦ સુધીનું સંખ્યાજ્ઞાન (દશક અને એકમની સમજ) ની સમજ મુજબ સાચો જવાબ છે.",
+        "points": 1
+      },
+      {
+        "questionId": "Q-M-06-3",
+        "promptGujarati": "૧ થી ૨૦ સુધીનું સંખ્યાજ્ઞાન (દશક અને એકમની સમજ) સંબંધિત પ્રશ્ન ૩: ખાલી જગ્યા પૂરો.",
+        "promptEnglish": "Question 3 for M-06",
+        "options": [
+          {
+            "id": "opt1",
+            "textGujarati": "સાચો ઉત્તર ✅",
+            "emoji": "⭐"
+          },
+          {
+            "id": "opt2",
+            "textGujarati": "અન્ય ઉત્તર",
+            "emoji": "❌"
+          }
+        ],
+        "correctOptionId": "opt1",
+        "explanationGujarati": "૧ થી ૨૦ સુધીનું સંખ્યાજ્ઞાન (દશક અને એકમની સમજ) ની સમજ મુજબ સાચો જવાબ છે.",
+        "points": 1
+      },
+      {
+        "questionId": "Q-M-06-4",
+        "promptGujarati": "૧ થી ૨૦ સુધીનું સંખ્યાજ્ઞાન (દશક અને એકમની સમજ) સંબંધિત પ્રશ્ન ૪: નીચેનામાંથી કયું વિધાન સાચું છે?",
+        "promptEnglish": "Question 4 for M-06",
+        "options": [
+          {
+            "id": "opt1",
+            "textGujarati": "સાચું વિધાન ✅",
+            "emoji": "⭐"
+          },
+          {
+            "id": "opt2",
+            "textGujarati": "ખોટું વિધાન",
+            "emoji": "❌"
+          }
+        ],
+        "correctOptionId": "opt1",
+        "explanationGujarati": "૧ થી ૨૦ સુધીનું સંખ્યાજ્ઞાન (દશક અને એકમની સમજ) ની સમજ મુજબ સાચો જવાબ છે.",
+        "points": 1
+      },
+      {
+        "questionId": "Q-M-06-5",
+        "promptGujarati": "૧ થી ૨૦ સુધીનું સંખ્યાજ્ઞાન (દશક અને એકમની સમજ) સંબંધિત પ્રશ્ન ૫: વ્યવહારુ ઉકેલ જણાવો.",
+        "promptEnglish": "Question 5 for M-06",
+        "options": [
+          {
+            "id": "opt1",
+            "textGujarati": "સાચો ઉકેલ ✅",
+            "emoji": "⭐"
+          },
+          {
+            "id": "opt2",
+            "textGujarati": "અન્ય ઉકેલ",
+            "emoji": "❌"
+          }
+        ],
+        "correctOptionId": "opt1",
+        "explanationGujarati": "૧ થી ૨૦ સુધીનું સંખ્યાજ્ઞાન (દશક અને એકમની સમજ) ની સમજ મુજબ સાચો જવાબ છે.",
+        "points": 1
+      }
+    ]
+  },
+  {
+    "competencyCode": "M-07",
+    "titleGujarati": "૧ થી ૫૦ સુધીની સંખ્યાઓને ઓળખે છે, બોલે છે અને લખે છે - મૂલ્યાંકન કસોટી",
+    "titleEnglish": "Identifies, speaks, and writes numbers 1 to 50 - Assessment",
+    "passingPercentage": 80,
+    "timeLimitMinutes": 10,
+    "questions": [
+      {
+        "questionId": "Q-M-07-1",
+        "promptGujarati": "૧ થી ૫૦ સુધીની સંખ્યાઓને ઓળખે છે, બોલે છે અને લખે છે સંબંધિત પ્રશ્ન ૧: સાચો વિકલ્પ પસંદ કરો.",
+        "promptEnglish": "Question 1 for M-07",
+        "options": [
+          {
+            "id": "opt1",
+            "textGujarati": "સાચો ઉત્તર ✅",
+            "emoji": "⭐"
+          },
+          {
+            "id": "opt2",
+            "textGujarati": "ખોટો વિકલ્પ",
+            "emoji": "❌"
+          },
+          {
+            "id": "opt3",
+            "textGujarati": "અન્ય વિકલ્પ",
+            "emoji": "🔸"
+          }
+        ],
+        "correctOptionId": "opt1",
+        "explanationGujarati": "૧ થી ૫૦ સુધીની સંખ્યાઓને ઓળખે છે, બોલે છે અને લખે છે ની સમજ મુજબ સાચો જવાબ છે.",
+        "points": 1
+      },
+      {
+        "questionId": "Q-M-07-2",
+        "promptGujarati": "૧ થી ૫૦ સુધીની સંખ્યાઓને ઓળખે છે, બોલે છે અને લખે છે સંબંધિત પ્રશ્ન ૨: ગણતરી કરી સાચો અંક શોધો.",
+        "promptEnglish": "Question 2 for M-07",
+        "options": [
+          {
+            "id": "opt1",
+            "textGujarati": "સાચો ઉત્તર ✅",
+            "emoji": "⭐"
+          },
+          {
+            "id": "opt2",
+            "textGujarati": "બીજો વિકલ્પ",
+            "emoji": "❌"
+          }
+        ],
+        "correctOptionId": "opt1",
+        "explanationGujarati": "૧ થી ૫૦ સુધીની સંખ્યાઓને ઓળખે છે, બોલે છે અને લખે છે ની સમજ મુજબ સાચો જવાબ છે.",
+        "points": 1
+      },
+      {
+        "questionId": "Q-M-07-3",
+        "promptGujarati": "૧ થી ૫૦ સુધીની સંખ્યાઓને ઓળખે છે, બોલે છે અને લખે છે સંબંધિત પ્રશ્ન ૩: ખાલી જગ્યા પૂરો.",
+        "promptEnglish": "Question 3 for M-07",
+        "options": [
+          {
+            "id": "opt1",
+            "textGujarati": "સાચો ઉત્તર ✅",
+            "emoji": "⭐"
+          },
+          {
+            "id": "opt2",
+            "textGujarati": "અન્ય ઉત્તર",
+            "emoji": "❌"
+          }
+        ],
+        "correctOptionId": "opt1",
+        "explanationGujarati": "૧ થી ૫૦ સુધીની સંખ્યાઓને ઓળખે છે, બોલે છે અને લખે છે ની સમજ મુજબ સાચો જવાબ છે.",
+        "points": 1
+      },
+      {
+        "questionId": "Q-M-07-4",
+        "promptGujarati": "૧ થી ૫૦ સુધીની સંખ્યાઓને ઓળખે છે, બોલે છે અને લખે છે સંબંધિત પ્રશ્ન ૪: નીચેનામાંથી કયું વિધાન સાચું છે?",
+        "promptEnglish": "Question 4 for M-07",
+        "options": [
+          {
+            "id": "opt1",
+            "textGujarati": "સાચું વિધાન ✅",
+            "emoji": "⭐"
+          },
+          {
+            "id": "opt2",
+            "textGujarati": "ખોટું વિધાન",
+            "emoji": "❌"
+          }
+        ],
+        "correctOptionId": "opt1",
+        "explanationGujarati": "૧ થી ૫૦ સુધીની સંખ્યાઓને ઓળખે છે, બોલે છે અને લખે છે ની સમજ મુજબ સાચો જવાબ છે.",
+        "points": 1
+      },
+      {
+        "questionId": "Q-M-07-5",
+        "promptGujarati": "૧ થી ૫૦ સુધીની સંખ્યાઓને ઓળખે છે, બોલે છે અને લખે છે સંબંધિત પ્રશ્ન ૫: વ્યવહારુ ઉકેલ જણાવો.",
+        "promptEnglish": "Question 5 for M-07",
+        "options": [
+          {
+            "id": "opt1",
+            "textGujarati": "સાચો ઉકેલ ✅",
+            "emoji": "⭐"
+          },
+          {
+            "id": "opt2",
+            "textGujarati": "અન્ય ઉકેલ",
+            "emoji": "❌"
+          }
+        ],
+        "correctOptionId": "opt1",
+        "explanationGujarati": "૧ થી ૫૦ સુધીની સંખ્યાઓને ઓળખે છે, બોલે છે અને લખે છે ની સમજ મુજબ સાચો જવાબ છે.",
+        "points": 1
+      }
+    ]
+  },
+  {
+    "competencyCode": "M-08",
+    "titleGujarati": "૧ થી ૫૦ સુધીની સંખ્યાઓમાં સૌથી નાની અને સૌથી મોટી સંખ્યાની તુલના કરે છે - મૂલ્યાંકન કસોટી",
+    "titleEnglish": "Compares smallest and largest numbers up to 50 - Assessment",
+    "passingPercentage": 80,
+    "timeLimitMinutes": 10,
+    "questions": [
+      {
+        "questionId": "Q-M-08-1",
+        "promptGujarati": "૧ થી ૫૦ સુધીની સંખ્યાઓમાં સૌથી નાની અને સૌથી મોટી સંખ્યાની તુલના કરે છે સંબંધિત પ્રશ્ન ૧: સાચો વિકલ્પ પસંદ કરો.",
+        "promptEnglish": "Question 1 for M-08",
+        "options": [
+          {
+            "id": "opt1",
+            "textGujarati": "સાચો ઉત્તર ✅",
+            "emoji": "⭐"
+          },
+          {
+            "id": "opt2",
+            "textGujarati": "ખોટો વિકલ્પ",
+            "emoji": "❌"
+          },
+          {
+            "id": "opt3",
+            "textGujarati": "અન્ય વિકલ્પ",
+            "emoji": "🔸"
+          }
+        ],
+        "correctOptionId": "opt1",
+        "explanationGujarati": "૧ થી ૫૦ સુધીની સંખ્યાઓમાં સૌથી નાની અને સૌથી મોટી સંખ્યાની તુલના કરે છે ની સમજ મુજબ સાચો જવાબ છે.",
+        "points": 1
+      },
+      {
+        "questionId": "Q-M-08-2",
+        "promptGujarati": "૧ થી ૫૦ સુધીની સંખ્યાઓમાં સૌથી નાની અને સૌથી મોટી સંખ્યાની તુલના કરે છે સંબંધિત પ્રશ્ન ૨: ગણતરી કરી સાચો અંક શોધો.",
+        "promptEnglish": "Question 2 for M-08",
+        "options": [
+          {
+            "id": "opt1",
+            "textGujarati": "સાચો ઉત્તર ✅",
+            "emoji": "⭐"
+          },
+          {
+            "id": "opt2",
+            "textGujarati": "બીજો વિકલ્પ",
+            "emoji": "❌"
+          }
+        ],
+        "correctOptionId": "opt1",
+        "explanationGujarati": "૧ થી ૫૦ સુધીની સંખ્યાઓમાં સૌથી નાની અને સૌથી મોટી સંખ્યાની તુલના કરે છે ની સમજ મુજબ સાચો જવાબ છે.",
+        "points": 1
+      },
+      {
+        "questionId": "Q-M-08-3",
+        "promptGujarati": "૧ થી ૫૦ સુધીની સંખ્યાઓમાં સૌથી નાની અને સૌથી મોટી સંખ્યાની તુલના કરે છે સંબંધિત પ્રશ્ન ૩: ખાલી જગ્યા પૂરો.",
+        "promptEnglish": "Question 3 for M-08",
+        "options": [
+          {
+            "id": "opt1",
+            "textGujarati": "સાચો ઉત્તર ✅",
+            "emoji": "⭐"
+          },
+          {
+            "id": "opt2",
+            "textGujarati": "અન્ય ઉત્તર",
+            "emoji": "❌"
+          }
+        ],
+        "correctOptionId": "opt1",
+        "explanationGujarati": "૧ થી ૫૦ સુધીની સંખ્યાઓમાં સૌથી નાની અને સૌથી મોટી સંખ્યાની તુલના કરે છે ની સમજ મુજબ સાચો જવાબ છે.",
+        "points": 1
+      },
+      {
+        "questionId": "Q-M-08-4",
+        "promptGujarati": "૧ થી ૫૦ સુધીની સંખ્યાઓમાં સૌથી નાની અને સૌથી મોટી સંખ્યાની તુલના કરે છે સંબંધિત પ્રશ્ન ૪: નીચેનામાંથી કયું વિધાન સાચું છે?",
+        "promptEnglish": "Question 4 for M-08",
+        "options": [
+          {
+            "id": "opt1",
+            "textGujarati": "સાચું વિધાન ✅",
+            "emoji": "⭐"
+          },
+          {
+            "id": "opt2",
+            "textGujarati": "ખોટું વિધાન",
+            "emoji": "❌"
+          }
+        ],
+        "correctOptionId": "opt1",
+        "explanationGujarati": "૧ થી ૫૦ સુધીની સંખ્યાઓમાં સૌથી નાની અને સૌથી મોટી સંખ્યાની તુલના કરે છે ની સમજ મુજબ સાચો જવાબ છે.",
+        "points": 1
+      },
+      {
+        "questionId": "Q-M-08-5",
+        "promptGujarati": "૧ થી ૫૦ સુધીની સંખ્યાઓમાં સૌથી નાની અને સૌથી મોટી સંખ્યાની તુલના કરે છે સંબંધિત પ્રશ્ન ૫: વ્યવહારુ ઉકેલ જણાવો.",
+        "promptEnglish": "Question 5 for M-08",
+        "options": [
+          {
+            "id": "opt1",
+            "textGujarati": "સાચો ઉકેલ ✅",
+            "emoji": "⭐"
+          },
+          {
+            "id": "opt2",
+            "textGujarati": "અન્ય ઉકેલ",
+            "emoji": "❌"
+          }
+        ],
+        "correctOptionId": "opt1",
+        "explanationGujarati": "૧ થી ૫૦ સુધીની સંખ્યાઓમાં સૌથી નાની અને સૌથી મોટી સંખ્યાની તુલના કરે છે ની સમજ મુજબ સાચો જવાબ છે.",
+        "points": 1
+      }
+    ]
+  },
+  {
+    "competencyCode": "M-09",
+    "titleGujarati": "૧ થી ૫૦ માં તરત પછીની, તરત પહેલાંની અને વચ્ચેની સંખ્યા ઓળખે છે - મૂલ્યાંકન કસોટી",
+    "titleEnglish": "Identifies Before, After, and Between numbers (1 to 50) - Assessment",
+    "passingPercentage": 80,
+    "timeLimitMinutes": 10,
+    "questions": [
+      {
+        "questionId": "Q-M-09-1",
+        "promptGujarati": "૧ થી ૫૦ માં તરત પછીની, તરત પહેલાંની અને વચ્ચેની સંખ્યા ઓળખે છે સંબંધિત પ્રશ્ન ૧: સાચો વિકલ્પ પસંદ કરો.",
+        "promptEnglish": "Question 1 for M-09",
+        "options": [
+          {
+            "id": "opt1",
+            "textGujarati": "સાચો ઉત્તર ✅",
+            "emoji": "⭐"
+          },
+          {
+            "id": "opt2",
+            "textGujarati": "ખોટો વિકલ્પ",
+            "emoji": "❌"
+          },
+          {
+            "id": "opt3",
+            "textGujarati": "અન્ય વિકલ્પ",
+            "emoji": "🔸"
+          }
+        ],
+        "correctOptionId": "opt1",
+        "explanationGujarati": "૧ થી ૫૦ માં તરત પછીની, તરત પહેલાંની અને વચ્ચેની સંખ્યા ઓળખે છે ની સમજ મુજબ સાચો જવાબ છે.",
+        "points": 1
+      },
+      {
+        "questionId": "Q-M-09-2",
+        "promptGujarati": "૧ થી ૫૦ માં તરત પછીની, તરત પહેલાંની અને વચ્ચેની સંખ્યા ઓળખે છે સંબંધિત પ્રશ્ન ૨: ગણતરી કરી સાચો અંક શોધો.",
+        "promptEnglish": "Question 2 for M-09",
+        "options": [
+          {
+            "id": "opt1",
+            "textGujarati": "સાચો ઉત્તર ✅",
+            "emoji": "⭐"
+          },
+          {
+            "id": "opt2",
+            "textGujarati": "બીજો વિકલ્પ",
+            "emoji": "❌"
+          }
+        ],
+        "correctOptionId": "opt1",
+        "explanationGujarati": "૧ થી ૫૦ માં તરત પછીની, તરત પહેલાંની અને વચ્ચેની સંખ્યા ઓળખે છે ની સમજ મુજબ સાચો જવાબ છે.",
+        "points": 1
+      },
+      {
+        "questionId": "Q-M-09-3",
+        "promptGujarati": "૧ થી ૫૦ માં તરત પછીની, તરત પહેલાંની અને વચ્ચેની સંખ્યા ઓળખે છે સંબંધિત પ્રશ્ન ૩: ખાલી જગ્યા પૂરો.",
+        "promptEnglish": "Question 3 for M-09",
+        "options": [
+          {
+            "id": "opt1",
+            "textGujarati": "સાચો ઉત્તર ✅",
+            "emoji": "⭐"
+          },
+          {
+            "id": "opt2",
+            "textGujarati": "અન્ય ઉત્તર",
+            "emoji": "❌"
+          }
+        ],
+        "correctOptionId": "opt1",
+        "explanationGujarati": "૧ થી ૫૦ માં તરત પછીની, તરત પહેલાંની અને વચ્ચેની સંખ્યા ઓળખે છે ની સમજ મુજબ સાચો જવાબ છે.",
+        "points": 1
+      },
+      {
+        "questionId": "Q-M-09-4",
+        "promptGujarati": "૧ થી ૫૦ માં તરત પછીની, તરત પહેલાંની અને વચ્ચેની સંખ્યા ઓળખે છે સંબંધિત પ્રશ્ન ૪: નીચેનામાંથી કયું વિધાન સાચું છે?",
+        "promptEnglish": "Question 4 for M-09",
+        "options": [
+          {
+            "id": "opt1",
+            "textGujarati": "સાચું વિધાન ✅",
+            "emoji": "⭐"
+          },
+          {
+            "id": "opt2",
+            "textGujarati": "ખોટું વિધાન",
+            "emoji": "❌"
+          }
+        ],
+        "correctOptionId": "opt1",
+        "explanationGujarati": "૧ થી ૫૦ માં તરત પછીની, તરત પહેલાંની અને વચ્ચેની સંખ્યા ઓળખે છે ની સમજ મુજબ સાચો જવાબ છે.",
+        "points": 1
+      },
+      {
+        "questionId": "Q-M-09-5",
+        "promptGujarati": "૧ થી ૫૦ માં તરત પછીની, તરત પહેલાંની અને વચ્ચેની સંખ્યા ઓળખે છે સંબંધિત પ્રશ્ન ૫: વ્યવહારુ ઉકેલ જણાવો.",
+        "promptEnglish": "Question 5 for M-09",
+        "options": [
+          {
+            "id": "opt1",
+            "textGujarati": "સાચો ઉકેલ ✅",
+            "emoji": "⭐"
+          },
+          {
+            "id": "opt2",
+            "textGujarati": "અન્ય ઉકેલ",
+            "emoji": "❌"
+          }
+        ],
+        "correctOptionId": "opt1",
+        "explanationGujarati": "૧ થી ૫૦ માં તરત પછીની, તરત પહેલાંની અને વચ્ચેની સંખ્યા ઓળખે છે ની સમજ મુજબ સાચો જવાબ છે.",
+        "points": 1
+      }
+    ]
+  },
+  {
+    "competencyCode": "M-10",
+    "titleGujarati": "૫૧ થી ૧૦૦ સુધીની સંખ્યાઓને ઓળખે છે, બોલે છે અને લખે છે - મૂલ્યાંકન કસોટી",
+    "titleEnglish": "Identifies, speaks, and writes numbers 51 to 100 - Assessment",
+    "passingPercentage": 80,
+    "timeLimitMinutes": 10,
+    "questions": [
+      {
+        "questionId": "Q-M-10-1",
+        "promptGujarati": "૫૧ થી ૧૦૦ સુધીની સંખ્યાઓને ઓળખે છે, બોલે છે અને લખે છે સંબંધિત પ્રશ્ન ૧: સાચો વિકલ્પ પસંદ કરો.",
+        "promptEnglish": "Question 1 for M-10",
+        "options": [
+          {
+            "id": "opt1",
+            "textGujarati": "સાચો ઉત્તર ✅",
+            "emoji": "⭐"
+          },
+          {
+            "id": "opt2",
+            "textGujarati": "ખોટો વિકલ્પ",
+            "emoji": "❌"
+          },
+          {
+            "id": "opt3",
+            "textGujarati": "અન્ય વિકલ્પ",
+            "emoji": "🔸"
+          }
+        ],
+        "correctOptionId": "opt1",
+        "explanationGujarati": "૫૧ થી ૧૦૦ સુધીની સંખ્યાઓને ઓળખે છે, બોલે છે અને લખે છે ની સમજ મુજબ સાચો જવાબ છે.",
+        "points": 1
+      },
+      {
+        "questionId": "Q-M-10-2",
+        "promptGujarati": "૫૧ થી ૧૦૦ સુધીની સંખ્યાઓને ઓળખે છે, બોલે છે અને લખે છે સંબંધિત પ્રશ્ન ૨: ગણતરી કરી સાચો અંક શોધો.",
+        "promptEnglish": "Question 2 for M-10",
+        "options": [
+          {
+            "id": "opt1",
+            "textGujarati": "સાચો ઉત્તર ✅",
+            "emoji": "⭐"
+          },
+          {
+            "id": "opt2",
+            "textGujarati": "બીજો વિકલ્પ",
+            "emoji": "❌"
+          }
+        ],
+        "correctOptionId": "opt1",
+        "explanationGujarati": "૫૧ થી ૧૦૦ સુધીની સંખ્યાઓને ઓળખે છે, બોલે છે અને લખે છે ની સમજ મુજબ સાચો જવાબ છે.",
+        "points": 1
+      },
+      {
+        "questionId": "Q-M-10-3",
+        "promptGujarati": "૫૧ થી ૧૦૦ સુધીની સંખ્યાઓને ઓળખે છે, બોલે છે અને લખે છે સંબંધિત પ્રશ્ન ૩: ખાલી જગ્યા પૂરો.",
+        "promptEnglish": "Question 3 for M-10",
+        "options": [
+          {
+            "id": "opt1",
+            "textGujarati": "સાચો ઉત્તર ✅",
+            "emoji": "⭐"
+          },
+          {
+            "id": "opt2",
+            "textGujarati": "અન્ય ઉત્તર",
+            "emoji": "❌"
+          }
+        ],
+        "correctOptionId": "opt1",
+        "explanationGujarati": "૫૧ થી ૧૦૦ સુધીની સંખ્યાઓને ઓળખે છે, બોલે છે અને લખે છે ની સમજ મુજબ સાચો જવાબ છે.",
+        "points": 1
+      },
+      {
+        "questionId": "Q-M-10-4",
+        "promptGujarati": "૫૧ થી ૧૦૦ સુધીની સંખ્યાઓને ઓળખે છે, બોલે છે અને લખે છે સંબંધિત પ્રશ્ન ૪: નીચેનામાંથી કયું વિધાન સાચું છે?",
+        "promptEnglish": "Question 4 for M-10",
+        "options": [
+          {
+            "id": "opt1",
+            "textGujarati": "સાચું વિધાન ✅",
+            "emoji": "⭐"
+          },
+          {
+            "id": "opt2",
+            "textGujarati": "ખોટું વિધાન",
+            "emoji": "❌"
+          }
+        ],
+        "correctOptionId": "opt1",
+        "explanationGujarati": "૫૧ થી ૧૦૦ સુધીની સંખ્યાઓને ઓળખે છે, બોલે છે અને લખે છે ની સમજ મુજબ સાચો જવાબ છે.",
+        "points": 1
+      },
+      {
+        "questionId": "Q-M-10-5",
+        "promptGujarati": "૫૧ થી ૧૦૦ સુધીની સંખ્યાઓને ઓળખે છે, બોલે છે અને લખે છે સંબંધિત પ્રશ્ન ૫: વ્યવહારુ ઉકેલ જણાવો.",
+        "promptEnglish": "Question 5 for M-10",
+        "options": [
+          {
+            "id": "opt1",
+            "textGujarati": "સાચો ઉકેલ ✅",
+            "emoji": "⭐"
+          },
+          {
+            "id": "opt2",
+            "textGujarati": "અન્ય ઉકેલ",
+            "emoji": "❌"
+          }
+        ],
+        "correctOptionId": "opt1",
+        "explanationGujarati": "૫૧ થી ૧૦૦ સુધીની સંખ્યાઓને ઓળખે છે, બોલે છે અને લખે છે ની સમજ મુજબ સાચો જવાબ છે.",
+        "points": 1
+      }
+    ]
+  },
+  {
+    "competencyCode": "M-11",
+    "titleGujarati": "૫૧ થી ૧૦૦ માં તરત પછીની, તરત પહેલાંની અને વચ્ચેની સંખ્યા લખે છે - મૂલ્યાંકન કસોટી",
+    "titleEnglish": "Identifies Before, After, and Between numbers (51 to 100) - Assessment",
+    "passingPercentage": 80,
+    "timeLimitMinutes": 10,
+    "questions": [
+      {
+        "questionId": "Q-M-11-1",
+        "promptGujarati": "૫૧ થી ૧૦૦ માં તરત પછીની, તરત પહેલાંની અને વચ્ચેની સંખ્યા લખે છે સંબંધિત પ્રશ્ન ૧: સાચો વિકલ્પ પસંદ કરો.",
+        "promptEnglish": "Question 1 for M-11",
+        "options": [
+          {
+            "id": "opt1",
+            "textGujarati": "સાચો ઉત્તર ✅",
+            "emoji": "⭐"
+          },
+          {
+            "id": "opt2",
+            "textGujarati": "ખોટો વિકલ્પ",
+            "emoji": "❌"
+          },
+          {
+            "id": "opt3",
+            "textGujarati": "અન્ય વિકલ્પ",
+            "emoji": "🔸"
+          }
+        ],
+        "correctOptionId": "opt1",
+        "explanationGujarati": "૫૧ થી ૧૦૦ માં તરત પછીની, તરત પહેલાંની અને વચ્ચેની સંખ્યા લખે છે ની સમજ મુજબ સાચો જવાબ છે.",
+        "points": 1
+      },
+      {
+        "questionId": "Q-M-11-2",
+        "promptGujarati": "૫૧ થી ૧૦૦ માં તરત પછીની, તરત પહેલાંની અને વચ્ચેની સંખ્યા લખે છે સંબંધિત પ્રશ્ન ૨: ગણતરી કરી સાચો અંક શોધો.",
+        "promptEnglish": "Question 2 for M-11",
+        "options": [
+          {
+            "id": "opt1",
+            "textGujarati": "સાચો ઉત્તર ✅",
+            "emoji": "⭐"
+          },
+          {
+            "id": "opt2",
+            "textGujarati": "બીજો વિકલ્પ",
+            "emoji": "❌"
+          }
+        ],
+        "correctOptionId": "opt1",
+        "explanationGujarati": "૫૧ થી ૧૦૦ માં તરત પછીની, તરત પહેલાંની અને વચ્ચેની સંખ્યા લખે છે ની સમજ મુજબ સાચો જવાબ છે.",
+        "points": 1
+      },
+      {
+        "questionId": "Q-M-11-3",
+        "promptGujarati": "૫૧ થી ૧૦૦ માં તરત પછીની, તરત પહેલાંની અને વચ્ચેની સંખ્યા લખે છે સંબંધિત પ્રશ્ન ૩: ખાલી જગ્યા પૂરો.",
+        "promptEnglish": "Question 3 for M-11",
+        "options": [
+          {
+            "id": "opt1",
+            "textGujarati": "સાચો ઉત્તર ✅",
+            "emoji": "⭐"
+          },
+          {
+            "id": "opt2",
+            "textGujarati": "અન્ય ઉત્તર",
+            "emoji": "❌"
+          }
+        ],
+        "correctOptionId": "opt1",
+        "explanationGujarati": "૫૧ થી ૧૦૦ માં તરત પછીની, તરત પહેલાંની અને વચ્ચેની સંખ્યા લખે છે ની સમજ મુજબ સાચો જવાબ છે.",
+        "points": 1
+      },
+      {
+        "questionId": "Q-M-11-4",
+        "promptGujarati": "૫૧ થી ૧૦૦ માં તરત પછીની, તરત પહેલાંની અને વચ્ચેની સંખ્યા લખે છે સંબંધિત પ્રશ્ન ૪: નીચેનામાંથી કયું વિધાન સાચું છે?",
+        "promptEnglish": "Question 4 for M-11",
+        "options": [
+          {
+            "id": "opt1",
+            "textGujarati": "સાચું વિધાન ✅",
+            "emoji": "⭐"
+          },
+          {
+            "id": "opt2",
+            "textGujarati": "ખોટું વિધાન",
+            "emoji": "❌"
+          }
+        ],
+        "correctOptionId": "opt1",
+        "explanationGujarati": "૫૧ થી ૧૦૦ માં તરત પછીની, તરત પહેલાંની અને વચ્ચેની સંખ્યા લખે છે ની સમજ મુજબ સાચો જવાબ છે.",
+        "points": 1
+      },
+      {
+        "questionId": "Q-M-11-5",
+        "promptGujarati": "૫૧ થી ૧૦૦ માં તરત પછીની, તરત પહેલાંની અને વચ્ચેની સંખ્યા લખે છે સંબંધિત પ્રશ્ન ૫: વ્યવહારુ ઉકેલ જણાવો.",
+        "promptEnglish": "Question 5 for M-11",
+        "options": [
+          {
+            "id": "opt1",
+            "textGujarati": "સાચો ઉકેલ ✅",
+            "emoji": "⭐"
+          },
+          {
+            "id": "opt2",
+            "textGujarati": "અન્ય ઉકેલ",
+            "emoji": "❌"
+          }
+        ],
+        "correctOptionId": "opt1",
+        "explanationGujarati": "૫૧ થી ૧૦૦ માં તરત પછીની, તરત પહેલાંની અને વચ્ચેની સંખ્યા લખે છે ની સમજ મુજબ સાચો જવાબ છે.",
+        "points": 1
+      }
+    ]
+  },
+  {
+    "competencyCode": "M-12",
+    "titleGujarati": "૯ સુધી બે જૂથ ભેગા કરી ગણતરી કરી શકે છે (મૌખિક સરવાળા) - મૂલ્યાંકન કસોટી",
+    "titleEnglish": "Combines two groups up to 9 (Oral Addition) - Assessment",
+    "passingPercentage": 80,
+    "timeLimitMinutes": 10,
+    "questions": [
+      {
+        "questionId": "Q-M-12-1",
+        "promptGujarati": "૯ સુધી બે જૂથ ભેગા કરી ગણતરી કરી શકે છે (મૌખિક સરવાળા) સંબંધિત પ્રશ્ન ૧: સાચો વિકલ્પ પસંદ કરો.",
+        "promptEnglish": "Question 1 for M-12",
+        "options": [
+          {
+            "id": "opt1",
+            "textGujarati": "સાચો ઉત્તર ✅",
+            "emoji": "⭐"
+          },
+          {
+            "id": "opt2",
+            "textGujarati": "ખોટો વિકલ્પ",
+            "emoji": "❌"
+          },
+          {
+            "id": "opt3",
+            "textGujarati": "અન્ય વિકલ્પ",
+            "emoji": "🔸"
+          }
+        ],
+        "correctOptionId": "opt1",
+        "explanationGujarati": "૯ સુધી બે જૂથ ભેગા કરી ગણતરી કરી શકે છે (મૌખિક સરવાળા) ની સમજ મુજબ સાચો જવાબ છે.",
+        "points": 1
+      },
+      {
+        "questionId": "Q-M-12-2",
+        "promptGujarati": "૯ સુધી બે જૂથ ભેગા કરી ગણતરી કરી શકે છે (મૌખિક સરવાળા) સંબંધિત પ્રશ્ન ૨: ગણતરી કરી સાચો અંક શોધો.",
+        "promptEnglish": "Question 2 for M-12",
+        "options": [
+          {
+            "id": "opt1",
+            "textGujarati": "સાચો ઉત્તર ✅",
+            "emoji": "⭐"
+          },
+          {
+            "id": "opt2",
+            "textGujarati": "બીજો વિકલ્પ",
+            "emoji": "❌"
+          }
+        ],
+        "correctOptionId": "opt1",
+        "explanationGujarati": "૯ સુધી બે જૂથ ભેગા કરી ગણતરી કરી શકે છે (મૌખિક સરવાળા) ની સમજ મુજબ સાચો જવાબ છે.",
+        "points": 1
+      },
+      {
+        "questionId": "Q-M-12-3",
+        "promptGujarati": "૯ સુધી બે જૂથ ભેગા કરી ગણતરી કરી શકે છે (મૌખિક સરવાળા) સંબંધિત પ્રશ્ન ૩: ખાલી જગ્યા પૂરો.",
+        "promptEnglish": "Question 3 for M-12",
+        "options": [
+          {
+            "id": "opt1",
+            "textGujarati": "સાચો ઉત્તર ✅",
+            "emoji": "⭐"
+          },
+          {
+            "id": "opt2",
+            "textGujarati": "અન્ય ઉત્તર",
+            "emoji": "❌"
+          }
+        ],
+        "correctOptionId": "opt1",
+        "explanationGujarati": "૯ સુધી બે જૂથ ભેગા કરી ગણતરી કરી શકે છે (મૌખિક સરવાળા) ની સમજ મુજબ સાચો જવાબ છે.",
+        "points": 1
+      },
+      {
+        "questionId": "Q-M-12-4",
+        "promptGujarati": "૯ સુધી બે જૂથ ભેગા કરી ગણતરી કરી શકે છે (મૌખિક સરવાળા) સંબંધિત પ્રશ્ન ૪: નીચેનામાંથી કયું વિધાન સાચું છે?",
+        "promptEnglish": "Question 4 for M-12",
+        "options": [
+          {
+            "id": "opt1",
+            "textGujarati": "સાચું વિધાન ✅",
+            "emoji": "⭐"
+          },
+          {
+            "id": "opt2",
+            "textGujarati": "ખોટું વિધાન",
+            "emoji": "❌"
+          }
+        ],
+        "correctOptionId": "opt1",
+        "explanationGujarati": "૯ સુધી બે જૂથ ભેગા કરી ગણતરી કરી શકે છે (મૌખિક સરવાળા) ની સમજ મુજબ સાચો જવાબ છે.",
+        "points": 1
+      },
+      {
+        "questionId": "Q-M-12-5",
+        "promptGujarati": "૯ સુધી બે જૂથ ભેગા કરી ગણતરી કરી શકે છે (મૌખિક સરવાળા) સંબંધિત પ્રશ્ન ૫: વ્યવહારુ ઉકેલ જણાવો.",
+        "promptEnglish": "Question 5 for M-12",
+        "options": [
+          {
+            "id": "opt1",
+            "textGujarati": "સાચો ઉકેલ ✅",
+            "emoji": "⭐"
+          },
+          {
+            "id": "opt2",
+            "textGujarati": "અન્ય ઉકેલ",
+            "emoji": "❌"
+          }
+        ],
+        "correctOptionId": "opt1",
+        "explanationGujarati": "૯ સુધી બે જૂથ ભેગા કરી ગણતરી કરી શકે છે (મૌખિક સરવાળા) ની સમજ મુજબ સાચો જવાબ છે.",
+        "points": 1
+      }
+    ]
+  },
+  {
+    "competencyCode": "M-13",
+    "titleGujarati": "સંખ્યાજ્ઞાનના ઉપયોગ સંબંધિત ઉખાણા અને મૌખિક કોયડા ઉકેલે છે - મૂલ્યાંકન કસોટી",
+    "titleEnglish": "Solves oral riddles and puzzles using number sense (1 to 9) - Assessment",
+    "passingPercentage": 80,
+    "timeLimitMinutes": 10,
+    "questions": [
+      {
+        "questionId": "Q-M-13-1",
+        "promptGujarati": "સંખ્યાજ્ઞાનના ઉપયોગ સંબંધિત ઉખાણા અને મૌખિક કોયડા ઉકેલે છે સંબંધિત પ્રશ્ન ૧: સાચો વિકલ્પ પસંદ કરો.",
+        "promptEnglish": "Question 1 for M-13",
+        "options": [
+          {
+            "id": "opt1",
+            "textGujarati": "સાચો ઉત્તર ✅",
+            "emoji": "⭐"
+          },
+          {
+            "id": "opt2",
+            "textGujarati": "ખોટો વિકલ્પ",
+            "emoji": "❌"
+          },
+          {
+            "id": "opt3",
+            "textGujarati": "અન્ય વિકલ્પ",
+            "emoji": "🔸"
+          }
+        ],
+        "correctOptionId": "opt1",
+        "explanationGujarati": "સંખ્યાજ્ઞાનના ઉપયોગ સંબંધિત ઉખાણા અને મૌખિક કોયડા ઉકેલે છે ની સમજ મુજબ સાચો જવાબ છે.",
+        "points": 1
+      },
+      {
+        "questionId": "Q-M-13-2",
+        "promptGujarati": "સંખ્યાજ્ઞાનના ઉપયોગ સંબંધિત ઉખાણા અને મૌખિક કોયડા ઉકેલે છે સંબંધિત પ્રશ્ન ૨: ગણતરી કરી સાચો અંક શોધો.",
+        "promptEnglish": "Question 2 for M-13",
+        "options": [
+          {
+            "id": "opt1",
+            "textGujarati": "સાચો ઉત્તર ✅",
+            "emoji": "⭐"
+          },
+          {
+            "id": "opt2",
+            "textGujarati": "બીજો વિકલ્પ",
+            "emoji": "❌"
+          }
+        ],
+        "correctOptionId": "opt1",
+        "explanationGujarati": "સંખ્યાજ્ઞાનના ઉપયોગ સંબંધિત ઉખાણા અને મૌખિક કોયડા ઉકેલે છે ની સમજ મુજબ સાચો જવાબ છે.",
+        "points": 1
+      },
+      {
+        "questionId": "Q-M-13-3",
+        "promptGujarati": "સંખ્યાજ્ઞાનના ઉપયોગ સંબંધિત ઉખાણા અને મૌખિક કોયડા ઉકેલે છે સંબંધિત પ્રશ્ન ૩: ખાલી જગ્યા પૂરો.",
+        "promptEnglish": "Question 3 for M-13",
+        "options": [
+          {
+            "id": "opt1",
+            "textGujarati": "સાચો ઉત્તર ✅",
+            "emoji": "⭐"
+          },
+          {
+            "id": "opt2",
+            "textGujarati": "અન્ય ઉત્તર",
+            "emoji": "❌"
+          }
+        ],
+        "correctOptionId": "opt1",
+        "explanationGujarati": "સંખ્યાજ્ઞાનના ઉપયોગ સંબંધિત ઉખાણા અને મૌખિક કોયડા ઉકેલે છે ની સમજ મુજબ સાચો જવાબ છે.",
+        "points": 1
+      },
+      {
+        "questionId": "Q-M-13-4",
+        "promptGujarati": "સંખ્યાજ્ઞાનના ઉપયોગ સંબંધિત ઉખાણા અને મૌખિક કોયડા ઉકેલે છે સંબંધિત પ્રશ્ન ૪: નીચેનામાંથી કયું વિધાન સાચું છે?",
+        "promptEnglish": "Question 4 for M-13",
+        "options": [
+          {
+            "id": "opt1",
+            "textGujarati": "સાચું વિધાન ✅",
+            "emoji": "⭐"
+          },
+          {
+            "id": "opt2",
+            "textGujarati": "ખોટું વિધાન",
+            "emoji": "❌"
+          }
+        ],
+        "correctOptionId": "opt1",
+        "explanationGujarati": "સંખ્યાજ્ઞાનના ઉપયોગ સંબંધિત ઉખાણા અને મૌખિક કોયડા ઉકેલે છે ની સમજ મુજબ સાચો જવાબ છે.",
+        "points": 1
+      },
+      {
+        "questionId": "Q-M-13-5",
+        "promptGujarati": "સંખ્યાજ્ઞાનના ઉપયોગ સંબંધિત ઉખાણા અને મૌખિક કોયડા ઉકેલે છે સંબંધિત પ્રશ્ન ૫: વ્યવહારુ ઉકેલ જણાવો.",
+        "promptEnglish": "Question 5 for M-13",
+        "options": [
+          {
+            "id": "opt1",
+            "textGujarati": "સાચો ઉકેલ ✅",
+            "emoji": "⭐"
+          },
+          {
+            "id": "opt2",
+            "textGujarati": "અન્ય ઉકેલ",
+            "emoji": "❌"
+          }
+        ],
+        "correctOptionId": "opt1",
+        "explanationGujarati": "સંખ્યાજ્ઞાનના ઉપયોગ સંબંધિત ઉખાણા અને મૌખિક કોયડા ઉકેલે છે ની સમજ મુજબ સાચો જવાબ છે.",
+        "points": 1
+      }
+    ]
+  },
+  {
+    "competencyCode": "M-14",
+    "titleGujarati": "એક અંકનો એક અંક સાથે સરવાળો કરે છે (ઉભો અને આડો) - મૂલ્યાંકન કસોટી",
+    "titleEnglish": "Single digit addition with single digit (Horizontal & Vertical) - Assessment",
+    "passingPercentage": 80,
+    "timeLimitMinutes": 10,
+    "questions": [
+      {
+        "questionId": "Q-M-14-1",
+        "promptGujarati": "એક અંકનો એક અંક સાથે સરવાળો કરે છે (ઉભો અને આડો) સંબંધિત પ્રશ્ન ૧: સાચો વિકલ્પ પસંદ કરો.",
+        "promptEnglish": "Question 1 for M-14",
+        "options": [
+          {
+            "id": "opt1",
+            "textGujarati": "સાચો ઉત્તર ✅",
+            "emoji": "⭐"
+          },
+          {
+            "id": "opt2",
+            "textGujarati": "ખોટો વિકલ્પ",
+            "emoji": "❌"
+          },
+          {
+            "id": "opt3",
+            "textGujarati": "અન્ય વિકલ્પ",
+            "emoji": "🔸"
+          }
+        ],
+        "correctOptionId": "opt1",
+        "explanationGujarati": "એક અંકનો એક અંક સાથે સરવાળો કરે છે (ઉભો અને આડો) ની સમજ મુજબ સાચો જવાબ છે.",
+        "points": 1
+      },
+      {
+        "questionId": "Q-M-14-2",
+        "promptGujarati": "એક અંકનો એક અંક સાથે સરવાળો કરે છે (ઉભો અને આડો) સંબંધિત પ્રશ્ન ૨: ગણતરી કરી સાચો અંક શોધો.",
+        "promptEnglish": "Question 2 for M-14",
+        "options": [
+          {
+            "id": "opt1",
+            "textGujarati": "સાચો ઉત્તર ✅",
+            "emoji": "⭐"
+          },
+          {
+            "id": "opt2",
+            "textGujarati": "બીજો વિકલ્પ",
+            "emoji": "❌"
+          }
+        ],
+        "correctOptionId": "opt1",
+        "explanationGujarati": "એક અંકનો એક અંક સાથે સરવાળો કરે છે (ઉભો અને આડો) ની સમજ મુજબ સાચો જવાબ છે.",
+        "points": 1
+      },
+      {
+        "questionId": "Q-M-14-3",
+        "promptGujarati": "એક અંકનો એક અંક સાથે સરવાળો કરે છે (ઉભો અને આડો) સંબંધિત પ્રશ્ન ૩: ખાલી જગ્યા પૂરો.",
+        "promptEnglish": "Question 3 for M-14",
+        "options": [
+          {
+            "id": "opt1",
+            "textGujarati": "સાચો ઉત્તર ✅",
+            "emoji": "⭐"
+          },
+          {
+            "id": "opt2",
+            "textGujarati": "અન્ય ઉત્તર",
+            "emoji": "❌"
+          }
+        ],
+        "correctOptionId": "opt1",
+        "explanationGujarati": "એક અંકનો એક અંક સાથે સરવાળો કરે છે (ઉભો અને આડો) ની સમજ મુજબ સાચો જવાબ છે.",
+        "points": 1
+      },
+      {
+        "questionId": "Q-M-14-4",
+        "promptGujarati": "એક અંકનો એક અંક સાથે સરવાળો કરે છે (ઉભો અને આડો) સંબંધિત પ્રશ્ન ૪: નીચેનામાંથી કયું વિધાન સાચું છે?",
+        "promptEnglish": "Question 4 for M-14",
+        "options": [
+          {
+            "id": "opt1",
+            "textGujarati": "સાચું વિધાન ✅",
+            "emoji": "⭐"
+          },
+          {
+            "id": "opt2",
+            "textGujarati": "ખોટું વિધાન",
+            "emoji": "❌"
+          }
+        ],
+        "correctOptionId": "opt1",
+        "explanationGujarati": "એક અંકનો એક અંક સાથે સરવાળો કરે છે (ઉભો અને આડો) ની સમજ મુજબ સાચો જવાબ છે.",
+        "points": 1
+      },
+      {
+        "questionId": "Q-M-14-5",
+        "promptGujarati": "એક અંકનો એક અંક સાથે સરવાળો કરે છે (ઉભો અને આડો) સંબંધિત પ્રશ્ન ૫: વ્યવહારુ ઉકેલ જણાવો.",
+        "promptEnglish": "Question 5 for M-14",
+        "options": [
+          {
+            "id": "opt1",
+            "textGujarati": "સાચો ઉકેલ ✅",
+            "emoji": "⭐"
+          },
+          {
+            "id": "opt2",
+            "textGujarati": "અન્ય ઉકેલ",
+            "emoji": "❌"
+          }
+        ],
+        "correctOptionId": "opt1",
+        "explanationGujarati": "એક અંકનો એક અંક સાથે સરવાળો કરે છે (ઉભો અને આડો) ની સમજ મુજબ સાચો જવાબ છે.",
+        "points": 1
+      }
+    ]
+  },
+  {
+    "competencyCode": "M-15",
+    "titleGujarati": "બે અંકના સરવાળા / કોયડા (જવાબ ૨૦ થી વધુ નહિ) - મૂલ્યાંકન કસોટી",
+    "titleEnglish": "Two-digit addition up to sum 20 - Assessment",
+    "passingPercentage": 80,
+    "timeLimitMinutes": 10,
+    "questions": [
+      {
+        "questionId": "Q-M-15-1",
+        "promptGujarati": "બે અંકના સરવાળા / કોયડા (જવાબ ૨૦ થી વધુ નહિ) સંબંધિત પ્રશ્ન ૧: સાચો વિકલ્પ પસંદ કરો.",
+        "promptEnglish": "Question 1 for M-15",
+        "options": [
+          {
+            "id": "opt1",
+            "textGujarati": "સાચો ઉત્તર ✅",
+            "emoji": "⭐"
+          },
+          {
+            "id": "opt2",
+            "textGujarati": "ખોટો વિકલ્પ",
+            "emoji": "❌"
+          },
+          {
+            "id": "opt3",
+            "textGujarati": "અન્ય વિકલ્પ",
+            "emoji": "🔸"
+          }
+        ],
+        "correctOptionId": "opt1",
+        "explanationGujarati": "બે અંકના સરવાળા / કોયડા (જવાબ ૨૦ થી વધુ નહિ) ની સમજ મુજબ સાચો જવાબ છે.",
+        "points": 1
+      },
+      {
+        "questionId": "Q-M-15-2",
+        "promptGujarati": "બે અંકના સરવાળા / કોયડા (જવાબ ૨૦ થી વધુ નહિ) સંબંધિત પ્રશ્ન ૨: ગણતરી કરી સાચો અંક શોધો.",
+        "promptEnglish": "Question 2 for M-15",
+        "options": [
+          {
+            "id": "opt1",
+            "textGujarati": "સાચો ઉત્તર ✅",
+            "emoji": "⭐"
+          },
+          {
+            "id": "opt2",
+            "textGujarati": "બીજો વિકલ્પ",
+            "emoji": "❌"
+          }
+        ],
+        "correctOptionId": "opt1",
+        "explanationGujarati": "બે અંકના સરવાળા / કોયડા (જવાબ ૨૦ થી વધુ નહિ) ની સમજ મુજબ સાચો જવાબ છે.",
+        "points": 1
+      },
+      {
+        "questionId": "Q-M-15-3",
+        "promptGujarati": "બે અંકના સરવાળા / કોયડા (જવાબ ૨૦ થી વધુ નહિ) સંબંધિત પ્રશ્ન ૩: ખાલી જગ્યા પૂરો.",
+        "promptEnglish": "Question 3 for M-15",
+        "options": [
+          {
+            "id": "opt1",
+            "textGujarati": "સાચો ઉત્તર ✅",
+            "emoji": "⭐"
+          },
+          {
+            "id": "opt2",
+            "textGujarati": "અન્ય ઉત્તર",
+            "emoji": "❌"
+          }
+        ],
+        "correctOptionId": "opt1",
+        "explanationGujarati": "બે અંકના સરવાળા / કોયડા (જવાબ ૨૦ થી વધુ નહિ) ની સમજ મુજબ સાચો જવાબ છે.",
+        "points": 1
+      },
+      {
+        "questionId": "Q-M-15-4",
+        "promptGujarati": "બે અંકના સરવાળા / કોયડા (જવાબ ૨૦ થી વધુ નહિ) સંબંધિત પ્રશ્ન ૪: નીચેનામાંથી કયું વિધાન સાચું છે?",
+        "promptEnglish": "Question 4 for M-15",
+        "options": [
+          {
+            "id": "opt1",
+            "textGujarati": "સાચું વિધાન ✅",
+            "emoji": "⭐"
+          },
+          {
+            "id": "opt2",
+            "textGujarati": "ખોટું વિધાન",
+            "emoji": "❌"
+          }
+        ],
+        "correctOptionId": "opt1",
+        "explanationGujarati": "બે અંકના સરવાળા / કોયડા (જવાબ ૨૦ થી વધુ નહિ) ની સમજ મુજબ સાચો જવાબ છે.",
+        "points": 1
+      },
+      {
+        "questionId": "Q-M-15-5",
+        "promptGujarati": "બે અંકના સરવાળા / કોયડા (જવાબ ૨૦ થી વધુ નહિ) સંબંધિત પ્રશ્ન ૫: વ્યવહારુ ઉકેલ જણાવો.",
+        "promptEnglish": "Question 5 for M-15",
+        "options": [
+          {
+            "id": "opt1",
+            "textGujarati": "સાચો ઉકેલ ✅",
+            "emoji": "⭐"
+          },
+          {
+            "id": "opt2",
+            "textGujarati": "અન્ય ઉકેલ",
+            "emoji": "❌"
+          }
+        ],
+        "correctOptionId": "opt1",
+        "explanationGujarati": "બે અંકના સરવાળા / કોયડા (જવાબ ૨૦ થી વધુ નહિ) ની સમજ મુજબ સાચો જવાબ છે.",
+        "points": 1
+      }
+    ]
+  },
+  {
+    "competencyCode": "M-16",
+    "titleGujarati": "બે અંકના વદી વગરના સરવાળા / વ્યવહારુ કોયડા - મૂલ્યાંકન કસોટી",
+    "titleEnglish": "2-digit addition without carry-over - Assessment",
+    "passingPercentage": 80,
+    "timeLimitMinutes": 10,
+    "questions": [
+      {
+        "questionId": "Q-M-16-1",
+        "promptGujarati": "બે અંકના વદી વગરના સરવાળા / વ્યવહારુ કોયડા સંબંધિત પ્રશ્ન ૧: સાચો વિકલ્પ પસંદ કરો.",
+        "promptEnglish": "Question 1 for M-16",
+        "options": [
+          {
+            "id": "opt1",
+            "textGujarati": "સાચો ઉત્તર ✅",
+            "emoji": "⭐"
+          },
+          {
+            "id": "opt2",
+            "textGujarati": "ખોટો વિકલ્પ",
+            "emoji": "❌"
+          },
+          {
+            "id": "opt3",
+            "textGujarati": "અન્ય વિકલ્પ",
+            "emoji": "🔸"
+          }
+        ],
+        "correctOptionId": "opt1",
+        "explanationGujarati": "બે અંકના વદી વગરના સરવાળા / વ્યવહારુ કોયડા ની સમજ મુજબ સાચો જવાબ છે.",
+        "points": 1
+      },
+      {
+        "questionId": "Q-M-16-2",
+        "promptGujarati": "બે અંકના વદી વગરના સરવાળા / વ્યવહારુ કોયડા સંબંધિત પ્રશ્ન ૨: ગણતરી કરી સાચો અંક શોધો.",
+        "promptEnglish": "Question 2 for M-16",
+        "options": [
+          {
+            "id": "opt1",
+            "textGujarati": "સાચો ઉત્તર ✅",
+            "emoji": "⭐"
+          },
+          {
+            "id": "opt2",
+            "textGujarati": "બીજો વિકલ્પ",
+            "emoji": "❌"
+          }
+        ],
+        "correctOptionId": "opt1",
+        "explanationGujarati": "બે અંકના વદી વગરના સરવાળા / વ્યવહારુ કોયડા ની સમજ મુજબ સાચો જવાબ છે.",
+        "points": 1
+      },
+      {
+        "questionId": "Q-M-16-3",
+        "promptGujarati": "બે અંકના વદી વગરના સરવાળા / વ્યવહારુ કોયડા સંબંધિત પ્રશ્ન ૩: ખાલી જગ્યા પૂરો.",
+        "promptEnglish": "Question 3 for M-16",
+        "options": [
+          {
+            "id": "opt1",
+            "textGujarati": "સાચો ઉત્તર ✅",
+            "emoji": "⭐"
+          },
+          {
+            "id": "opt2",
+            "textGujarati": "અન્ય ઉત્તર",
+            "emoji": "❌"
+          }
+        ],
+        "correctOptionId": "opt1",
+        "explanationGujarati": "બે અંકના વદી વગરના સરવાળા / વ્યવહારુ કોયડા ની સમજ મુજબ સાચો જવાબ છે.",
+        "points": 1
+      },
+      {
+        "questionId": "Q-M-16-4",
+        "promptGujarati": "બે અંકના વદી વગરના સરવાળા / વ્યવહારુ કોયડા સંબંધિત પ્રશ્ન ૪: નીચેનામાંથી કયું વિધાન સાચું છે?",
+        "promptEnglish": "Question 4 for M-16",
+        "options": [
+          {
+            "id": "opt1",
+            "textGujarati": "સાચું વિધાન ✅",
+            "emoji": "⭐"
+          },
+          {
+            "id": "opt2",
+            "textGujarati": "ખોટું વિધાન",
+            "emoji": "❌"
+          }
+        ],
+        "correctOptionId": "opt1",
+        "explanationGujarati": "બે અંકના વદી વગરના સરવાળા / વ્યવહારુ કોયડા ની સમજ મુજબ સાચો જવાબ છે.",
+        "points": 1
+      },
+      {
+        "questionId": "Q-M-16-5",
+        "promptGujarati": "બે અંકના વદી વગરના સરવાળા / વ્યવહારુ કોયડા સંબંધિત પ્રશ્ન ૫: વ્યવહારુ ઉકેલ જણાવો.",
+        "promptEnglish": "Question 5 for M-16",
+        "options": [
+          {
+            "id": "opt1",
+            "textGujarati": "સાચો ઉકેલ ✅",
+            "emoji": "⭐"
+          },
+          {
+            "id": "opt2",
+            "textGujarati": "અન્ય ઉકેલ",
+            "emoji": "❌"
+          }
+        ],
+        "correctOptionId": "opt1",
+        "explanationGujarati": "બે અંકના વદી વગરના સરવાળા / વ્યવહારુ કોયડા ની સમજ મુજબ સાચો જવાબ છે.",
+        "points": 1
+      }
+    ]
+  },
+  {
+    "competencyCode": "M-17",
+    "titleGujarati": "બે અંકના વદીવાળા સરવાળા / કોયડા - મૂલ્યાંકન કસોટી",
+    "titleEnglish": "2-digit addition with carry-over (વદીવાળા સરવાળા) - Assessment",
+    "passingPercentage": 80,
+    "timeLimitMinutes": 10,
+    "questions": [
+      {
+        "questionId": "Q-M-17-1",
+        "promptGujarati": "બે અંકના વદીવાળા સરવાળા / કોયડા સંબંધિત પ્રશ્ન ૧: સાચો વિકલ્પ પસંદ કરો.",
+        "promptEnglish": "Question 1 for M-17",
+        "options": [
+          {
+            "id": "opt1",
+            "textGujarati": "સાચો ઉત્તર ✅",
+            "emoji": "⭐"
+          },
+          {
+            "id": "opt2",
+            "textGujarati": "ખોટો વિકલ્પ",
+            "emoji": "❌"
+          },
+          {
+            "id": "opt3",
+            "textGujarati": "અન્ય વિકલ્પ",
+            "emoji": "🔸"
+          }
+        ],
+        "correctOptionId": "opt1",
+        "explanationGujarati": "બે અંકના વદીવાળા સરવાળા / કોયડા ની સમજ મુજબ સાચો જવાબ છે.",
+        "points": 1
+      },
+      {
+        "questionId": "Q-M-17-2",
+        "promptGujarati": "બે અંકના વદીવાળા સરવાળા / કોયડા સંબંધિત પ્રશ્ન ૨: ગણતરી કરી સાચો અંક શોધો.",
+        "promptEnglish": "Question 2 for M-17",
+        "options": [
+          {
+            "id": "opt1",
+            "textGujarati": "સાચો ઉત્તર ✅",
+            "emoji": "⭐"
+          },
+          {
+            "id": "opt2",
+            "textGujarati": "બીજો વિકલ્પ",
+            "emoji": "❌"
+          }
+        ],
+        "correctOptionId": "opt1",
+        "explanationGujarati": "બે અંકના વદીવાળા સરવાળા / કોયડા ની સમજ મુજબ સાચો જવાબ છે.",
+        "points": 1
+      },
+      {
+        "questionId": "Q-M-17-3",
+        "promptGujarati": "બે અંકના વદીવાળા સરવાળા / કોયડા સંબંધિત પ્રશ્ન ૩: ખાલી જગ્યા પૂરો.",
+        "promptEnglish": "Question 3 for M-17",
+        "options": [
+          {
+            "id": "opt1",
+            "textGujarati": "સાચો ઉત્તર ✅",
+            "emoji": "⭐"
+          },
+          {
+            "id": "opt2",
+            "textGujarati": "અન્ય ઉત્તર",
+            "emoji": "❌"
+          }
+        ],
+        "correctOptionId": "opt1",
+        "explanationGujarati": "બે અંકના વદીવાળા સરવાળા / કોયડા ની સમજ મુજબ સાચો જવાબ છે.",
+        "points": 1
+      },
+      {
+        "questionId": "Q-M-17-4",
+        "promptGujarati": "બે અંકના વદીવાળા સરવાળા / કોયડા સંબંધિત પ્રશ્ન ૪: નીચેનામાંથી કયું વિધાન સાચું છે?",
+        "promptEnglish": "Question 4 for M-17",
+        "options": [
+          {
+            "id": "opt1",
+            "textGujarati": "સાચું વિધાન ✅",
+            "emoji": "⭐"
+          },
+          {
+            "id": "opt2",
+            "textGujarati": "ખોટું વિધાન",
+            "emoji": "❌"
+          }
+        ],
+        "correctOptionId": "opt1",
+        "explanationGujarati": "બે અંકના વદીવાળા સરવાળા / કોયડા ની સમજ મુજબ સાચો જવાબ છે.",
+        "points": 1
+      },
+      {
+        "questionId": "Q-M-17-5",
+        "promptGujarati": "બે અંકના વદીવાળા સરવાળા / કોયડા સંબંધિત પ્રશ્ન ૫: વ્યવહારુ ઉકેલ જણાવો.",
+        "promptEnglish": "Question 5 for M-17",
+        "options": [
+          {
+            "id": "opt1",
+            "textGujarati": "સાચો ઉકેલ ✅",
+            "emoji": "⭐"
+          },
+          {
+            "id": "opt2",
+            "textGujarati": "અન્ય ઉકેલ",
+            "emoji": "❌"
+          }
+        ],
+        "correctOptionId": "opt1",
+        "explanationGujarati": "બે અંકના વદીવાળા સરવાળા / કોયડા ની સમજ મુજબ સાચો જવાબ છે.",
+        "points": 1
+      }
+    ]
+  },
+  {
+    "competencyCode": "M-18",
+    "titleGujarati": "મૂર્ત વસ્તુઓના ઉપયોગથી ૯ સુધીની મૌખિક બાદબાકી કરે છે - મૂલ્યાંકન કસોટી",
+    "titleEnglish": "Concrete object subtraction up to 9 (Oral Subtraction) - Assessment",
+    "passingPercentage": 80,
+    "timeLimitMinutes": 10,
+    "questions": [
+      {
+        "questionId": "Q-M-18-1",
+        "promptGujarati": "મૂર્ત વસ્તુઓના ઉપયોગથી ૯ સુધીની મૌખિક બાદબાકી કરે છે સંબંધિત પ્રશ્ન ૧: સાચો વિકલ્પ પસંદ કરો.",
+        "promptEnglish": "Question 1 for M-18",
+        "options": [
+          {
+            "id": "opt1",
+            "textGujarati": "સાચો ઉત્તર ✅",
+            "emoji": "⭐"
+          },
+          {
+            "id": "opt2",
+            "textGujarati": "ખોટો વિકલ્પ",
+            "emoji": "❌"
+          },
+          {
+            "id": "opt3",
+            "textGujarati": "અન્ય વિકલ્પ",
+            "emoji": "🔸"
+          }
+        ],
+        "correctOptionId": "opt1",
+        "explanationGujarati": "મૂર્ત વસ્તુઓના ઉપયોગથી ૯ સુધીની મૌખિક બાદબાકી કરે છે ની સમજ મુજબ સાચો જવાબ છે.",
+        "points": 1
+      },
+      {
+        "questionId": "Q-M-18-2",
+        "promptGujarati": "મૂર્ત વસ્તુઓના ઉપયોગથી ૯ સુધીની મૌખિક બાદબાકી કરે છે સંબંધિત પ્રશ્ન ૨: ગણતરી કરી સાચો અંક શોધો.",
+        "promptEnglish": "Question 2 for M-18",
+        "options": [
+          {
+            "id": "opt1",
+            "textGujarati": "સાચો ઉત્તર ✅",
+            "emoji": "⭐"
+          },
+          {
+            "id": "opt2",
+            "textGujarati": "બીજો વિકલ્પ",
+            "emoji": "❌"
+          }
+        ],
+        "correctOptionId": "opt1",
+        "explanationGujarati": "મૂર્ત વસ્તુઓના ઉપયોગથી ૯ સુધીની મૌખિક બાદબાકી કરે છે ની સમજ મુજબ સાચો જવાબ છે.",
+        "points": 1
+      },
+      {
+        "questionId": "Q-M-18-3",
+        "promptGujarati": "મૂર્ત વસ્તુઓના ઉપયોગથી ૯ સુધીની મૌખિક બાદબાકી કરે છે સંબંધિત પ્રશ્ન ૩: ખાલી જગ્યા પૂરો.",
+        "promptEnglish": "Question 3 for M-18",
+        "options": [
+          {
+            "id": "opt1",
+            "textGujarati": "સાચો ઉત્તર ✅",
+            "emoji": "⭐"
+          },
+          {
+            "id": "opt2",
+            "textGujarati": "અન્ય ઉત્તર",
+            "emoji": "❌"
+          }
+        ],
+        "correctOptionId": "opt1",
+        "explanationGujarati": "મૂર્ત વસ્તુઓના ઉપયોગથી ૯ સુધીની મૌખિક બાદબાકી કરે છે ની સમજ મુજબ સાચો જવાબ છે.",
+        "points": 1
+      },
+      {
+        "questionId": "Q-M-18-4",
+        "promptGujarati": "મૂર્ત વસ્તુઓના ઉપયોગથી ૯ સુધીની મૌખિક બાદબાકી કરે છે સંબંધિત પ્રશ્ન ૪: નીચેનામાંથી કયું વિધાન સાચું છે?",
+        "promptEnglish": "Question 4 for M-18",
+        "options": [
+          {
+            "id": "opt1",
+            "textGujarati": "સાચું વિધાન ✅",
+            "emoji": "⭐"
+          },
+          {
+            "id": "opt2",
+            "textGujarati": "ખોટું વિધાન",
+            "emoji": "❌"
+          }
+        ],
+        "correctOptionId": "opt1",
+        "explanationGujarati": "મૂર્ત વસ્તુઓના ઉપયોગથી ૯ સુધીની મૌખિક બાદબાકી કરે છે ની સમજ મુજબ સાચો જવાબ છે.",
+        "points": 1
+      },
+      {
+        "questionId": "Q-M-18-5",
+        "promptGujarati": "મૂર્ત વસ્તુઓના ઉપયોગથી ૯ સુધીની મૌખિક બાદબાકી કરે છે સંબંધિત પ્રશ્ન ૫: વ્યવહારુ ઉકેલ જણાવો.",
+        "promptEnglish": "Question 5 for M-18",
+        "options": [
+          {
+            "id": "opt1",
+            "textGujarati": "સાચો ઉકેલ ✅",
+            "emoji": "⭐"
+          },
+          {
+            "id": "opt2",
+            "textGujarati": "અન્ય ઉકેલ",
+            "emoji": "❌"
+          }
+        ],
+        "correctOptionId": "opt1",
+        "explanationGujarati": "મૂર્ત વસ્તુઓના ઉપયોગથી ૯ સુધીની મૌખિક બાદબાકી કરે છે ની સમજ મુજબ સાચો જવાબ છે.",
+        "points": 1
+      }
+    ]
+  },
+  {
+    "competencyCode": "M-19",
+    "titleGujarati": "એક અંકની એક અંક સાથે બાદબાકી / કોયડા - મૂલ્યાંકન કસોટી",
+    "titleEnglish": "Single-digit subtraction with single digit - Assessment",
+    "passingPercentage": 80,
+    "timeLimitMinutes": 10,
+    "questions": [
+      {
+        "questionId": "Q-M-19-1",
+        "promptGujarati": "એક અંકની એક અંક સાથે બાદબાકી / કોયડા સંબંધિત પ્રશ્ન ૧: સાચો વિકલ્પ પસંદ કરો.",
+        "promptEnglish": "Question 1 for M-19",
+        "options": [
+          {
+            "id": "opt1",
+            "textGujarati": "સાચો ઉત્તર ✅",
+            "emoji": "⭐"
+          },
+          {
+            "id": "opt2",
+            "textGujarati": "ખોટો વિકલ્પ",
+            "emoji": "❌"
+          },
+          {
+            "id": "opt3",
+            "textGujarati": "અન્ય વિકલ્પ",
+            "emoji": "🔸"
+          }
+        ],
+        "correctOptionId": "opt1",
+        "explanationGujarati": "એક અંકની એક અંક સાથે બાદબાકી / કોયડા ની સમજ મુજબ સાચો જવાબ છે.",
+        "points": 1
+      },
+      {
+        "questionId": "Q-M-19-2",
+        "promptGujarati": "એક અંકની એક અંક સાથે બાદબાકી / કોયડા સંબંધિત પ્રશ્ન ૨: ગણતરી કરી સાચો અંક શોધો.",
+        "promptEnglish": "Question 2 for M-19",
+        "options": [
+          {
+            "id": "opt1",
+            "textGujarati": "સાચો ઉત્તર ✅",
+            "emoji": "⭐"
+          },
+          {
+            "id": "opt2",
+            "textGujarati": "બીજો વિકલ્પ",
+            "emoji": "❌"
+          }
+        ],
+        "correctOptionId": "opt1",
+        "explanationGujarati": "એક અંકની એક અંક સાથે બાદબાકી / કોયડા ની સમજ મુજબ સાચો જવાબ છે.",
+        "points": 1
+      },
+      {
+        "questionId": "Q-M-19-3",
+        "promptGujarati": "એક અંકની એક અંક સાથે બાદબાકી / કોયડા સંબંધિત પ્રશ્ન ૩: ખાલી જગ્યા પૂરો.",
+        "promptEnglish": "Question 3 for M-19",
+        "options": [
+          {
+            "id": "opt1",
+            "textGujarati": "સાચો ઉત્તર ✅",
+            "emoji": "⭐"
+          },
+          {
+            "id": "opt2",
+            "textGujarati": "અન્ય ઉત્તર",
+            "emoji": "❌"
+          }
+        ],
+        "correctOptionId": "opt1",
+        "explanationGujarati": "એક અંકની એક અંક સાથે બાદબાકી / કોયડા ની સમજ મુજબ સાચો જવાબ છે.",
+        "points": 1
+      },
+      {
+        "questionId": "Q-M-19-4",
+        "promptGujarati": "એક અંકની એક અંક સાથે બાદબાકી / કોયડા સંબંધિત પ્રશ્ન ૪: નીચેનામાંથી કયું વિધાન સાચું છે?",
+        "promptEnglish": "Question 4 for M-19",
+        "options": [
+          {
+            "id": "opt1",
+            "textGujarati": "સાચું વિધાન ✅",
+            "emoji": "⭐"
+          },
+          {
+            "id": "opt2",
+            "textGujarati": "ખોટું વિધાન",
+            "emoji": "❌"
+          }
+        ],
+        "correctOptionId": "opt1",
+        "explanationGujarati": "એક અંકની એક અંક સાથે બાદબાકી / કોયડા ની સમજ મુજબ સાચો જવાબ છે.",
+        "points": 1
+      },
+      {
+        "questionId": "Q-M-19-5",
+        "promptGujarati": "એક અંકની એક અંક સાથે બાદબાકી / કોયડા સંબંધિત પ્રશ્ન ૫: વ્યવહારુ ઉકેલ જણાવો.",
+        "promptEnglish": "Question 5 for M-19",
+        "options": [
+          {
+            "id": "opt1",
+            "textGujarati": "સાચો ઉકેલ ✅",
+            "emoji": "⭐"
+          },
+          {
+            "id": "opt2",
+            "textGujarati": "અન્ય ઉકેલ",
+            "emoji": "❌"
+          }
+        ],
+        "correctOptionId": "opt1",
+        "explanationGujarati": "એક અંકની એક અંક સાથે બાદબાકી / કોયડા ની સમજ મુજબ સાચો જવાબ છે.",
+        "points": 1
+      }
+    ]
+  },
+  {
+    "competencyCode": "M-20",
+    "titleGujarati": "બે અંકની સંખ્યાના દસકા વગરની બાદબાકી / કોયડા (૨૦ સુધી) - મૂલ્યાંકન કસોટી",
+    "titleEnglish": "2-digit subtraction without borrow (up to 20) - Assessment",
+    "passingPercentage": 80,
+    "timeLimitMinutes": 10,
+    "questions": [
+      {
+        "questionId": "Q-M-20-1",
+        "promptGujarati": "બે અંકની સંખ્યાના દસકા વગરની બાદબાકી / કોયડા (૨૦ સુધી) સંબંધિત પ્રશ્ન ૧: સાચો વિકલ્પ પસંદ કરો.",
+        "promptEnglish": "Question 1 for M-20",
+        "options": [
+          {
+            "id": "opt1",
+            "textGujarati": "સાચો ઉત્તર ✅",
+            "emoji": "⭐"
+          },
+          {
+            "id": "opt2",
+            "textGujarati": "ખોટો વિકલ્પ",
+            "emoji": "❌"
+          },
+          {
+            "id": "opt3",
+            "textGujarati": "અન્ય વિકલ્પ",
+            "emoji": "🔸"
+          }
+        ],
+        "correctOptionId": "opt1",
+        "explanationGujarati": "બે અંકની સંખ્યાના દસકા વગરની બાદબાકી / કોયડા (૨૦ સુધી) ની સમજ મુજબ સાચો જવાબ છે.",
+        "points": 1
+      },
+      {
+        "questionId": "Q-M-20-2",
+        "promptGujarati": "બે અંકની સંખ્યાના દસકા વગરની બાદબાકી / કોયડા (૨૦ સુધી) સંબંધિત પ્રશ્ન ૨: ગણતરી કરી સાચો અંક શોધો.",
+        "promptEnglish": "Question 2 for M-20",
+        "options": [
+          {
+            "id": "opt1",
+            "textGujarati": "સાચો ઉત્તર ✅",
+            "emoji": "⭐"
+          },
+          {
+            "id": "opt2",
+            "textGujarati": "બીજો વિકલ્પ",
+            "emoji": "❌"
+          }
+        ],
+        "correctOptionId": "opt1",
+        "explanationGujarati": "બે અંકની સંખ્યાના દસકા વગરની બાદબાકી / કોયડા (૨૦ સુધી) ની સમજ મુજબ સાચો જવાબ છે.",
+        "points": 1
+      },
+      {
+        "questionId": "Q-M-20-3",
+        "promptGujarati": "બે અંકની સંખ્યાના દસકા વગરની બાદબાકી / કોયડા (૨૦ સુધી) સંબંધિત પ્રશ્ન ૩: ખાલી જગ્યા પૂરો.",
+        "promptEnglish": "Question 3 for M-20",
+        "options": [
+          {
+            "id": "opt1",
+            "textGujarati": "સાચો ઉત્તર ✅",
+            "emoji": "⭐"
+          },
+          {
+            "id": "opt2",
+            "textGujarati": "અન્ય ઉત્તર",
+            "emoji": "❌"
+          }
+        ],
+        "correctOptionId": "opt1",
+        "explanationGujarati": "બે અંકની સંખ્યાના દસકા વગરની બાદબાકી / કોયડા (૨૦ સુધી) ની સમજ મુજબ સાચો જવાબ છે.",
+        "points": 1
+      },
+      {
+        "questionId": "Q-M-20-4",
+        "promptGujarati": "બે અંકની સંખ્યાના દસકા વગરની બાદબાકી / કોયડા (૨૦ સુધી) સંબંધિત પ્રશ્ન ૪: નીચેનામાંથી કયું વિધાન સાચું છે?",
+        "promptEnglish": "Question 4 for M-20",
+        "options": [
+          {
+            "id": "opt1",
+            "textGujarati": "સાચું વિધાન ✅",
+            "emoji": "⭐"
+          },
+          {
+            "id": "opt2",
+            "textGujarati": "ખોટું વિધાન",
+            "emoji": "❌"
+          }
+        ],
+        "correctOptionId": "opt1",
+        "explanationGujarati": "બે અંકની સંખ્યાના દસકા વગરની બાદબાકી / કોયડા (૨૦ સુધી) ની સમજ મુજબ સાચો જવાબ છે.",
+        "points": 1
+      },
+      {
+        "questionId": "Q-M-20-5",
+        "promptGujarati": "બે અંકની સંખ્યાના દસકા વગરની બાદબાકી / કોયડા (૨૦ સુધી) સંબંધિત પ્રશ્ન ૫: વ્યવહારુ ઉકેલ જણાવો.",
+        "promptEnglish": "Question 5 for M-20",
+        "options": [
+          {
+            "id": "opt1",
+            "textGujarati": "સાચો ઉકેલ ✅",
+            "emoji": "⭐"
+          },
+          {
+            "id": "opt2",
+            "textGujarati": "અન્ય ઉકેલ",
+            "emoji": "❌"
+          }
+        ],
+        "correctOptionId": "opt1",
+        "explanationGujarati": "બે અંકની સંખ્યાના દસકા વગરની બાદબાકી / કોયડા (૨૦ સુધી) ની સમજ મુજબ સાચો જવાબ છે.",
+        "points": 1
+      }
+    ]
+  },
+  {
+    "competencyCode": "M-21",
+    "titleGujarati": "બે અંકની સંખ્યાની દસકાવાળી બાદબાકી / વ્યવહારુ કોયડા - મૂલ્યાંકન કસોટી",
+    "titleEnglish": "2-digit subtraction with borrow (દસકાવાળી બાદબાકી) - Assessment",
+    "passingPercentage": 80,
+    "timeLimitMinutes": 10,
+    "questions": [
+      {
+        "questionId": "Q-M-21-1",
+        "promptGujarati": "બે અંકની સંખ્યાની દસકાવાળી બાદબાકી / વ્યવહારુ કોયડા સંબંધિત પ્રશ્ન ૧: સાચો વિકલ્પ પસંદ કરો.",
+        "promptEnglish": "Question 1 for M-21",
+        "options": [
+          {
+            "id": "opt1",
+            "textGujarati": "સાચો ઉત્તર ✅",
+            "emoji": "⭐"
+          },
+          {
+            "id": "opt2",
+            "textGujarati": "ખોટો વિકલ્પ",
+            "emoji": "❌"
+          },
+          {
+            "id": "opt3",
+            "textGujarati": "અન્ય વિકલ્પ",
+            "emoji": "🔸"
+          }
+        ],
+        "correctOptionId": "opt1",
+        "explanationGujarati": "બે અંકની સંખ્યાની દસકાવાળી બાદબાકી / વ્યવહારુ કોયડા ની સમજ મુજબ સાચો જવાબ છે.",
+        "points": 1
+      },
+      {
+        "questionId": "Q-M-21-2",
+        "promptGujarati": "બે અંકની સંખ્યાની દસકાવાળી બાદબાકી / વ્યવહારુ કોયડા સંબંધિત પ્રશ્ન ૨: ગણતરી કરી સાચો અંક શોધો.",
+        "promptEnglish": "Question 2 for M-21",
+        "options": [
+          {
+            "id": "opt1",
+            "textGujarati": "સાચો ઉત્તર ✅",
+            "emoji": "⭐"
+          },
+          {
+            "id": "opt2",
+            "textGujarati": "બીજો વિકલ્પ",
+            "emoji": "❌"
+          }
+        ],
+        "correctOptionId": "opt1",
+        "explanationGujarati": "બે અંકની સંખ્યાની દસકાવાળી બાદબાકી / વ્યવહારુ કોયડા ની સમજ મુજબ સાચો જવાબ છે.",
+        "points": 1
+      },
+      {
+        "questionId": "Q-M-21-3",
+        "promptGujarati": "બે અંકની સંખ્યાની દસકાવાળી બાદબાકી / વ્યવહારુ કોયડા સંબંધિત પ્રશ્ન ૩: ખાલી જગ્યા પૂરો.",
+        "promptEnglish": "Question 3 for M-21",
+        "options": [
+          {
+            "id": "opt1",
+            "textGujarati": "સાચો ઉત્તર ✅",
+            "emoji": "⭐"
+          },
+          {
+            "id": "opt2",
+            "textGujarati": "અન્ય ઉત્તર",
+            "emoji": "❌"
+          }
+        ],
+        "correctOptionId": "opt1",
+        "explanationGujarati": "બે અંકની સંખ્યાની દસકાવાળી બાદબાકી / વ્યવહારુ કોયડા ની સમજ મુજબ સાચો જવાબ છે.",
+        "points": 1
+      },
+      {
+        "questionId": "Q-M-21-4",
+        "promptGujarati": "બે અંકની સંખ્યાની દસકાવાળી બાદબાકી / વ્યવહારુ કોયડા સંબંધિત પ્રશ્ન ૪: નીચેનામાંથી કયું વિધાન સાચું છે?",
+        "promptEnglish": "Question 4 for M-21",
+        "options": [
+          {
+            "id": "opt1",
+            "textGujarati": "સાચું વિધાન ✅",
+            "emoji": "⭐"
+          },
+          {
+            "id": "opt2",
+            "textGujarati": "ખોટું વિધાન",
+            "emoji": "❌"
+          }
+        ],
+        "correctOptionId": "opt1",
+        "explanationGujarati": "બે અંકની સંખ્યાની દસકાવાળી બાદબાકી / વ્યવહારુ કોયડા ની સમજ મુજબ સાચો જવાબ છે.",
+        "points": 1
+      },
+      {
+        "questionId": "Q-M-21-5",
+        "promptGujarati": "બે અંકની સંખ્યાની દસકાવાળી બાદબાકી / વ્યવહારુ કોયડા સંબંધિત પ્રશ્ન ૫: વ્યવહારુ ઉકેલ જણાવો.",
+        "promptEnglish": "Question 5 for M-21",
+        "options": [
+          {
+            "id": "opt1",
+            "textGujarati": "સાચો ઉકેલ ✅",
+            "emoji": "⭐"
+          },
+          {
+            "id": "opt2",
+            "textGujarati": "અન્ય ઉકેલ",
+            "emoji": "❌"
+          }
+        ],
+        "correctOptionId": "opt1",
+        "explanationGujarati": "બે અંકની સંખ્યાની દસકાવાળી બાદબાકી / વ્યવહારુ કોયડા ની સમજ મુજબ સાચો જવાબ છે.",
+        "points": 1
+      }
+    ]
+  },
+  {
+    "competencyCode": "M-22",
+    "titleGujarati": "૨, ૩, ૪, ૫ અને ૧૦ ના ઘડિયા (Multiplication Tables) - મૂલ્યાંકન કસોટી",
+    "titleEnglish": "Multiplication tables of 2, 3, 4, 5, and 10 - Assessment",
+    "passingPercentage": 80,
+    "timeLimitMinutes": 10,
+    "questions": [
+      {
+        "questionId": "Q-M-22-1",
+        "promptGujarati": "૨, ૩, ૪, ૫ અને ૧૦ ના ઘડિયા (Multiplication Tables) સંબંધિત પ્રશ્ન ૧: સાચો વિકલ્પ પસંદ કરો.",
+        "promptEnglish": "Question 1 for M-22",
+        "options": [
+          {
+            "id": "opt1",
+            "textGujarati": "સાચો ઉત્તર ✅",
+            "emoji": "⭐"
+          },
+          {
+            "id": "opt2",
+            "textGujarati": "ખોટો વિકલ્પ",
+            "emoji": "❌"
+          },
+          {
+            "id": "opt3",
+            "textGujarati": "અન્ય વિકલ્પ",
+            "emoji": "🔸"
+          }
+        ],
+        "correctOptionId": "opt1",
+        "explanationGujarati": "૨, ૩, ૪, ૫ અને ૧૦ ના ઘડિયા (Multiplication Tables) ની સમજ મુજબ સાચો જવાબ છે.",
+        "points": 1
+      },
+      {
+        "questionId": "Q-M-22-2",
+        "promptGujarati": "૨, ૩, ૪, ૫ અને ૧૦ ના ઘડિયા (Multiplication Tables) સંબંધિત પ્રશ્ન ૨: ગણતરી કરી સાચો અંક શોધો.",
+        "promptEnglish": "Question 2 for M-22",
+        "options": [
+          {
+            "id": "opt1",
+            "textGujarati": "સાચો ઉત્તર ✅",
+            "emoji": "⭐"
+          },
+          {
+            "id": "opt2",
+            "textGujarati": "બીજો વિકલ્પ",
+            "emoji": "❌"
+          }
+        ],
+        "correctOptionId": "opt1",
+        "explanationGujarati": "૨, ૩, ૪, ૫ અને ૧૦ ના ઘડિયા (Multiplication Tables) ની સમજ મુજબ સાચો જવાબ છે.",
+        "points": 1
+      },
+      {
+        "questionId": "Q-M-22-3",
+        "promptGujarati": "૨, ૩, ૪, ૫ અને ૧૦ ના ઘડિયા (Multiplication Tables) સંબંધિત પ્રશ્ન ૩: ખાલી જગ્યા પૂરો.",
+        "promptEnglish": "Question 3 for M-22",
+        "options": [
+          {
+            "id": "opt1",
+            "textGujarati": "સાચો ઉત્તર ✅",
+            "emoji": "⭐"
+          },
+          {
+            "id": "opt2",
+            "textGujarati": "અન્ય ઉત્તર",
+            "emoji": "❌"
+          }
+        ],
+        "correctOptionId": "opt1",
+        "explanationGujarati": "૨, ૩, ૪, ૫ અને ૧૦ ના ઘડિયા (Multiplication Tables) ની સમજ મુજબ સાચો જવાબ છે.",
+        "points": 1
+      },
+      {
+        "questionId": "Q-M-22-4",
+        "promptGujarati": "૨, ૩, ૪, ૫ અને ૧૦ ના ઘડિયા (Multiplication Tables) સંબંધિત પ્રશ્ન ૪: નીચેનામાંથી કયું વિધાન સાચું છે?",
+        "promptEnglish": "Question 4 for M-22",
+        "options": [
+          {
+            "id": "opt1",
+            "textGujarati": "સાચું વિધાન ✅",
+            "emoji": "⭐"
+          },
+          {
+            "id": "opt2",
+            "textGujarati": "ખોટું વિધાન",
+            "emoji": "❌"
+          }
+        ],
+        "correctOptionId": "opt1",
+        "explanationGujarati": "૨, ૩, ૪, ૫ અને ૧૦ ના ઘડિયા (Multiplication Tables) ની સમજ મુજબ સાચો જવાબ છે.",
+        "points": 1
+      },
+      {
+        "questionId": "Q-M-22-5",
+        "promptGujarati": "૨, ૩, ૪, ૫ અને ૧૦ ના ઘડિયા (Multiplication Tables) સંબંધિત પ્રશ્ન ૫: વ્યવહારુ ઉકેલ જણાવો.",
+        "promptEnglish": "Question 5 for M-22",
+        "options": [
+          {
+            "id": "opt1",
+            "textGujarati": "સાચો ઉકેલ ✅",
+            "emoji": "⭐"
+          },
+          {
+            "id": "opt2",
+            "textGujarati": "અન્ય ઉકેલ",
+            "emoji": "❌"
+          }
+        ],
+        "correctOptionId": "opt1",
+        "explanationGujarati": "૨, ૩, ૪, ૫ અને ૧૦ ના ઘડિયા (Multiplication Tables) ની સમજ મુજબ સાચો જવાબ છે.",
+        "points": 1
+      }
+    ]
+  },
+  {
+    "competencyCode": "M-23",
+    "titleGujarati": "આપેલા ચિત્રો કે વસ્તુ બતાવી લાંબા-ટૂંકાની સમજ કેળવે છે - મૂલ્યાંકન કસોટી",
+    "titleEnglish": "Understands Long vs Short using objects and pictures - Assessment",
+    "passingPercentage": 80,
+    "timeLimitMinutes": 10,
+    "questions": [
+      {
+        "questionId": "Q-M-23-1",
+        "promptGujarati": "આપેલા ચિત્રો કે વસ્તુ બતાવી લાંબા-ટૂંકાની સમજ કેળવે છે સંબંધિત પ્રશ્ન ૧: સાચો વિકલ્પ પસંદ કરો.",
+        "promptEnglish": "Question 1 for M-23",
+        "options": [
+          {
+            "id": "opt1",
+            "textGujarati": "સાચો ઉત્તર ✅",
+            "emoji": "⭐"
+          },
+          {
+            "id": "opt2",
+            "textGujarati": "ખોટો વિકલ્પ",
+            "emoji": "❌"
+          },
+          {
+            "id": "opt3",
+            "textGujarati": "અન્ય વિકલ્પ",
+            "emoji": "🔸"
+          }
+        ],
+        "correctOptionId": "opt1",
+        "explanationGujarati": "આપેલા ચિત્રો કે વસ્તુ બતાવી લાંબા-ટૂંકાની સમજ કેળવે છે ની સમજ મુજબ સાચો જવાબ છે.",
+        "points": 1
+      },
+      {
+        "questionId": "Q-M-23-2",
+        "promptGujarati": "આપેલા ચિત્રો કે વસ્તુ બતાવી લાંબા-ટૂંકાની સમજ કેળવે છે સંબંધિત પ્રશ્ન ૨: ગણતરી કરી સાચો અંક શોધો.",
+        "promptEnglish": "Question 2 for M-23",
+        "options": [
+          {
+            "id": "opt1",
+            "textGujarati": "સાચો ઉત્તર ✅",
+            "emoji": "⭐"
+          },
+          {
+            "id": "opt2",
+            "textGujarati": "બીજો વિકલ્પ",
+            "emoji": "❌"
+          }
+        ],
+        "correctOptionId": "opt1",
+        "explanationGujarati": "આપેલા ચિત્રો કે વસ્તુ બતાવી લાંબા-ટૂંકાની સમજ કેળવે છે ની સમજ મુજબ સાચો જવાબ છે.",
+        "points": 1
+      },
+      {
+        "questionId": "Q-M-23-3",
+        "promptGujarati": "આપેલા ચિત્રો કે વસ્તુ બતાવી લાંબા-ટૂંકાની સમજ કેળવે છે સંબંધિત પ્રશ્ન ૩: ખાલી જગ્યા પૂરો.",
+        "promptEnglish": "Question 3 for M-23",
+        "options": [
+          {
+            "id": "opt1",
+            "textGujarati": "સાચો ઉત્તર ✅",
+            "emoji": "⭐"
+          },
+          {
+            "id": "opt2",
+            "textGujarati": "અન્ય ઉત્તર",
+            "emoji": "❌"
+          }
+        ],
+        "correctOptionId": "opt1",
+        "explanationGujarati": "આપેલા ચિત્રો કે વસ્તુ બતાવી લાંબા-ટૂંકાની સમજ કેળવે છે ની સમજ મુજબ સાચો જવાબ છે.",
+        "points": 1
+      },
+      {
+        "questionId": "Q-M-23-4",
+        "promptGujarati": "આપેલા ચિત્રો કે વસ્તુ બતાવી લાંબા-ટૂંકાની સમજ કેળવે છે સંબંધિત પ્રશ્ન ૪: નીચેનામાંથી કયું વિધાન સાચું છે?",
+        "promptEnglish": "Question 4 for M-23",
+        "options": [
+          {
+            "id": "opt1",
+            "textGujarati": "સાચું વિધાન ✅",
+            "emoji": "⭐"
+          },
+          {
+            "id": "opt2",
+            "textGujarati": "ખોટું વિધાન",
+            "emoji": "❌"
+          }
+        ],
+        "correctOptionId": "opt1",
+        "explanationGujarati": "આપેલા ચિત્રો કે વસ્તુ બતાવી લાંબા-ટૂંકાની સમજ કેળવે છે ની સમજ મુજબ સાચો જવાબ છે.",
+        "points": 1
+      },
+      {
+        "questionId": "Q-M-23-5",
+        "promptGujarati": "આપેલા ચિત્રો કે વસ્તુ બતાવી લાંબા-ટૂંકાની સમજ કેળવે છે સંબંધિત પ્રશ્ન ૫: વ્યવહારુ ઉકેલ જણાવો.",
+        "promptEnglish": "Question 5 for M-23",
+        "options": [
+          {
+            "id": "opt1",
+            "textGujarati": "સાચો ઉકેલ ✅",
+            "emoji": "⭐"
+          },
+          {
+            "id": "opt2",
+            "textGujarati": "અન્ય ઉકેલ",
+            "emoji": "❌"
+          }
+        ],
+        "correctOptionId": "opt1",
+        "explanationGujarati": "આપેલા ચિત્રો કે વસ્તુ બતાવી લાંબા-ટૂંકાની સમજ કેળવે છે ની સમજ મુજબ સાચો જવાબ છે.",
+        "points": 1
+      }
+    ]
+  },
+  {
+    "competencyCode": "M-24",
+    "titleGujarati": "આપેલી વસ્તુ કે ચિત્રને આંગળી / વેંત / ડગલાં વડે માપે છે - મૂલ્યાંકન કસોટી",
+    "titleEnglish": "Measures length using non-standard units (Fingers, Handspan, Steps) - Assessment",
+    "passingPercentage": 80,
+    "timeLimitMinutes": 10,
+    "questions": [
+      {
+        "questionId": "Q-M-24-1",
+        "promptGujarati": "આપેલી વસ્તુ કે ચિત્રને આંગળી / વેંત / ડગલાં વડે માપે છે સંબંધિત પ્રશ્ન ૧: સાચો વિકલ્પ પસંદ કરો.",
+        "promptEnglish": "Question 1 for M-24",
+        "options": [
+          {
+            "id": "opt1",
+            "textGujarati": "સાચો ઉત્તર ✅",
+            "emoji": "⭐"
+          },
+          {
+            "id": "opt2",
+            "textGujarati": "ખોટો વિકલ્પ",
+            "emoji": "❌"
+          },
+          {
+            "id": "opt3",
+            "textGujarati": "અન્ય વિકલ્પ",
+            "emoji": "🔸"
+          }
+        ],
+        "correctOptionId": "opt1",
+        "explanationGujarati": "આપેલી વસ્તુ કે ચિત્રને આંગળી / વેંત / ડગલાં વડે માપે છે ની સમજ મુજબ સાચો જવાબ છે.",
+        "points": 1
+      },
+      {
+        "questionId": "Q-M-24-2",
+        "promptGujarati": "આપેલી વસ્તુ કે ચિત્રને આંગળી / વેંત / ડગલાં વડે માપે છે સંબંધિત પ્રશ્ન ૨: ગણતરી કરી સાચો અંક શોધો.",
+        "promptEnglish": "Question 2 for M-24",
+        "options": [
+          {
+            "id": "opt1",
+            "textGujarati": "સાચો ઉત્તર ✅",
+            "emoji": "⭐"
+          },
+          {
+            "id": "opt2",
+            "textGujarati": "બીજો વિકલ્પ",
+            "emoji": "❌"
+          }
+        ],
+        "correctOptionId": "opt1",
+        "explanationGujarati": "આપેલી વસ્તુ કે ચિત્રને આંગળી / વેંત / ડગલાં વડે માપે છે ની સમજ મુજબ સાચો જવાબ છે.",
+        "points": 1
+      },
+      {
+        "questionId": "Q-M-24-3",
+        "promptGujarati": "આપેલી વસ્તુ કે ચિત્રને આંગળી / વેંત / ડગલાં વડે માપે છે સંબંધિત પ્રશ્ન ૩: ખાલી જગ્યા પૂરો.",
+        "promptEnglish": "Question 3 for M-24",
+        "options": [
+          {
+            "id": "opt1",
+            "textGujarati": "સાચો ઉત્તર ✅",
+            "emoji": "⭐"
+          },
+          {
+            "id": "opt2",
+            "textGujarati": "અન્ય ઉત્તર",
+            "emoji": "❌"
+          }
+        ],
+        "correctOptionId": "opt1",
+        "explanationGujarati": "આપેલી વસ્તુ કે ચિત્રને આંગળી / વેંત / ડગલાં વડે માપે છે ની સમજ મુજબ સાચો જવાબ છે.",
+        "points": 1
+      },
+      {
+        "questionId": "Q-M-24-4",
+        "promptGujarati": "આપેલી વસ્તુ કે ચિત્રને આંગળી / વેંત / ડગલાં વડે માપે છે સંબંધિત પ્રશ્ન ૪: નીચેનામાંથી કયું વિધાન સાચું છે?",
+        "promptEnglish": "Question 4 for M-24",
+        "options": [
+          {
+            "id": "opt1",
+            "textGujarati": "સાચું વિધાન ✅",
+            "emoji": "⭐"
+          },
+          {
+            "id": "opt2",
+            "textGujarati": "ખોટું વિધાન",
+            "emoji": "❌"
+          }
+        ],
+        "correctOptionId": "opt1",
+        "explanationGujarati": "આપેલી વસ્તુ કે ચિત્રને આંગળી / વેંત / ડગલાં વડે માપે છે ની સમજ મુજબ સાચો જવાબ છે.",
+        "points": 1
+      },
+      {
+        "questionId": "Q-M-24-5",
+        "promptGujarati": "આપેલી વસ્તુ કે ચિત્રને આંગળી / વેંત / ડગલાં વડે માપે છે સંબંધિત પ્રશ્ન ૫: વ્યવહારુ ઉકેલ જણાવો.",
+        "promptEnglish": "Question 5 for M-24",
+        "options": [
+          {
+            "id": "opt1",
+            "textGujarati": "સાચો ઉકેલ ✅",
+            "emoji": "⭐"
+          },
+          {
+            "id": "opt2",
+            "textGujarati": "અન્ય ઉકેલ",
+            "emoji": "❌"
+          }
+        ],
+        "correctOptionId": "opt1",
+        "explanationGujarati": "આપેલી વસ્તુ કે ચિત્રને આંગળી / વેંત / ડગલાં વડે માપે છે ની સમજ મુજબ સાચો જવાબ છે.",
+        "points": 1
+      }
+    ]
+  },
+  {
+    "competencyCode": "M-25",
+    "titleGujarati": "સિક્કાના ઉપયોગથી વસ્તુની કિંમત જાણે છે અને ચૂકવણી કરે છે - મૂલ્યાંકન કસોટી",
+    "titleEnglish": "Knows object price using coins (₹1, ₹2, ₹5, ₹10) - Assessment",
+    "passingPercentage": 80,
+    "timeLimitMinutes": 10,
+    "questions": [
+      {
+        "questionId": "Q-M-25-1",
+        "promptGujarati": "સિક્કાના ઉપયોગથી વસ્તુની કિંમત જાણે છે અને ચૂકવણી કરે છે સંબંધિત પ્રશ્ન ૧: સાચો વિકલ્પ પસંદ કરો.",
+        "promptEnglish": "Question 1 for M-25",
+        "options": [
+          {
+            "id": "opt1",
+            "textGujarati": "સાચો ઉત્તર ✅",
+            "emoji": "⭐"
+          },
+          {
+            "id": "opt2",
+            "textGujarati": "ખોટો વિકલ્પ",
+            "emoji": "❌"
+          },
+          {
+            "id": "opt3",
+            "textGujarati": "અન્ય વિકલ્પ",
+            "emoji": "🔸"
+          }
+        ],
+        "correctOptionId": "opt1",
+        "explanationGujarati": "સિક્કાના ઉપયોગથી વસ્તુની કિંમત જાણે છે અને ચૂકવણી કરે છે ની સમજ મુજબ સાચો જવાબ છે.",
+        "points": 1
+      },
+      {
+        "questionId": "Q-M-25-2",
+        "promptGujarati": "સિક્કાના ઉપયોગથી વસ્તુની કિંમત જાણે છે અને ચૂકવણી કરે છે સંબંધિત પ્રશ્ન ૨: ગણતરી કરી સાચો અંક શોધો.",
+        "promptEnglish": "Question 2 for M-25",
+        "options": [
+          {
+            "id": "opt1",
+            "textGujarati": "સાચો ઉત્તર ✅",
+            "emoji": "⭐"
+          },
+          {
+            "id": "opt2",
+            "textGujarati": "બીજો વિકલ્પ",
+            "emoji": "❌"
+          }
+        ],
+        "correctOptionId": "opt1",
+        "explanationGujarati": "સિક્કાના ઉપયોગથી વસ્તુની કિંમત જાણે છે અને ચૂકવણી કરે છે ની સમજ મુજબ સાચો જવાબ છે.",
+        "points": 1
+      },
+      {
+        "questionId": "Q-M-25-3",
+        "promptGujarati": "સિક્કાના ઉપયોગથી વસ્તુની કિંમત જાણે છે અને ચૂકવણી કરે છે સંબંધિત પ્રશ્ન ૩: ખાલી જગ્યા પૂરો.",
+        "promptEnglish": "Question 3 for M-25",
+        "options": [
+          {
+            "id": "opt1",
+            "textGujarati": "સાચો ઉત્તર ✅",
+            "emoji": "⭐"
+          },
+          {
+            "id": "opt2",
+            "textGujarati": "અન્ય ઉત્તર",
+            "emoji": "❌"
+          }
+        ],
+        "correctOptionId": "opt1",
+        "explanationGujarati": "સિક્કાના ઉપયોગથી વસ્તુની કિંમત જાણે છે અને ચૂકવણી કરે છે ની સમજ મુજબ સાચો જવાબ છે.",
+        "points": 1
+      },
+      {
+        "questionId": "Q-M-25-4",
+        "promptGujarati": "સિક્કાના ઉપયોગથી વસ્તુની કિંમત જાણે છે અને ચૂકવણી કરે છે સંબંધિત પ્રશ્ન ૪: નીચેનામાંથી કયું વિધાન સાચું છે?",
+        "promptEnglish": "Question 4 for M-25",
+        "options": [
+          {
+            "id": "opt1",
+            "textGujarati": "સાચું વિધાન ✅",
+            "emoji": "⭐"
+          },
+          {
+            "id": "opt2",
+            "textGujarati": "ખોટું વિધાન",
+            "emoji": "❌"
+          }
+        ],
+        "correctOptionId": "opt1",
+        "explanationGujarati": "સિક્કાના ઉપયોગથી વસ્તુની કિંમત જાણે છે અને ચૂકવણી કરે છે ની સમજ મુજબ સાચો જવાબ છે.",
+        "points": 1
+      },
+      {
+        "questionId": "Q-M-25-5",
+        "promptGujarati": "સિક્કાના ઉપયોગથી વસ્તુની કિંમત જાણે છે અને ચૂકવણી કરે છે સંબંધિત પ્રશ્ન ૫: વ્યવહારુ ઉકેલ જણાવો.",
+        "promptEnglish": "Question 5 for M-25",
+        "options": [
+          {
+            "id": "opt1",
+            "textGujarati": "સાચો ઉકેલ ✅",
+            "emoji": "⭐"
+          },
+          {
+            "id": "opt2",
+            "textGujarati": "અન્ય ઉકેલ",
+            "emoji": "❌"
+          }
+        ],
+        "correctOptionId": "opt1",
+        "explanationGujarati": "સિક્કાના ઉપયોગથી વસ્તુની કિંમત જાણે છે અને ચૂકવણી કરે છે ની સમજ મુજબ સાચો જવાબ છે.",
+        "points": 1
+      }
+    ]
+  },
+  {
+    "competencyCode": "M-26",
+    "titleGujarati": "૧૦૦ રૂપિયા સુધીના સિક્કા અને ચલણી નોટોની ઓળખ અને વ્યવહાર - મૂલ્યાંકન કસોટી",
+    "titleEnglish": "Identifies notes and coins up to ₹100 and solves money transactions - Assessment",
+    "passingPercentage": 80,
+    "timeLimitMinutes": 10,
+    "questions": [
+      {
+        "questionId": "Q-M-26-1",
+        "promptGujarati": "૧૦૦ રૂપિયા સુધીના સિક્કા અને ચલણી નોટોની ઓળખ અને વ્યવહાર સંબંધિત પ્રશ્ન ૧: સાચો વિકલ્પ પસંદ કરો.",
+        "promptEnglish": "Question 1 for M-26",
+        "options": [
+          {
+            "id": "opt1",
+            "textGujarati": "સાચો ઉત્તર ✅",
+            "emoji": "⭐"
+          },
+          {
+            "id": "opt2",
+            "textGujarati": "ખોટો વિકલ્પ",
+            "emoji": "❌"
+          },
+          {
+            "id": "opt3",
+            "textGujarati": "અન્ય વિકલ્પ",
+            "emoji": "🔸"
+          }
+        ],
+        "correctOptionId": "opt1",
+        "explanationGujarati": "૧૦૦ રૂપિયા સુધીના સિક્કા અને ચલણી નોટોની ઓળખ અને વ્યવહાર ની સમજ મુજબ સાચો જવાબ છે.",
+        "points": 1
+      },
+      {
+        "questionId": "Q-M-26-2",
+        "promptGujarati": "૧૦૦ રૂપિયા સુધીના સિક્કા અને ચલણી નોટોની ઓળખ અને વ્યવહાર સંબંધિત પ્રશ્ન ૨: ગણતરી કરી સાચો અંક શોધો.",
+        "promptEnglish": "Question 2 for M-26",
+        "options": [
+          {
+            "id": "opt1",
+            "textGujarati": "સાચો ઉત્તર ✅",
+            "emoji": "⭐"
+          },
+          {
+            "id": "opt2",
+            "textGujarati": "બીજો વિકલ્પ",
+            "emoji": "❌"
+          }
+        ],
+        "correctOptionId": "opt1",
+        "explanationGujarati": "૧૦૦ રૂપિયા સુધીના સિક્કા અને ચલણી નોટોની ઓળખ અને વ્યવહાર ની સમજ મુજબ સાચો જવાબ છે.",
+        "points": 1
+      },
+      {
+        "questionId": "Q-M-26-3",
+        "promptGujarati": "૧૦૦ રૂપિયા સુધીના સિક્કા અને ચલણી નોટોની ઓળખ અને વ્યવહાર સંબંધિત પ્રશ્ન ૩: ખાલી જગ્યા પૂરો.",
+        "promptEnglish": "Question 3 for M-26",
+        "options": [
+          {
+            "id": "opt1",
+            "textGujarati": "સાચો ઉત્તર ✅",
+            "emoji": "⭐"
+          },
+          {
+            "id": "opt2",
+            "textGujarati": "અન્ય ઉત્તર",
+            "emoji": "❌"
+          }
+        ],
+        "correctOptionId": "opt1",
+        "explanationGujarati": "૧૦૦ રૂપિયા સુધીના સિક્કા અને ચલણી નોટોની ઓળખ અને વ્યવહાર ની સમજ મુજબ સાચો જવાબ છે.",
+        "points": 1
+      },
+      {
+        "questionId": "Q-M-26-4",
+        "promptGujarati": "૧૦૦ રૂપિયા સુધીના સિક્કા અને ચલણી નોટોની ઓળખ અને વ્યવહાર સંબંધિત પ્રશ્ન ૪: નીચેનામાંથી કયું વિધાન સાચું છે?",
+        "promptEnglish": "Question 4 for M-26",
+        "options": [
+          {
+            "id": "opt1",
+            "textGujarati": "સાચું વિધાન ✅",
+            "emoji": "⭐"
+          },
+          {
+            "id": "opt2",
+            "textGujarati": "ખોટું વિધાન",
+            "emoji": "❌"
+          }
+        ],
+        "correctOptionId": "opt1",
+        "explanationGujarati": "૧૦૦ રૂપિયા સુધીના સિક્કા અને ચલણી નોટોની ઓળખ અને વ્યવહાર ની સમજ મુજબ સાચો જવાબ છે.",
+        "points": 1
+      },
+      {
+        "questionId": "Q-M-26-5",
+        "promptGujarati": "૧૦૦ રૂપિયા સુધીના સિક્કા અને ચલણી નોટોની ઓળખ અને વ્યવહાર સંબંધિત પ્રશ્ન ૫: વ્યવહારુ ઉકેલ જણાવો.",
+        "promptEnglish": "Question 5 for M-26",
+        "options": [
+          {
+            "id": "opt1",
+            "textGujarati": "સાચો ઉકેલ ✅",
+            "emoji": "⭐"
+          },
+          {
+            "id": "opt2",
+            "textGujarati": "અન્ય ઉકેલ",
+            "emoji": "❌"
+          }
+        ],
+        "correctOptionId": "opt1",
+        "explanationGujarati": "૧૦૦ રૂપિયા સુધીના સિક્કા અને ચલણી નોટોની ઓળખ અને વ્યવહાર ની સમજ મુજબ સાચો જવાબ છે.",
+        "points": 1
+      }
+    ]
+  },
+  {
+    "competencyCode": "M-27",
+    "titleGujarati": "હલકું-ભારેની સમજ, ત્રાજવાના ઉપયોગથી સરખામણી - મૂલ્યાંકન કસોટી",
+    "titleEnglish": "Understands Heavy vs Light using balance scales (ત્રાજવું) - Assessment",
+    "passingPercentage": 80,
+    "timeLimitMinutes": 10,
+    "questions": [
+      {
+        "questionId": "Q-M-27-1",
+        "promptGujarati": "હલકું-ભારેની સમજ, ત્રાજવાના ઉપયોગથી સરખામણી સંબંધિત પ્રશ્ન ૧: સાચો વિકલ્પ પસંદ કરો.",
+        "promptEnglish": "Question 1 for M-27",
+        "options": [
+          {
+            "id": "opt1",
+            "textGujarati": "સાચો ઉત્તર ✅",
+            "emoji": "⭐"
+          },
+          {
+            "id": "opt2",
+            "textGujarati": "ખોટો વિકલ્પ",
+            "emoji": "❌"
+          },
+          {
+            "id": "opt3",
+            "textGujarati": "અન્ય વિકલ્પ",
+            "emoji": "🔸"
+          }
+        ],
+        "correctOptionId": "opt1",
+        "explanationGujarati": "હલકું-ભારેની સમજ, ત્રાજવાના ઉપયોગથી સરખામણી ની સમજ મુજબ સાચો જવાબ છે.",
+        "points": 1
+      },
+      {
+        "questionId": "Q-M-27-2",
+        "promptGujarati": "હલકું-ભારેની સમજ, ત્રાજવાના ઉપયોગથી સરખામણી સંબંધિત પ્રશ્ન ૨: ગણતરી કરી સાચો અંક શોધો.",
+        "promptEnglish": "Question 2 for M-27",
+        "options": [
+          {
+            "id": "opt1",
+            "textGujarati": "સાચો ઉત્તર ✅",
+            "emoji": "⭐"
+          },
+          {
+            "id": "opt2",
+            "textGujarati": "બીજો વિકલ્પ",
+            "emoji": "❌"
+          }
+        ],
+        "correctOptionId": "opt1",
+        "explanationGujarati": "હલકું-ભારેની સમજ, ત્રાજવાના ઉપયોગથી સરખામણી ની સમજ મુજબ સાચો જવાબ છે.",
+        "points": 1
+      },
+      {
+        "questionId": "Q-M-27-3",
+        "promptGujarati": "હલકું-ભારેની સમજ, ત્રાજવાના ઉપયોગથી સરખામણી સંબંધિત પ્રશ્ન ૩: ખાલી જગ્યા પૂરો.",
+        "promptEnglish": "Question 3 for M-27",
+        "options": [
+          {
+            "id": "opt1",
+            "textGujarati": "સાચો ઉત્તર ✅",
+            "emoji": "⭐"
+          },
+          {
+            "id": "opt2",
+            "textGujarati": "અન્ય ઉત્તર",
+            "emoji": "❌"
+          }
+        ],
+        "correctOptionId": "opt1",
+        "explanationGujarati": "હલકું-ભારેની સમજ, ત્રાજવાના ઉપયોગથી સરખામણી ની સમજ મુજબ સાચો જવાબ છે.",
+        "points": 1
+      },
+      {
+        "questionId": "Q-M-27-4",
+        "promptGujarati": "હલકું-ભારેની સમજ, ત્રાજવાના ઉપયોગથી સરખામણી સંબંધિત પ્રશ્ન ૪: નીચેનામાંથી કયું વિધાન સાચું છે?",
+        "promptEnglish": "Question 4 for M-27",
+        "options": [
+          {
+            "id": "opt1",
+            "textGujarati": "સાચું વિધાન ✅",
+            "emoji": "⭐"
+          },
+          {
+            "id": "opt2",
+            "textGujarati": "ખોટું વિધાન",
+            "emoji": "❌"
+          }
+        ],
+        "correctOptionId": "opt1",
+        "explanationGujarati": "હલકું-ભારેની સમજ, ત્રાજવાના ઉપયોગથી સરખામણી ની સમજ મુજબ સાચો જવાબ છે.",
+        "points": 1
+      },
+      {
+        "questionId": "Q-M-27-5",
+        "promptGujarati": "હલકું-ભારેની સમજ, ત્રાજવાના ઉપયોગથી સરખામણી સંબંધિત પ્રશ્ન ૫: વ્યવહારુ ઉકેલ જણાવો.",
+        "promptEnglish": "Question 5 for M-27",
+        "options": [
+          {
+            "id": "opt1",
+            "textGujarati": "સાચો ઉકેલ ✅",
+            "emoji": "⭐"
+          },
+          {
+            "id": "opt2",
+            "textGujarati": "અન્ય ઉકેલ",
+            "emoji": "❌"
+          }
+        ],
+        "correctOptionId": "opt1",
+        "explanationGujarati": "હલકું-ભારેની સમજ, ત્રાજવાના ઉપયોગથી સરખામણી ની સમજ મુજબ સાચો જવાબ છે.",
+        "points": 1
+      }
+    ]
+  },
+  {
+    "competencyCode": "M-28",
+    "titleGujarati": "બે કે તેથી વધુ પાત્રની ક્ષમતા/ગુંજાશની તુલના કરે છે - મૂલ્યાંકન કસોટી",
+    "titleEnglish": "Compares capacity of containers (ગુંજાશ - Capacity) - Assessment",
+    "passingPercentage": 80,
+    "timeLimitMinutes": 10,
+    "questions": [
+      {
+        "questionId": "Q-M-28-1",
+        "promptGujarati": "બે કે તેથી વધુ પાત્રની ક્ષમતા/ગુંજાશની તુલના કરે છે સંબંધિત પ્રશ્ન ૧: સાચો વિકલ્પ પસંદ કરો.",
+        "promptEnglish": "Question 1 for M-28",
+        "options": [
+          {
+            "id": "opt1",
+            "textGujarati": "સાચો ઉત્તર ✅",
+            "emoji": "⭐"
+          },
+          {
+            "id": "opt2",
+            "textGujarati": "ખોટો વિકલ્પ",
+            "emoji": "❌"
+          },
+          {
+            "id": "opt3",
+            "textGujarati": "અન્ય વિકલ્પ",
+            "emoji": "🔸"
+          }
+        ],
+        "correctOptionId": "opt1",
+        "explanationGujarati": "બે કે તેથી વધુ પાત્રની ક્ષમતા/ગુંજાશની તુલના કરે છે ની સમજ મુજબ સાચો જવાબ છે.",
+        "points": 1
+      },
+      {
+        "questionId": "Q-M-28-2",
+        "promptGujarati": "બે કે તેથી વધુ પાત્રની ક્ષમતા/ગુંજાશની તુલના કરે છે સંબંધિત પ્રશ્ન ૨: ગણતરી કરી સાચો અંક શોધો.",
+        "promptEnglish": "Question 2 for M-28",
+        "options": [
+          {
+            "id": "opt1",
+            "textGujarati": "સાચો ઉત્તર ✅",
+            "emoji": "⭐"
+          },
+          {
+            "id": "opt2",
+            "textGujarati": "બીજો વિકલ્પ",
+            "emoji": "❌"
+          }
+        ],
+        "correctOptionId": "opt1",
+        "explanationGujarati": "બે કે તેથી વધુ પાત્રની ક્ષમતા/ગુંજાશની તુલના કરે છે ની સમજ મુજબ સાચો જવાબ છે.",
+        "points": 1
+      },
+      {
+        "questionId": "Q-M-28-3",
+        "promptGujarati": "બે કે તેથી વધુ પાત્રની ક્ષમતા/ગુંજાશની તુલના કરે છે સંબંધિત પ્રશ્ન ૩: ખાલી જગ્યા પૂરો.",
+        "promptEnglish": "Question 3 for M-28",
+        "options": [
+          {
+            "id": "opt1",
+            "textGujarati": "સાચો ઉત્તર ✅",
+            "emoji": "⭐"
+          },
+          {
+            "id": "opt2",
+            "textGujarati": "અન્ય ઉત્તર",
+            "emoji": "❌"
+          }
+        ],
+        "correctOptionId": "opt1",
+        "explanationGujarati": "બે કે તેથી વધુ પાત્રની ક્ષમતા/ગુંજાશની તુલના કરે છે ની સમજ મુજબ સાચો જવાબ છે.",
+        "points": 1
+      },
+      {
+        "questionId": "Q-M-28-4",
+        "promptGujarati": "બે કે તેથી વધુ પાત્રની ક્ષમતા/ગુંજાશની તુલના કરે છે સંબંધિત પ્રશ્ન ૪: નીચેનામાંથી કયું વિધાન સાચું છે?",
+        "promptEnglish": "Question 4 for M-28",
+        "options": [
+          {
+            "id": "opt1",
+            "textGujarati": "સાચું વિધાન ✅",
+            "emoji": "⭐"
+          },
+          {
+            "id": "opt2",
+            "textGujarati": "ખોટું વિધાન",
+            "emoji": "❌"
+          }
+        ],
+        "correctOptionId": "opt1",
+        "explanationGujarati": "બે કે તેથી વધુ પાત્રની ક્ષમતા/ગુંજાશની તુલના કરે છે ની સમજ મુજબ સાચો જવાબ છે.",
+        "points": 1
+      },
+      {
+        "questionId": "Q-M-28-5",
+        "promptGujarati": "બે કે તેથી વધુ પાત્રની ક્ષમતા/ગુંજાશની તુલના કરે છે સંબંધિત પ્રશ્ન ૫: વ્યવહારુ ઉકેલ જણાવો.",
+        "promptEnglish": "Question 5 for M-28",
+        "options": [
+          {
+            "id": "opt1",
+            "textGujarati": "સાચો ઉકેલ ✅",
+            "emoji": "⭐"
+          },
+          {
+            "id": "opt2",
+            "textGujarati": "અન્ય ઉકેલ",
+            "emoji": "❌"
+          }
+        ],
+        "correctOptionId": "opt1",
+        "explanationGujarati": "બે કે તેથી વધુ પાત્રની ક્ષમતા/ગુંજાશની તુલના કરે છે ની સમજ મુજબ સાચો જવાબ છે.",
+        "points": 1
+      }
+    ]
+  },
+  {
+    "competencyCode": "M-29",
+    "titleGujarati": "સવાર-સાંજ, દિવસ-રાતના સમયે થતી પ્રવૃત્તિઓનું વર્ગીકરણ કરે છે - મૂલ્યાંકન કસોટી",
+    "titleEnglish": "Classifies day-to-day activities (Morning, Evening, Day, Night) - Assessment",
+    "passingPercentage": 80,
+    "timeLimitMinutes": 10,
+    "questions": [
+      {
+        "questionId": "Q-M-29-1",
+        "promptGujarati": "સવાર-સાંજ, દિવસ-રાતના સમયે થતી પ્રવૃત્તિઓનું વર્ગીકરણ કરે છે સંબંધિત પ્રશ્ન ૧: સાચો વિકલ્પ પસંદ કરો.",
+        "promptEnglish": "Question 1 for M-29",
+        "options": [
+          {
+            "id": "opt1",
+            "textGujarati": "સાચો ઉત્તર ✅",
+            "emoji": "⭐"
+          },
+          {
+            "id": "opt2",
+            "textGujarati": "ખોટો વિકલ્પ",
+            "emoji": "❌"
+          },
+          {
+            "id": "opt3",
+            "textGujarati": "અન્ય વિકલ્પ",
+            "emoji": "🔸"
+          }
+        ],
+        "correctOptionId": "opt1",
+        "explanationGujarati": "સવાર-સાંજ, દિવસ-રાતના સમયે થતી પ્રવૃત્તિઓનું વર્ગીકરણ કરે છે ની સમજ મુજબ સાચો જવાબ છે.",
+        "points": 1
+      },
+      {
+        "questionId": "Q-M-29-2",
+        "promptGujarati": "સવાર-સાંજ, દિવસ-રાતના સમયે થતી પ્રવૃત્તિઓનું વર્ગીકરણ કરે છે સંબંધિત પ્રશ્ન ૨: ગણતરી કરી સાચો અંક શોધો.",
+        "promptEnglish": "Question 2 for M-29",
+        "options": [
+          {
+            "id": "opt1",
+            "textGujarati": "સાચો ઉત્તર ✅",
+            "emoji": "⭐"
+          },
+          {
+            "id": "opt2",
+            "textGujarati": "બીજો વિકલ્પ",
+            "emoji": "❌"
+          }
+        ],
+        "correctOptionId": "opt1",
+        "explanationGujarati": "સવાર-સાંજ, દિવસ-રાતના સમયે થતી પ્રવૃત્તિઓનું વર્ગીકરણ કરે છે ની સમજ મુજબ સાચો જવાબ છે.",
+        "points": 1
+      },
+      {
+        "questionId": "Q-M-29-3",
+        "promptGujarati": "સવાર-સાંજ, દિવસ-રાતના સમયે થતી પ્રવૃત્તિઓનું વર્ગીકરણ કરે છે સંબંધિત પ્રશ્ન ૩: ખાલી જગ્યા પૂરો.",
+        "promptEnglish": "Question 3 for M-29",
+        "options": [
+          {
+            "id": "opt1",
+            "textGujarati": "સાચો ઉત્તર ✅",
+            "emoji": "⭐"
+          },
+          {
+            "id": "opt2",
+            "textGujarati": "અન્ય ઉત્તર",
+            "emoji": "❌"
+          }
+        ],
+        "correctOptionId": "opt1",
+        "explanationGujarati": "સવાર-સાંજ, દિવસ-રાતના સમયે થતી પ્રવૃત્તિઓનું વર્ગીકરણ કરે છે ની સમજ મુજબ સાચો જવાબ છે.",
+        "points": 1
+      },
+      {
+        "questionId": "Q-M-29-4",
+        "promptGujarati": "સવાર-સાંજ, દિવસ-રાતના સમયે થતી પ્રવૃત્તિઓનું વર્ગીકરણ કરે છે સંબંધિત પ્રશ્ન ૪: નીચેનામાંથી કયું વિધાન સાચું છે?",
+        "promptEnglish": "Question 4 for M-29",
+        "options": [
+          {
+            "id": "opt1",
+            "textGujarati": "સાચું વિધાન ✅",
+            "emoji": "⭐"
+          },
+          {
+            "id": "opt2",
+            "textGujarati": "ખોટું વિધાન",
+            "emoji": "❌"
+          }
+        ],
+        "correctOptionId": "opt1",
+        "explanationGujarati": "સવાર-સાંજ, દિવસ-રાતના સમયે થતી પ્રવૃત્તિઓનું વર્ગીકરણ કરે છે ની સમજ મુજબ સાચો જવાબ છે.",
+        "points": 1
+      },
+      {
+        "questionId": "Q-M-29-5",
+        "promptGujarati": "સવાર-સાંજ, દિવસ-રાતના સમયે થતી પ્રવૃત્તિઓનું વર્ગીકરણ કરે છે સંબંધિત પ્રશ્ન ૫: વ્યવહારુ ઉકેલ જણાવો.",
+        "promptEnglish": "Question 5 for M-29",
+        "options": [
+          {
+            "id": "opt1",
+            "textGujarati": "સાચો ઉકેલ ✅",
+            "emoji": "⭐"
+          },
+          {
+            "id": "opt2",
+            "textGujarati": "અન્ય ઉકેલ",
+            "emoji": "❌"
+          }
+        ],
+        "correctOptionId": "opt1",
+        "explanationGujarati": "સવાર-સાંજ, દિવસ-રાતના સમયે થતી પ્રવૃત્તિઓનું વર્ગીકરણ કરે છે ની સમજ મુજબ સાચો જવાબ છે.",
+        "points": 1
+      }
+    ]
+  },
+  {
+    "competencyCode": "M-30",
+    "titleGujarati": "અઠવાડિયાના દિવસો, વાર અને મહિનાઓની સમજ કેળવે છે - મૂલ્યાંકન કસોટી",
+    "titleEnglish": "Understands days of the week and months of the year - Assessment",
+    "passingPercentage": 80,
+    "timeLimitMinutes": 10,
+    "questions": [
+      {
+        "questionId": "Q-M-30-1",
+        "promptGujarati": "અઠવાડિયાના દિવસો, વાર અને મહિનાઓની સમજ કેળવે છે સંબંધિત પ્રશ્ન ૧: સાચો વિકલ્પ પસંદ કરો.",
+        "promptEnglish": "Question 1 for M-30",
+        "options": [
+          {
+            "id": "opt1",
+            "textGujarati": "સાચો ઉત્તર ✅",
+            "emoji": "⭐"
+          },
+          {
+            "id": "opt2",
+            "textGujarati": "ખોટો વિકલ્પ",
+            "emoji": "❌"
+          },
+          {
+            "id": "opt3",
+            "textGujarati": "અન્ય વિકલ્પ",
+            "emoji": "🔸"
+          }
+        ],
+        "correctOptionId": "opt1",
+        "explanationGujarati": "અઠવાડિયાના દિવસો, વાર અને મહિનાઓની સમજ કેળવે છે ની સમજ મુજબ સાચો જવાબ છે.",
+        "points": 1
+      },
+      {
+        "questionId": "Q-M-30-2",
+        "promptGujarati": "અઠવાડિયાના દિવસો, વાર અને મહિનાઓની સમજ કેળવે છે સંબંધિત પ્રશ્ન ૨: ગણતરી કરી સાચો અંક શોધો.",
+        "promptEnglish": "Question 2 for M-30",
+        "options": [
+          {
+            "id": "opt1",
+            "textGujarati": "સાચો ઉત્તર ✅",
+            "emoji": "⭐"
+          },
+          {
+            "id": "opt2",
+            "textGujarati": "બીજો વિકલ્પ",
+            "emoji": "❌"
+          }
+        ],
+        "correctOptionId": "opt1",
+        "explanationGujarati": "અઠવાડિયાના દિવસો, વાર અને મહિનાઓની સમજ કેળવે છે ની સમજ મુજબ સાચો જવાબ છે.",
+        "points": 1
+      },
+      {
+        "questionId": "Q-M-30-3",
+        "promptGujarati": "અઠવાડિયાના દિવસો, વાર અને મહિનાઓની સમજ કેળવે છે સંબંધિત પ્રશ્ન ૩: ખાલી જગ્યા પૂરો.",
+        "promptEnglish": "Question 3 for M-30",
+        "options": [
+          {
+            "id": "opt1",
+            "textGujarati": "સાચો ઉત્તર ✅",
+            "emoji": "⭐"
+          },
+          {
+            "id": "opt2",
+            "textGujarati": "અન્ય ઉત્તર",
+            "emoji": "❌"
+          }
+        ],
+        "correctOptionId": "opt1",
+        "explanationGujarati": "અઠવાડિયાના દિવસો, વાર અને મહિનાઓની સમજ કેળવે છે ની સમજ મુજબ સાચો જવાબ છે.",
+        "points": 1
+      },
+      {
+        "questionId": "Q-M-30-4",
+        "promptGujarati": "અઠવાડિયાના દિવસો, વાર અને મહિનાઓની સમજ કેળવે છે સંબંધિત પ્રશ્ન ૪: નીચેનામાંથી કયું વિધાન સાચું છે?",
+        "promptEnglish": "Question 4 for M-30",
+        "options": [
+          {
+            "id": "opt1",
+            "textGujarati": "સાચું વિધાન ✅",
+            "emoji": "⭐"
+          },
+          {
+            "id": "opt2",
+            "textGujarati": "ખોટું વિધાન",
+            "emoji": "❌"
+          }
+        ],
+        "correctOptionId": "opt1",
+        "explanationGujarati": "અઠવાડિયાના દિવસો, વાર અને મહિનાઓની સમજ કેળવે છે ની સમજ મુજબ સાચો જવાબ છે.",
+        "points": 1
+      },
+      {
+        "questionId": "Q-M-30-5",
+        "promptGujarati": "અઠવાડિયાના દિવસો, વાર અને મહિનાઓની સમજ કેળવે છે સંબંધિત પ્રશ્ન ૫: વ્યવહારુ ઉકેલ જણાવો.",
+        "promptEnglish": "Question 5 for M-30",
+        "options": [
+          {
+            "id": "opt1",
+            "textGujarati": "સાચો ઉકેલ ✅",
+            "emoji": "⭐"
+          },
+          {
+            "id": "opt2",
+            "textGujarati": "અન્ય ઉકેલ",
+            "emoji": "❌"
+          }
+        ],
+        "correctOptionId": "opt1",
+        "explanationGujarati": "અઠવાડિયાના દિવસો, વાર અને મહિનાઓની સમજ કેળવે છે ની સમજ મુજબ સાચો જવાબ છે.",
+        "points": 1
+      }
+    ]
+  }
+]

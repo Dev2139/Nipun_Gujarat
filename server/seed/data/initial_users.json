@@ -1,0 +1,97 @@
+{
+  "teachers": [
+    {
+      "name": "વિનયભાઈ પટેલ (Vinay Patel)",
+      "email": "teacher@nipun.gujarat.gov.in",
+      "password": "Password@123",
+      "teacherId": "GUJ-TCH-0042",
+      "schoolName": "પ્રાથમિક શાળા સેક્ટર-૧, ગાંધીનગર",
+      "schoolCode": "24060100101",
+      "taluka": "ગાંધીનગર",
+      "district": "ગાંધીનગર"
+    }
+  ],
+  "classes": [
+    {
+      "name": "બાલવાટિકા - અ",
+      "grade": "Balvatika",
+      "section": "A"
+    },
+    {
+      "name": "ધોરણ ૧ - અ",
+      "grade": "Grade 1",
+      "section": "A"
+    },
+    {
+      "name": "ધોરણ ૨ - અ",
+      "grade": "Grade 2",
+      "section": "A"
+    }
+  ],
+  "students": [
+    {
+      "uid": "NG-2026-001",
+      "name": "રવિ પટેલ (Ravi Patel)",
+      "gender": "Boy",
+      "grade": "Grade 1",
+      "section": "A",
+      "classIndex": 1
+    },
+    {
+      "uid": "NG-2026-002",
+      "name": "કૃષા શાહ (Krisha Shah)",
+      "gender": "Girl",
+      "grade": "Grade 1",
+      "section": "A",
+      "classIndex": 1
+    },
+    {
+      "uid": "NG-2026-003",
+      "name": "આરવ પટેલ (Aarav Patel)",
+      "gender": "Boy",
+      "grade": "Grade 1",
+      "section": "A",
+      "classIndex": 1
+    },
+    {
+      "uid": "NG-2026-004",
+      "name": "દિયા પ્રજાપતિ (Diya Prajapati)",
+      "gender": "Girl",
+      "grade": "Grade 1",
+      "section": "A",
+      "classIndex": 1
+    },
+    {
+      "uid": "NG-2026-005",
+      "name": "યશ ચૌહાણ (Yash Chauhan)",
+      "gender": "Boy",
+      "grade": "Balvatika",
+      "section": "A",
+      "classIndex": 0
+    },
+    {
+      "uid": "NG-2026-006",
+      "name": "પ્રિયા ઠાકોર (Priya Thakor)",
+      "gender": "Girl",
+      "grade": "Balvatika",
+      "section": "A",
+      "classIndex": 0
+    },
+    {
+      "uid": "NG-2026-007",
+      "name": "હર્ષ વાઘેલા (Harsh Vaghela)",
+      "gender": "Boy",
+      "grade": "Grade 2",
+      "section": "A",
+      "classIndex": 2
+    },
+    {
+      "uid": "NG-2026-008",
+      "name": "અનન્યા દેસાઈ (Ananya Desai)",
+      "gender": "Girl",
+      "grade": "Grade 2",
+      "section": "A",
+      "classIndex": 2
+    }
+  ]
+}

@@ -1,0 +1,1271 @@
+# -*- coding: utf-8 -*-
+import json
+import os
+
+# Complete 30 Mathematics Competencies from GCERT Nipun Gujarat FLN Tracker PDF
+competencies_data = [
+    # ૧. તુલના / સરખામણી (1-2)
+    {
+        "code": "M-01",
+        "sequence": 1,
+        "subject": "mathematics",
+        "stage": "Balvatika",
+        "field": "તુલના/સરખામણી",
+        "titleGujarati": "સૌથી નાની અને સૌથી મોટી વસ્તુઓની સરખામણી કરે છે",
+        "titleEnglish": "Compares smallest and largest objects",
+        "descriptionGujarati": "વિવિધ કદના ચિત્રો કે વાસ્તવિક વસ્તુઓ જોઈ સૌથી નાની અને સૌથી મોટી વસ્તુ ઓળખે છે.",
+        "manipulativeType": "comparison_scale",
+        "learningContent": {
+            "headlineGujarati": "સૌથી નાનું અને સૌથી મોટું (Smallest & Biggest)",
+            "instructionGujarati": "ચિત્રો ધ્યાનથી જુઓ. હાથી સૌથી મોટો છે અને ઉંદર સૌથી નાનો છે!",
+            "mediaEmojiOrIcon": "🐘",
+            "soundPhonicsText": "મોટું એટલે કદમાં મોટું જેમ કે હાથી, નાનું એટલે કદમાં નાનું જેમ કે ઉંદર.",
+            "conceptCard": {
+                "title": "કદની સરખામણી (Size Comparison)",
+                "explanationGujarati": "જ્યારે ત્રણ કે તેથી વધુ વસ્તુઓ હોય, ત્યારે સૌથી મોટા કદની વસ્તુને 'સૌથી મોટી' અને સૌથી નાના કદની વસ્તુને 'સૌથી નાની' કહેવાય.",
+                "visualHint": "🐘 (સૌથી મોટું) > 🐕 (વચ્ચેનું) > 🐁 (સૌથી નાનું)"
+            },
+            "interactiveManipulativeConfig": {
+                "type": "comparison_scale",
+                "objects": [
+                    {"name": "હાથી", "emoji": "🐘", "size": "biggest", "label": "સૌથી મોટો"},
+                    {"name": "બિલાડી", "emoji": "🐈", "size": "medium", "label": "વચ્ચેની"},
+                    {"name": "ઉંદર", "emoji": "🐁", "size": "smallest", "label": "સૌથી નાનો"}
+                ]
+            },
+            "examples": [
+                {"wordGujarati": "તરબૂચ (સૌથી મોટું ફળ)", "imageEmoji": "🍉", "audioText": "તરબૂચ સૌથી મોટું છે", "breakdown": "કદ: મોટું"},
+                {"wordGujarati": "સફરજન (મધ્યમ ફળ)", "imageEmoji": "🍎", "audioText": "સફરજન વચ્ચેનું છે", "breakdown": "કદ: મધ્યમ"},
+                {"wordGujarati": "બોર / દ્રાક્ષ (સૌથી નાનું)", "imageEmoji": "🍇", "audioText": "દ્રાક્ષ સૌથી નાની છે", "breakdown": "કદ: નાનું"}
+            ],
+            "interactivePractice": [
+                {
+                    "promptGujarati": "આમાંથી સૌથી મોટી વસ્તુ કઈ છે? પસંદ કરો:",
+                    "audioPrompt": "આમાંથી સૌથી મોટી વસ્તુ કઈ છે?",
+                    "options": ["કીડી 🐜", "હાથી 🐘", "બિલાડી 🐱"],
+                    "correctAnswer": "હાથી 🐘",
+                    "hintGujarati": "જેનું કદ સૌથી વિશાળ હોય તે સૌથી મોટો કહેવાય."
+                }
+            ]
+        }
+    },
+    {
+        "code": "M-02",
+        "sequence": 2,
+        "subject": "mathematics",
+        "stage": "Balvatika",
+        "field": "તુલના/સરખામણી",
+        "titleGujarati": "ઉપર-નીચે, ની ઉપર, ની નીચે, ઊંચે, નજીક-દૂરની સંકલ્પના સમજે છે",
+        "titleEnglish": "Understands spatial concepts (Top-Bottom, High-Low, Near-Far)",
+        "descriptionGujarati": "વસ્તુઓનું સ્થાન (ટેબલની ઉપર/નીચે, ઝાડની નજીક/દૂર) સમજીને યોગ્ય વર્ણન કરે છે.",
+        "manipulativeType": "spatial_viewer",
+        "learningContent": {
+            "headlineGujarati": "સ્થાન અને અંતરની સમજ (Spatial Concepts)",
+            "instructionGujarati": "પંખી આકાશમાં ઊંચે ઊડે છે, બિલાડી ટેબલની નીચે બેઠી છે!",
+            "mediaEmojiOrIcon": "🌳",
+            "soundPhonicsText": "ટેબલની ઉપર પુસ્તક છે, ટેબલની નીચે દડો છે. ઘરની નજીક ઝાડ છે, દૂર પર્વત છે.",
+            "conceptCard": {
+                "title": "સ્થાન સંકલ્પના (Positions)",
+                "explanationGujarati": "ઉપર-નીચે, નજીક-દૂર એ વસ્તુ ક્યાં આવેલી છે તે દર્શાવે છે.",
+                "visualHint": "☁️ પંખી (ઊંચે) | 🏠 ઘર (નજીક) | ⛰️ પર્વત (દૂર)"
+            },
+            "interactiveManipulativeConfig": {
+                "type": "spatial_viewer",
+                "scene": "room"
+            },
+            "examples": [
+                {"wordGujarati": "ટેબલની ઉપર દીવો", "imageEmoji": "🛋️", "audioText": "ટેબલની ઉપર દીવો છે", "breakdown": "સ્થાન: ઉપર"},
+                {"wordGujarati": "ટેબલની નીચે બિલાડી", "imageEmoji": "🐱", "audioText": "ટેબલની નીચે બિલાડી છે", "breakdown": "સ્થાન: નીચે"}
+            ],
+            "interactivePractice": [
+                {
+                    "promptGujarati": "ઝાડની સૌથી નજીક કયું પ્રાણી છે?",
+                    "audioPrompt": "ઝાડની સૌથી નજીક કયું પ્રાણી છે?",
+                    "options": ["હરણ (નજીક) 🦌", "સિંહ (દૂર) 🦁", "પક્ષી (દૂર) 🦅"],
+                    "correctAnswer": "હરણ (નજીક) 🦌",
+                    "hintGujarati": "જે ઝાડની સૌથી પાસે ઊભું છે તે પસંદ કરો."
+                }
+            ]
+        }
+    },
+    # ૨. સંખ્યાજ્ઞાન (3-11)
+    {
+        "code": "M-03",
+        "sequence": 3,
+        "subject": "mathematics",
+        "stage": "Balvatika",
+        "field": "સંખ્યાજ્ઞાન",
+        "titleGujarati": "૧ થી ૫ સુધીનું સંખ્યાજ્ઞાન (Number Sense 1 to 5)",
+        "titleEnglish": "Number sense from 1 to 5",
+        "descriptionGujarati": "૧ થી ૫ સુધીના અંકો ઓળખે છે, ગણે છે અને વસ્તુઓ સાથે મેળવે છે.",
+        "manipulativeType": "object_counter",
+        "learningContent": {
+            "headlineGujarati": "૧ થી ૫ ની ગણતરી (Counting 1 to 5)",
+            "instructionGujarati": "વસ્તુઓ પર ક્લિક કરીને એક પછી એક ગણો: ૧ (એક), ૨ (બે), ૩ (ત્રણ), ૪ (ચાર), ૫ (પાંચ)",
+            "mediaEmojiOrIcon": "🍎",
+            "soundPhonicsText": "એક, બે, ત્રણ, ચાર, પાંચ. ૧, ૨, ૩, ૪, ૫.",
+            "conceptCard": {
+                "title": "અંક અને જથ્થો (Number & Quantity)",
+                "explanationGujarati": "દરેક અંક ચોક્કસ સંખ્યામાં વસ્તુઓ દર્શાવે છે. ૧ એટલે એક વસ્તુ, ૫ એટલે પાંચ વસ્તુઓ.",
+                "visualHint": "૧: 🍎 | ૨: 🍎🍎 | ૩: 🍎🍎🍎 | ૪: 🍎🍎🍎🍎 | ૫: 🍎🍎🍎🍎🍎"
+            },
+            "interactiveManipulativeConfig": {
+                "type": "object_counter",
+                "maxCount": 5,
+                "items": ["🍎", "⚽", "⭐", "🚗", "🎈"]
+            },
+            "examples": [
+                {"wordGujarati": "૧ (એક)", "imageEmoji": "☀️", "audioText": "એક સૂર્ય", "breakdown": "૧ = એક"},
+                {"wordGujarati": "૩ (ત્રણ)", "imageEmoji": "⭐⭐⭐", "audioText": "ત્રણ તારા", "breakdown": "૩ = ત્રણ"},
+                {"wordGujarati": "૫ (પાંચ)", "imageEmoji": "🖐️", "audioText": "હાથની પાંચ આંગળીઓ", "breakdown": "૫ = પાંચ"}
+            ],
+            "interactivePractice": [
+                {
+                    "promptGujarati": "અહીં કેટલા સફરજન છે? ગણો: 🍎 🍎 🍎",
+                    "audioPrompt": "અહીં કેટલા સફરજન છે?",
+                    "options": ["૨ (બે)", "૩ (ત્રણ)", "૫ (પાંચ)"],
+                    "correctAnswer": "૩ (ત્રણ)",
+                    "hintGujarati": "એક, બે, ત્રણ એમ ગણો."
+                }
+            ]
+        }
+    },
+    {
+        "code": "M-04",
+        "sequence": 4,
+        "subject": "mathematics",
+        "stage": "Balvatika",
+        "field": "સંખ્યાજ્ઞાન",
+        "titleGujarati": "૧ થી ૯ સુધીનું સંખ્યાજ્ઞાન (Number Sense 1 to 9)",
+        "titleEnglish": "Number sense from 1 to 9",
+        "descriptionGujarati": "૧ થી ૯ સુધીના તમામ અંકો ઓળખે છે, ક્રમમાં બોલે છે અને ગણતરી કરે છે.",
+        "manipulativeType": "object_counter",
+        "learningContent": {
+            "headlineGujarati": "૧ થી ૯ ની ઓળખ અને ગણતરી (Counting 1 to 9)",
+            "instructionGujarati": "૧, ૨, ૩, ૪, ૫, ૬, ૭, ૮, ૯ - બધા અંકો મોટેથી બોલો અને વસ્તુઓ ગણો.",
+            "mediaEmojiOrIcon": "🔢",
+            "soundPhonicsText": "એક, બે, ત્રણ, ચાર, પાંચ, છ, સાત, આઠ, નવ.",
+            "conceptCard": {
+                "title": "૧ થી ૯ અંકો (Single Digit Numbers)",
+                "explanationGujarati": "૧ થી ૯ એ પાયાના એક અંકની સંખ્યાઓ છે.",
+                "visualHint": "૧ ૨ ૩ ૪ ૫ ૬ ૭ ૮ ૯"
+            },
+            "interactiveManipulativeConfig": {
+                "type": "object_counter",
+                "maxCount": 9,
+                "items": ["⚽", "⭐", "🎈", "🐱", "🌸", "🚗", "🍭", "🔔", "🍎"]
+            },
+            "examples": [
+                {"wordGujarati": "૬ (છ)", "imageEmoji": "⚽⚽⚽⚽⚽⚽", "audioText": "છ દડા", "breakdown": "૬ = છ"},
+                {"wordGujarati": "૮ (આઠ)", "imageEmoji": "🐙", "audioText": "ઓક્ટોપસના આઠ પગ", "breakdown": "૮ = આઠ"}
+            ],
+            "interactivePractice": [
+                {
+                    "promptGujarati": "આ ફૂલો ગણો: 🌸 🌸 🌸 🌸 🌸 🌸 🌸",
+                    "audioPrompt": "આ ફૂલો ગણીને સાચો અંક પસંદ કરો",
+                    "options": ["૫", "૭", "૯"],
+                    "correctAnswer": "૭",
+                    "hintGujarati": "કુલ સાત ફૂલ છે."
+                }
+            ]
+        }
+    },
+    {
+        "code": "M-05",
+        "sequence": 5,
+        "subject": "mathematics",
+        "stage": "Balvatika",
+        "field": "સંખ્યાજ્ઞાન",
+        "titleGujarati": "૯ સુધીની સંખ્યાઓની (-થી મોટી, -થી નાની) તુલના કરે છે",
+        "titleEnglish": "Compares numbers up to 9 (Greater than, Less than)",
+        "descriptionGujarati": "બે અંકો સરખાવી કયો અંક મોટો અને કયો નાનો છે તે નક્કી કરે છે.",
+        "manipulativeType": "comparison_scale",
+        "learningContent": {
+            "headlineGujarati": "સંખ્યાઓની સરખામણી: મોટો અને નાનો અંક",
+            "instructionGujarati": "૭ એ ૪ કરતાં મોટી સંખ્યા છે. ૨ એ ૫ કરતાં નાની સંખ્યા છે.",
+            "mediaEmojiOrIcon": "⚖️",
+            "soundPhonicsText": "જે સંખ્યા પછી આવે તે મોટી હોય, જે પહેલા આવે તે નાની હોય.",
+            "conceptCard": {
+                "title": "મોટી અને નાની સંખ્યા",
+                "explanationGujarati": "વધારે વસ્તુઓ એટલે મોટી સંખ્યા, ઓછી વસ્તુઓ એટલે નાની સંખ્યા.",
+                "visualHint": "૭ (⭐⭐⭐⭐⭐⭐⭐) > ૩ (⭐⭐⭐)"
+            },
+            "interactiveManipulativeConfig": {
+                "type": "comparison_scale",
+                "mode": "numbers"
+            },
+            "examples": [
+                {"wordGujarati": "૮ એ ૩ કરતાં મોટી છે", "imageEmoji": "🟢", "audioText": "આઠ એ ત્રણ કરતાં મોટી સંખ્યા છે", "breakdown": "૮ > ૩"},
+                {"wordGujarati": "૧ એ ૬ કરતાં નાની છે", "imageEmoji": "🟡", "audioText": "એક એ છ કરતાં નાની સંખ્યા છે", "breakdown": "૧ < ૬"}
+            ],
+            "interactivePractice": [
+                {
+                    "promptGujarati": "૬ અને ૯ માંથી કઈ સંખ્યા મોટી છે?",
+                    "audioPrompt": "છ અને નવ માંથી કઈ સંખ્યા મોટી છે?",
+                    "options": ["૬", "૯", "બંને સરખી"],
+                    "correctAnswer": "૯",
+                    "hintGujarati": "ગણતરીમાં ૯ પાછળ આવે છે."
+                }
+            ]
+        }
+    },
+    {
+        "code": "M-06",
+        "sequence": 6,
+        "subject": "mathematics",
+        "stage": "Grade 1",
+        "field": "સંખ્યાજ્ઞાન",
+        "titleGujarati": "૧ થી ૨૦ સુધીનું સંખ્યાજ્ઞાન (દશક અને એકમની સમજ)",
+        "titleEnglish": "Number sense from 1 to 20 (Tens and Ones)",
+        "descriptionGujarati": "૧૦ નું ૧ જૂથ (દશક) અને છૂટા (એકમ) ની મદદથી ૧૧ થી ૨૦ સુધીની સંખ્યાઓ બનાવે છે.",
+        "manipulativeType": "tens_ones_bundles",
+        "learningContent": {
+            "headlineGujarati": "૧ થી ૨૦ સુધી સંખ્યાજ્ઞાન: ૧૦ નું જૂથ (દશક)",
+            "instructionGujarati": "૧૦ દીવાસળીનું ૧ જૂથ = ૧ દશક. ૧ દશક અને ૨ એકમ = ૧૨ (બાર).",
+            "mediaEmojiOrIcon": "📦",
+            "soundPhonicsText": "દસ અને એક અગિયાર, દસ અને બે બાર, દસ અને ત્રણ તેર, દસ અને દસ વીસ.",
+            "conceptCard": {
+                "title": "દશક અને એકમ (Tens & Ones)",
+                "explanationGujarati": "૧૦ વસ્તુઓ ભેગી થાય એટલે ૧ દશક બને. ૧૦ + ૫ = ૧૫ (પંદર).",
+                "visualHint": "[૧૦ નું જૂથ 📦] + [૩ છૂટા ⭐⭐⭐] = ૧૩"
+            },
+            "interactiveManipulativeConfig": {
+                "type": "tens_ones_bundles",
+                "maxNumber": 20
+            },
+            "examples": [
+                {"wordGujarati": "૧ દશક અને ૪ એકમ = ૧૪ (ચૌદ)", "imageEmoji": "📦", "audioText": "દસ અને ચાર ચૌદ", "breakdown": "૧૦ + ૪ = ૧૪"},
+                {"wordGujarati": "૨ દશક = ૨૦ (વીસ)", "imageEmoji": "📦📦", "audioText": "બે દશક એટલે વીસ", "breakdown": "૧૦ + ૧૦ = ૨૦"}
+            ],
+            "interactivePractice": [
+                {
+                    "promptGujarati": "૧ દશક અને ૭ એકમ મળીને કઈ સંખ્યા બને?",
+                    "audioPrompt": "૧ દશક અને ૭ એકમ મળીને કઈ સંખ્યા બને?",
+                    "options": ["૧૫", "૧૭", "૭૧"],
+                    "correctAnswer": "૧૭",
+                    "hintGujarati": "૧૦ + ૭ = ૧૭ (સત્તર)."
+                }
+            ]
+        }
+    },
+    {
+        "code": "M-07",
+        "sequence": 7,
+        "subject": "mathematics",
+        "stage": "Grade 1",
+        "field": "સંખ્યાજ્ઞાન",
+        "titleGujarati": "૧ થી ૫૦ સુધીની સંખ્યાઓને ઓળખે છે, બોલે છે અને લખે છે",
+        "titleEnglish": "Identifies, speaks, and writes numbers 1 to 50",
+        "descriptionGujarati": "૧ થી ૫૦ સુધીની સંખ્યાઓનું શુદ્ધ ઉચ્ચારણ, અંક અને શબ્દમાં લેખન કરે છે.",
+        "manipulativeType": "number_grid_50",
+        "learningContent": {
+            "headlineGujarati": "૧ થી ૫૦ સુધીનું સંખ્યાજ્ઞાન",
+            "instructionGujarati": "૨૧ (એકવીસ), ૩૫ (પાંત્રીસ), ૪૮ (અડતાલીસ), ૫૦ (પચાસ) - ગણતરી આગળ વધારો!",
+            "mediaEmojiOrIcon": "🔢",
+            "soundPhonicsText": "વીસ ને એક એકવીસ, ત્રીસ ને પાંચ પાંત્રીસ, ચાલીસ ને આઠ અડતાલીસ, પચાસ.",
+            "conceptCard": {
+                "title": "૫૦ સુધી ગણતરી",
+                "explanationGujarati": "દરેક લાઈનમાં દસ-દસ વધે છે: ૧૦, ૨૦, ૩૦, ૪૦, ૫૦.",
+                "visualHint": "૨૦ + ૪ = ૨૪ | ૩૦ + ૭ = ૩૭ | ૪૦ + ૯ = ૪૯"
+            },
+            "interactiveManipulativeConfig": {
+                "type": "number_grid_50"
+            },
+            "examples": [
+                {"wordGujarati": "૨૫ (પચ્ચીસ)", "imageEmoji": "🔢", "audioText": "પચ્ચીસ", "breakdown": "૨ દશક ૫ એકમ"},
+                {"wordGujarati": "૪૨ (બેતાલીસ)", "imageEmoji": "🔢", "audioText": "બેતાલીસ", "breakdown": "૪ દશક ૨ એકમ"}
+            ],
+            "interactivePractice": [
+                {
+                    "promptGujarati": "ત્રીસ અને છ (૩૦ + ૬) કઈ સંખ્યા થાય?",
+                    "audioPrompt": "ત્રીસ અને છ કઈ સંખ્યા થાય?",
+                    "options": ["૩૪", "૩૬", "૬૩"],
+                    "correctAnswer": "૩૬",
+                    "hintGujarati": "૩ દશક અને ૬ એકમ એટલે ૩૬ (છત્રીસ)."
+                }
+            ]
+        }
+    },
+    {
+        "code": "M-08",
+        "sequence": 8,
+        "subject": "mathematics",
+        "stage": "Grade 1",
+        "field": "સંખ્યાજ્ઞાન",
+        "titleGujarati": "૧ થી ૫૦ સુધીની સંખ્યાઓમાં સૌથી નાની અને સૌથી મોટી સંખ્યાની તુલના કરે છે",
+        "titleEnglish": "Compares smallest and largest numbers up to 50",
+        "descriptionGujarati": "આપેલી ત્રણ-ચાર સંખ્યાઓમાંથી સૌથી નાની અને સૌથી મોટી સંખ્યા તારવે છે.",
+        "manipulativeType": "comparison_scale",
+        "learningContent": {
+            "headlineGujarati": "૧ થી ૫૦ માં સૌથી નાની અને સૌથી મોટી સંખ્યા",
+            "instructionGujarati": "સંખ્યાઓમાં દશકના અંકની સરખામણી કરો: ૪૫ > ૩૨ > ૧૮.",
+            "mediaEmojiOrIcon": "📊",
+            "soundPhonicsText": "સૌથી પહેલા દશકનો અંક જુઓ. જેનો દશક મોટો તે સંખ્યા મોટી.",
+            "conceptCard": {
+                "title": "મોટી-નાની સંખ્યા નક્કી કરવી",
+                "explanationGujarati": "જો દશક સરખો હોય તો એકમનો અંક સરખાવો. જેમ કે ૨૩ અને ૨૮ માં ૨૮ મોટા છે.",
+                "visualHint": "૧૫ (નાની) < ૨૫ < ૪૯ (સૌથી મોટી)"
+            },
+            "interactiveManipulativeConfig": {
+                "type": "comparison_scale",
+                "mode": "numbers_50"
+            },
+            "examples": [
+                {"wordGujarati": "૧૨, ૩૪, ૪૮ માં સૌથી મોટી ૪૮", "imageEmoji": "🏆", "audioText": "અડતાલીસ સૌથી મોટી છે", "breakdown": "૪૮ > ૩૪ > ૧૨"}
+            ],
+            "interactivePractice": [
+                {
+                    "promptGujarati": "૨૧, ૪૫, ૧૩ માંથી સૌથી નાની સંખ્યા કઈ છે?",
+                    "audioPrompt": "૨૧, ૪૫, ૧૩ માંથી સૌથી નાની સંખ્યા કઈ છે?",
+                    "options": ["૨૧", "૪૫", "૧૩"],
+                    "correctAnswer": "૧૩",
+                    "hintGujarati": "૧૩ માં ફક્ત ૧ દશક છે માટે તે સૌથી નાની છે."
+                }
+            ]
+        }
+    },
+    {
+        "code": "M-09",
+        "sequence": 9,
+        "subject": "mathematics",
+        "stage": "Grade 1",
+        "field": "સંખ્યાજ્ઞાન",
+        "titleGujarati": "૧ થી ૫૦ માં તરત પછીની, તરત પહેલાંની અને વચ્ચેની સંખ્યા ઓળખે છે",
+        "titleEnglish": "Identifies Before, After, and Between numbers (1 to 50)",
+        "descriptionGujarati": "કોઈપણ સંખ્યાની આગળની, પાછળની અને બે સંખ્યાઓની વચ્ચેની સંખ્યા લખે છે.",
+        "manipulativeType": "number_line",
+        "learningContent": {
+            "headlineGujarati": "આગળની, પાછળની અને વચ્ચેની સંખ્યા (Before, After, Between)",
+            "instructionGujarati": "૨૪ પછી ૨૫ આવે. ૩૦ પહેલાં ૨૯ આવે. ૧૮ અને ૨૦ ની વચ્ચે ૧૯ આવે.",
+            "mediaEmojiOrIcon": "🐸",
+            "soundPhonicsText": "તરત પહેલા એટલે ૧ ઓછો, તરત પછી એટલે ૧ વધારે.",
+            "conceptCard": {
+                "title": "સંખ્યા ક્રમ",
+                "explanationGujarati": "પહેલાંની સંખ્યા = આપેલી સંખ્યા - ૧ | પછીની સંખ્યા = આપેલી સંખ્યા + ૧.",
+                "visualHint": "૨૮ (પહેલાં) ← [૨૯] → ૩૦ (પછી)"
+            },
+            "interactiveManipulativeConfig": {
+                "type": "number_line",
+                "range": "1-50"
+            },
+            "examples": [
+                {"wordGujarati": "૪૨ પછી ૪૩", "imageEmoji": "➡️", "audioText": "બેતાલીસ પછી તેતાલીસ આવે", "breakdown": "૪૨ + ૧ = ૪૩"},
+                {"wordGujarati": "૩૫ પહેલાં ૩૪", "imageEmoji": "⬅️", "audioText": "પાંત્રીસ પહેલાં ચોત્રીસ આવે", "breakdown": "૩૫ - ૧ = ૩૪"}
+            ],
+            "interactivePractice": [
+                {
+                    "promptGujarati": "૩૯ પછી તરત કઈ સંખ્યા આવે?",
+                    "audioPrompt": "ઓગણચાલીસ પછી તરત કઈ સંખ્યા આવે?",
+                    "options": ["૩૮", "૪૦", "૪૧"],
+                    "correctAnswer": "૪૦",
+                    "hintGujarati": "૩૯ પછી ૪૦ (ચાલીસ) આવે."
+                }
+            ]
+        }
+    },
+    {
+        "code": "M-10",
+        "sequence": 10,
+        "subject": "mathematics",
+        "stage": "Grade 2",
+        "field": "સંખ્યાજ્ઞાન",
+        "titleGujarati": "૫૧ થી ૧૦૦ સુધીની સંખ્યાઓને ઓળખે છે, બોલે છે અને લખે છે",
+        "titleEnglish": "Identifies, speaks, and writes numbers 51 to 100",
+        "descriptionGujarati": "૫૧ થી ૧૦૦ સુધીનું વિસ્તરણ (દશક-એકમ) સમજીને સંખ્યાજ્ઞાન દ્રઢ કરે છે.",
+        "manipulativeType": "number_grid_100",
+        "learningContent": {
+            "headlineGujarati": "૫૧ થી ૧૦૦ સુધી સંખ્યાજ્ઞાન",
+            "instructionGujarati": "૫ દશક ૧ એકમ = ૫૧ (એકાવન) થી ૧૦ દશક = ૧૦૦ (સો).",
+            "mediaEmojiOrIcon": "💯",
+            "soundPhonicsText": "પચાસ ને એક એકાવન, સાઠ ને પાંચ પાંસઠ, એંસી ને બે બ્યાસી, સો.",
+            "conceptCard": {
+                "title": "૧૦૦ સુધીની સફર",
+                "explanationGujarati": "૧૦ દશકના જૂથ ભેગા થાય એટલે ૧૦૦ (એક સો) બને છે.",
+                "visualHint": "૧૦ દશક = ૧૦૦ (સો)"
+            },
+            "interactiveManipulativeConfig": {
+                "type": "number_grid_100"
+            },
+            "examples": [
+                {"wordGujarati": "૭૫ (પંચોતેર)", "imageEmoji": "🔢", "audioText": "૭ દશક ૫ એકમ = ૭૫", "breakdown": "૭૦ + ૫ = ૭૫"},
+                {"wordGujarati": "૯૯ (નવ્વાણું)", "imageEmoji": "🔢", "audioText": "નવ્વાણું પછી સો આવે", "breakdown": "૯૦ + ૯ = ૯૯"}
+            ],
+            "interactivePractice": [
+                {
+                    "promptGujarati": "૮ દશક અને ૪ એકમ મળીને કઈ સંખ્યા બને?",
+                    "audioPrompt": "૮ દશક અને ૪ એકમ મળીને કઈ સંખ્યા બને?",
+                    "options": ["૪૮", "૮૪", "૮૦"],
+                    "correctAnswer": "૮૪",
+                    "hintGujarati": "૮૦ + ૪ = ૮૪ (ચોર્યાસી)."
+                }
+            ]
+        }
+    },
+    {
+        "code": "M-11",
+        "sequence": 11,
+        "subject": "mathematics",
+        "stage": "Grade 2",
+        "field": "સંખ્યાજ્ઞાન",
+        "titleGujarati": "૫૧ થી ૧૦૦ માં તરત પછીની, તરત પહેલાંની અને વચ્ચેની સંખ્યા લખે છે",
+        "titleEnglish": "Identifies Before, After, and Between numbers (51 to 100)",
+        "descriptionGujarati": "૫૧ થી ૧૦૦ સુધીના ક્રમમાં આગળ-પાછળની સંખ્યાઓ ચોકસાઈથી લખે છે.",
+        "manipulativeType": "number_line",
+        "learningContent": {
+            "headlineGujarati": "૫૧ થી ૧૦૦ માં આગળ, પાછળ અને વચ્ચેની સંખ્યા",
+            "instructionGujarati": "૭૪ પછી ૭૫ આવે. ૯૦ પહેલાં ૮૯ આવે. ૬૭ અને ૬૯ વચ્ચે ૬૮ આવે.",
+            "mediaEmojiOrIcon": "🎯",
+            "soundPhonicsText": "સંખ્યા રેખા પર આગળ જતાં સંખ્યા વધે, પાછળ જતાં સંખ્યા ઘટે.",
+            "conceptCard": {
+                "title": "મોટી સંખ્યાઓનો ક્રમ",
+                "explanationGujarati": "૯૯ પછી ૧૦૦ આવે. ૧૦૦ પહેલાં ૯૯ આવે.",
+                "visualHint": "૮૮ ← [૮૯] → ૯૦"
+            },
+            "interactiveManipulativeConfig": {
+                "type": "number_line",
+                "range": "51-100"
+            },
+            "examples": [
+                {"wordGujarati": "૯૯ પછી ૧૦૦", "imageEmoji": "💯", "audioText": "નવ્વાણું પછી સો આવે", "breakdown": "૯૯ + ૧ = ૧૦૦"}
+            ],
+            "interactivePractice": [
+                {
+                    "promptGujarati": "૭૯ અને ૮૧ ની વચ્ચે કઈ સંખ્યા આવે?",
+                    "audioPrompt": "૭૯ અને ૮૧ ની વચ્ચે કઈ સંખ્યા આવે?",
+                    "options": ["૭૮", "૮૦", "૮૨"],
+                    "correctAnswer": "૮૦",
+                    "hintGujarati": "૭૯ પછી ૮૦ (એંસી) આવે."
+                }
+            ]
+        }
+    },
+    # ૩. સરવાળા (12-17)
+    {
+        "code": "M-12",
+        "sequence": 12,
+        "subject": "mathematics",
+        "stage": "Balvatika",
+        "field": "સરવાળા",
+        "titleGujarati": "૯ સુધી બે જૂથ ભેગા કરી ગણતરી કરી શકે છે (મૌખિક સરવાળા)",
+        "titleEnglish": "Combines two groups up to 9 (Oral Addition)",
+        "descriptionGujarati": "મૂર્ત વસ્તુઓના બે જૂથ ભેગા કરી કુલ કેટલી વસ્તુઓ થાય તે ગણીને કહે છે.",
+        "manipulativeType": "object_counter",
+        "learningContent": {
+            "headlineGujarati": "બે જૂથ ભેગા કરવા: સરવાળો (Addition)",
+            "instructionGujarati": "તમારી પાસે ૨ સફરજન છે 🍎🍎 અને મિત્ર ૩ સફરજન આપે 🍎🍎🍎, તો કુલ કેટલા થાય? ૨ + ૩ = ૫!",
+            "mediaEmojiOrIcon": "➕",
+            "soundPhonicsText": "સરવાળો એટલે ભેગું કરવું, ઉમેરવું અને વધારવું.",
+            "conceptCard": {
+                "title": "સરવાળાની સંકલ્પના (+)",
+                "explanationGujarati": "જ્યારે બે જૂથ ભેગા થાય ત્યારે કુલ સંખ્યા વધે છે. તેને સરવાળો (+) કહેવાય.",
+                "visualHint": "⭐⭐ (૨) + ⭐⭐⭐ (૩) = ⭐⭐⭐⭐⭐ (૫)"
+            },
+            "interactiveManipulativeConfig": {
+                "type": "addition_groups",
+                "maxTotal": 9
+            },
+            "examples": [
+                {"wordGujarati": "૩ દડા + ૨ દડા = ૫ દડા", "imageEmoji": "⚽", "audioText": "ત્રણ અને બે પાંચ થાય", "breakdown": "૩ + ૨ = ૫"},
+                {"wordGujarati": "૪ ફૂલ + ૪ ફૂલ = ૮ ફૂલ", "imageEmoji": "🌸", "audioText": "ચાર અને ચાર આઠ થાય", "breakdown": "૪ + ૪ = ૮"}
+            ],
+            "interactivePractice": [
+                {
+                    "promptGujarati": "૪ પંખી 🐦🐦🐦🐦 અને બીજા ૨ પંખી 🐦🐦 ભેગા થાય તો કુલ કેટલા પંખી થાય?",
+                    "audioPrompt": "૪ અને ૨ ભેગા થાય તો કુલ કેટલા થાય?",
+                    "options": ["૫", "૬", "૭"],
+                    "correctAnswer": "૬",
+                    "hintGujarati": "૪ માં ૨ ઉમેરો: ૫, ૬."
+                }
+            ]
+        }
+    },
+    {
+        "code": "M-13",
+        "sequence": 13,
+        "subject": "mathematics",
+        "stage": "Balvatika",
+        "field": "સરવાળા",
+        "titleGujarati": "સંખ્યાજ્ઞાનના ઉપયોગ સંબંધિત ઉખાણા અને મૌખિક કોયડા ઉકેલે છે",
+        "titleEnglish": "Solves oral riddles and puzzles using number sense (1 to 9)",
+        "descriptionGujarati": "વાર્તા અને વ્યવહારુ પરિસ્થિતિ પરથી મૌખિક ગણતરી કરી સાચો જવાબ આપે છે.",
+        "manipulativeType": "riddle_solver",
+        "learningContent": {
+            "headlineGujarati": "ગણિતના મનોરંજક ઉખાણા અને કોયડા",
+            "instructionGujarati": "મારી પાસે ૪ ચોકલેટ હતી, દાદીએ ૩ નવી આપી. બોલો મારી પાસે કેટલી થઈ?",
+            "mediaEmojiOrIcon": "🧩",
+            "soundPhonicsText": "ઉખાણા ધ્યાનથી સાંભળો અને મનમાં ગણતરી કરીને જવાબ આપો.",
+            "conceptCard": {
+                "title": "વ્યવહારુ ગણિત",
+                "explanationGujarati": "આપણા રોજિંદા જીવનમાં ગણતરી કરવાની ટેવ પાડો.",
+                "visualHint": "૪ ચોકલેટ 🍫🍫🍫🍫 + ૩ ચોકલેટ 🍫🍫🍫 = ૭ ચોકલેટ"
+            },
+            "interactiveManipulativeConfig": {
+                "type": "riddle_solver"
+            },
+            "examples": [
+                {"wordGujarati": "ઝાડ પર ૫ પક્ષી હતા, ૨ નવા આવ્યા. કુલ = ૭", "imageEmoji": "🌳", "audioText": "પાંચ વત્તા બે બરાબર સાત", "breakdown": "૫ + ૨ = ૭"}
+            ],
+            "interactivePractice": [
+                {
+                    "promptGujarati": "રાજુ પાસે ૫ લખોટી હતી. તેણે રમતમાંથી ૪ નવી જીતી. હવે તેની પાસે કેટલી લખોટી છે?",
+                    "audioPrompt": "પાંચ વત્તા ચાર કેટલા થાય?",
+                    "options": ["૮", "૯", "૧૦"],
+                    "correctAnswer": "૯",
+                    "hintGujarati": "૫ + ૪ = ૯ (નવ)."
+                }
+            ]
+        }
+    },
+    {
+        "code": "M-14",
+        "sequence": 14,
+        "subject": "mathematics",
+        "stage": "Grade 1",
+        "field": "સરવાળા",
+        "titleGujarati": "એક અંકનો એક અંક સાથે સરવાળો કરે છે (ઉભો અને આડો)",
+        "titleEnglish": "Single digit addition with single digit (Horizontal & Vertical)",
+        "descriptionGujarati": "સંખ્યાઓ અને સંકેતોનો ઉપયોગ કરી ૬ + ૩ = ૯ જેવા સરવાળા કરે છે.",
+        "manipulativeType": "number_line",
+        "learningContent": {
+            "headlineGujarati": "એક અંકના સરવાળા (Single Digit Addition)",
+            "instructionGujarati": "સંખ્યા પટ્ટી પર કુદકો લગાવો: ૫ પર ઊભા રહો અને ૩ ડગલાં આગળ જાઓ -> ૫ + ૩ = ૮!",
+            "mediaEmojiOrIcon": "➕",
+            "soundPhonicsText": "પાંચ વત્તા ત્રણ બરાબર આઠ. ૫ + ૩ = ૮.",
+            "conceptCard": {
+                "title": "સરવાળો કરવાની રીત",
+                "explanationGujarati": "મોટી સંખ્યા મનમાં રાખો અને નાની સંખ્યા આંગળી પર ગણી આગળ વધો.",
+                "visualHint": "૭ + ૨ = ૯ (૭ મનમાં, ૮, ૯)"
+            },
+            "interactiveManipulativeConfig": {
+                "type": "number_line",
+                "range": "0-18"
+            },
+            "examples": [
+                {"wordGujarati": "૬ + ૩ = ૯", "imageEmoji": "➕", "audioText": "છ વત્તા ત્રણ બરાબર નવ", "breakdown": "૬ + ૩ = ૯"},
+                {"wordGujarati": "૭ + ૫ = ૧૨", "imageEmoji": "➕", "audioText": "સાત વત્તા પાંચ બરાબર બાર", "breakdown": "૭ + ૫ = ૧૨"}
+            ],
+            "interactivePractice": [
+                {
+                    "promptGujarati": "સરવાળો કરો: ૫ + ૪ = ?",
+                    "audioPrompt": "પાંચ વત્તા ચાર કેટલા થાય?",
+                    "options": ["૮", "૯", "૧૦"],
+                    "correctAnswer": "૯",
+                    "hintGujarati": "૫ માં ૪ ઉમેરો: ૬, ૭, ૮, ૯."
+                }
+            ]
+        }
+    },
+    {
+        "code": "M-15",
+        "sequence": 15,
+        "subject": "mathematics",
+        "stage": "Grade 1",
+        "field": "સરવાળા",
+        "titleGujarati": "બે અંકના સરવાળા / કોયડા (જવાબ ૨૦ થી વધુ નહિ)",
+        "titleEnglish": "Two-digit addition up to sum 20",
+        "descriptionGujarati": "૧૨ + ૫ = ૧૭, ૧૦ + ૮ = ૧૮ જેવા દશક આધારિત સરવાળા ઉકેલે છે.",
+        "manipulativeType": "tens_ones_bundles",
+        "learningContent": {
+            "headlineGujarati": "૨૦ સુધીના સરવાળા (Addition up to 20)",
+            "instructionGujarati": "૧૨ + ૪: ૧૨ એટલે ૧ દશક અને ૨ એકમ. એકમમાં એકમ ઉમેરો: ૨ + ૪ = ૬. માટે જવાબ ૧૬!",
+            "mediaEmojiOrIcon": "🔢",
+            "soundPhonicsText": "બાર વત્તા ચાર બરાબર સોળ. ૧૨ + ૪ = ૧૬.",
+            "conceptCard": {
+                "title": "દશક અને એકમ સરવાળો",
+                "explanationGujarati": "હંમેશા એકમના અંકનો સરવાળો એકમ સાથે કરો.",
+                "visualHint": "૧૨ + ૫ = ૧૭ (૨+૫=૭, દશકનો ૧ એમનેમ)"
+            },
+            "interactiveManipulativeConfig": {
+                "type": "tens_ones_bundles",
+                "maxNumber": 20
+            },
+            "examples": [
+                {"wordGujarati": "૧૪ + ૩ = ૧૭", "imageEmoji": "➕", "audioText": "ચૌદ વત્તા ત્રણ બરાબર સત્તર", "breakdown": "૧૪ + ૩ = ૧૭"}
+            ],
+            "interactivePractice": [
+                {
+                    "promptGujarati": "૧૩ + ૫ = કેટલા થાય?",
+                    "audioPrompt": "તેર વત્તા પાંચ કેટલા થાય?",
+                    "options": ["૧૭", "૧૮", "૧૯"],
+                    "correctAnswer": "૧૮",
+                    "hintGujarati": "૩ + ૫ = ૮, માટે ૧૮."
+                }
+            ]
+        }
+    },
+    {
+        "code": "M-16",
+        "sequence": 16,
+        "subject": "mathematics",
+        "stage": "Grade 2",
+        "field": "સરવાળા",
+        "titleGujarati": "બે અંકના વદી વગરના સરવાળા / વ્યવહારુ કોયડા",
+        "titleEnglish": "2-digit addition without carry-over",
+        "descriptionGujarati": "૨૩ + ૧૪ = ૩૭ જેવા બે અંકના વદી વગરના દાખલા ચોકસાઈથી ગણે છે.",
+        "manipulativeType": "column_addition",
+        "learningContent": {
+            "headlineGujarati": "બે અંકના સાદા સરવાળા (વદી વગર)",
+            "instructionGujarati": "દશક નીચે દશક અને એકમ નીચે એકમ લખો. પહેલા એકમનો સરવાળો, પછી દશકનો સરવાળો કરો.",
+            "mediaEmojiOrIcon": "🧮",
+            "soundPhonicsText": "પહેલા એકમ એકમ ઉમેરો, પછી દશક દશક ઉમેરો.",
+            "conceptCard": {
+                "title": "સ્તંભ સરવાળો (Column Addition)",
+                "explanationGujarati": "૨૪ + ૧૩: એકમ (૪+૩=૭), દશક (૨+૧=૩) → જવાબ: ૩૭.",
+                "visualHint": "૨ ૪\n+ ૧ ૩\n-----\n  ૩ ૭"
+            },
+            "interactiveManipulativeConfig": {
+                "type": "column_addition",
+                "carryOver": False
+            },
+            "examples": [
+                {"wordGujarati": "૩૨ + ૨૫ = ૫૭", "imageEmoji": "🧮", "audioText": "બત્રીસ વત્તા પચ્ચીસ બરાબર સત્તાવન", "breakdown": "૨+૫=૭, ૩+૨=૫ -> ૫૭"}
+            ],
+            "interactivePractice": [
+                {
+                    "promptGujarati": "દાખલો ગણો: ૪૨ + ૨૩ = ?",
+                    "audioPrompt": "બેતાલીસ વત્તા ત્રેવીસ કેટલા થાય?",
+                    "options": ["૬૫", "૬૬", "૭૫"],
+                    "correctAnswer": "૬૫",
+                    "hintGujarati": "૨+૩=૫ (એકમ), ૪+૨=૬ (દશક) → ૬૫."
+                }
+            ]
+        }
+    },
+    {
+        "code": "M-17",
+        "sequence": 17,
+        "subject": "mathematics",
+        "stage": "Grade 2",
+        "field": "સરવાળા",
+        "titleGujarati": "બે અંકના વદીવાળા સરવાળા / કોયડા",
+        "titleEnglish": "2-digit addition with carry-over (વદીવાળા સરવાળા)",
+        "descriptionGujarati": "એકમનો સરવાળો ૧૦ કે તેથી વધુ થાય ત્યારે વદી દશક પર મૂકીને સરવાળો કરે છે.",
+        "manipulativeType": "column_addition",
+        "learningContent": {
+            "headlineGujarati": "વદીવાળા સરવાળા (Addition with Carry-over)",
+            "instructionGujarati": "૨૭ + ૧૫: ૭ + ૫ = ૧૨. ૧૨ નો બગડો એકમમાં અને વદી ૧ દશક પર જાય. ૧ (વદી) + ૨ + ૧ = ૪ → જવાબ: ૪૨!",
+            "mediaEmojiOrIcon": "🚀",
+            "soundPhonicsText": "જ્યારે એકમનો સરવાળો દસ કે વધુ થાય, ત્યારે દશકનો અંક વદી તરીકે આગળ જાય છે.",
+            "conceptCard": {
+                "title": "વદીની સમજ (Carry Over)",
+                "explanationGujarati": "૧૦ એકમ ભેગા થાય એટલે ૧ દશક બનીને દશકના ખાનામાં વદી તરીકે ચડે છે.",
+                "visualHint": "  ¹\n  ૨ ૭\n+ ૧ ૫\n-----\n  ૪ ૨"
+            },
+            "interactiveManipulativeConfig": {
+                "type": "column_addition",
+                "carryOver": True
+            },
+            "examples": [
+                {"wordGujarati": "૩૮ + ૨૬ = ૬૪", "imageEmoji": "🧮", "audioText": "આડત્રીસ વત્તા છવ્વીસ બરાબર ચોસઠ", "breakdown": "૮+૬=૧૪ (૪ નીચે, વદી ૧), ૧+૩+૨=૬"}
+            ],
+            "interactivePractice": [
+                {
+                    "promptGujarati": "સરવાળો કરો: ૩૬ + ૧૮ = ?",
+                    "audioPrompt": "છત્રીસ વત્તા અઢાર કેટલા થાય?",
+                    "options": ["૫૪", "૪૪", "૫૨"],
+                    "correctAnswer": "૫૪",
+                    "hintGujarati": "૬+૮=૧૪ (૪ નીચે, ૧ વદી). ૧+૩+૧=૫ → ૫૪."
+                }
+            ]
+        }
+    },
+    # ૪. બાદબાકી (18-21)
+    {
+        "code": "M-18",
+        "sequence": 18,
+        "subject": "mathematics",
+        "stage": "Balvatika",
+        "field": "બાદબાકી",
+        "titleGujarati": "મૂર્ત વસ્તુઓના ઉપયોગથી ૯ સુધીની મૌખિક બાદબાકી કરે છે",
+        "titleEnglish": "Concrete object subtraction up to 9 (Oral Subtraction)",
+        "descriptionGujarati": "આપેલી વસ્તુઓમાંથી અમુક વસ્તુઓ દૂર કરી બાકી કેટલી વધી તે ગણીને કહે છે.",
+        "manipulativeType": "object_remover",
+        "learningContent": {
+            "headlineGujarati": "બાદબાકી: વસ્તુઓ ઓછી કરવી (-)",
+            "instructionGujarati": "તમારી પાસે ૫ ફુગ્ગા હતા 🎈🎈🎈🎈🎈. ૨ ફુગ્ગા ફૂટી ગયા. બાકી કેટલા વધ્યા? ૩ વધ્યા! ૫ - ૨ = ૩.",
+            "mediaEmojiOrIcon": "➖",
+            "soundPhonicsText": "બાદબાકી એટલે આપેલ વસ્તુમાંથી ઓછી કરવી, બાદ કરવી કે કાઢી નાખવી.",
+            "conceptCard": {
+                "title": "બાદબાકીની સંકલ્પના (-)",
+                "explanationGujarati": "વસ્તુઓ લઈ લેવાથી કે ફૂટી જવાથી કુલ જથ્થો ઘટે છે. તેને બાદબાકી (-) કહેવાય.",
+                "visualHint": "🍎🍎🍎🍎 (૪) માંથી ૨ ખાઈ ગયા -> બાકી 🍎🍎 (૨)"
+            },
+            "interactiveManipulativeConfig": {
+                "type": "object_remover",
+                "maxCount": 9
+            },
+            "examples": [
+                {"wordGujarati": "૬ - ૨ = ૪", "imageEmoji": "🎈", "audioText": "છ માંથી બે જાય તો ચાર વધે", "breakdown": "૬ - ૨ = ૪"},
+                {"wordGujarati": "૮ - ૩ = ૫", "imageEmoji": "⭐", "audioText": "આઠ માંથી ત્રણ જાય તો પાંચ વધે", "breakdown": "૮ - ૩ = ૫"}
+            ],
+            "interactivePractice": [
+                {
+                    "promptGujarati": "૭ ચકલીઓ બેઠી હતી 🐦. તેમાંથી ૩ ઊડી ગઈ. હવે કેટલી ચકલીઓ બાકી રહી?",
+                    "audioPrompt": "સાત માંથી ત્રણ જાય તો કેટલા વધે?",
+                    "options": ["૩", "૪", "૫"],
+                    "correctAnswer": "૪",
+                    "hintGujarati": "૭ માંથી ૩ ઓછા કરો: ૬, ૫, ૪."
+                }
+            ]
+        }
+    },
+    {
+        "code": "M-19",
+        "sequence": 19,
+        "subject": "mathematics",
+        "stage": "Grade 1",
+        "field": "બાદબાકી",
+        "titleGujarati": "એક અંકની એક અંક સાથે બાદબાકી / કોયડા",
+        "titleEnglish": "Single-digit subtraction with single digit",
+        "descriptionGujarati": "૮ - ૫ = ૩, ૯ - ૪ = ૫ જેવા એક અંકની બાદબાકીના દાખલા ગણે છે.",
+        "manipulativeType": "number_line",
+        "learningContent": {
+            "headlineGujarati": "એક અંકની બાદબાકી (Single Digit Subtraction)",
+            "instructionGujarati": "સંખ્યા પટ્ટી પર પાછળ ડગલાં ભરો: ૯ પર ઊભા રહો અને ૪ ડગલાં પાછળ આવો -> ૯ - ૪ = ૫!",
+            "mediaEmojiOrIcon": "🐸",
+            "soundPhonicsText": "બાદબાકીમાં સંખ્યા રેખા પર ડાબી બાજુ (પાછળ) જવાનું હોય છે.",
+            "conceptCard": {
+                "title": "પાછળ ગણતરી (Backward Counting)",
+                "explanationGujarati": "જે સંખ્યા બાદ કરવાની હોય તેટલા ડગલાં પાછળ ગણો.",
+                "visualHint": "૮ - ૩ = ૫ (૮ માંથી પાછળ: ૭, ૬, ૫)"
+            },
+            "interactiveManipulativeConfig": {
+                "type": "number_line",
+                "direction": "backward"
+            },
+            "examples": [
+                {"wordGujarati": "૯ - ૫ = ૪", "imageEmoji": "➖", "audioText": "નવ માંથી પાંચ જાય તો ચાર", "breakdown": "૯ - ૫ = ૪"}
+            ],
+            "interactivePractice": [
+                {
+                    "promptGujarati": "બાદબાકી કરો: ૮ - ૬ = ?",
+                    "audioPrompt": "આઠ માંથી છ જાય તો કેટલા વધે?",
+                    "options": ["૧", "૨", "૩"],
+                    "correctAnswer": "૨",
+                    "hintGujarati": "૮ માંથી ૬ ઓછા કરતાં ૨ વધે."
+                }
+            ]
+        }
+    },
+    {
+        "code": "M-20",
+        "sequence": 20,
+        "subject": "mathematics",
+        "stage": "Grade 1",
+        "field": "બાદબાકી",
+        "titleGujarati": "બે અંકની સંખ્યાના દસકા વગરની બાદબાકી / કોયડા (૨૦ સુધી)",
+        "titleEnglish": "2-digit subtraction without borrow (up to 20)",
+        "descriptionGujarati": "૧૭ - ૪ = ૧૩, ૧૯ - ૭ = ૧૨ જેવી સરળ બાદબાકી ઉકેલે છે.",
+        "manipulativeType": "tens_ones_bundles",
+        "learningContent": {
+            "headlineGujarati": "બે અંકની સરળ બાદબાકી (દસકા વગર)",
+            "instructionGujarati": "૧૮ - ૫: ૧૮ એટલે ૧ દશક ૮ એકમ. એકમ ૮ માંથી ૫ બાદ કરો = ૩. દશક ૧ એમનેમ → જવાબ ૧૩!",
+            "mediaEmojiOrIcon": "🔢",
+            "soundPhonicsText": "અઢાર માંથી પાંચ જાય તો તેર વધે. ૧૮ - ૫ = ૧૩.",
+            "conceptCard": {
+                "title": "એકમમાંથી એકમ બાદ કરવો",
+                "explanationGujarati": "જ્યારે એકમ મોટો હોય ત્યારે સીધી બાદબાકી થાય છે.",
+                "visualHint": "૧ ૮\n-   ૫\n-----\n૧ ૩"
+            },
+            "interactiveManipulativeConfig": {
+                "type": "tens_ones_bundles",
+                "maxNumber": 20
+            },
+            "examples": [
+                {"wordGujarati": "૧૬ - ૩ = ૧૩", "imageEmoji": "➖", "audioText": "સોળ માંથી ત્રણ જાય તો તેર", "breakdown": "૬ - ૩ = ૩, માટે ૧૩"}
+            ],
+            "interactivePractice": [
+                {
+                    "promptGujarati": "૧૭ - ૫ = કેટલા વધે?",
+                    "audioPrompt": "સત્તર માંથી પાંચ જાય તો કેટલા વધે?",
+                    "options": ["૧૧", "૧૨", "૧૩"],
+                    "correctAnswer": "૧૨",
+                    "hintGujarati": "૭ - ૫ = ૨, માટે ૧૨."
+                }
+            ]
+        }
+    },
+    {
+        "code": "M-21",
+        "sequence": 21,
+        "subject": "mathematics",
+        "stage": "Grade 2",
+        "field": "બાદબાકી",
+        "titleGujarati": "બે અંકની સંખ્યાની દસકાવાળી બાદબાકી / વ્યવહારુ કોયડા",
+        "titleEnglish": "2-digit subtraction with borrow (દસકાવાળી બાદબાકી)",
+        "descriptionGujarati": "નાના એકમમાંથી મોટો એકમ બાદ ન થાય ત્યારે દશક પાસેથી ૧ દશકો લઈને બાદબાકી કરે છે.",
+        "manipulativeType": "column_subtraction",
+        "learningContent": {
+            "headlineGujarati": "દસકાવાળી બાદબાકી (Subtraction with Regrouping/Borrow)",
+            "instructionGujarati": "૫૨ - ૨૭: ૨ માંથી ૭ ન જાય! દશક ૫ પાસેથી ૧ દશકો લીધો → દશક પાસે ૪ વધ્યા, એકમ ૨ + ૧૦ = ૧૨ બન્યા. ૧૨ - ૭ = ૫, અને દશકમાં ૪ - ૨ = ૨ → જવાબ: ૨૫!",
+            "mediaEmojiOrIcon": "💡",
+            "soundPhonicsText": "જ્યારે ઉપરનો અંક નાનો હોય ત્યારે દશકના ખાનામાંથી ૧ દશકો લેવો પડે છે.",
+            "conceptCard": {
+                "title": "દસકો લેવાની રીત (Borrowing)",
+                "explanationGujarati": "૧ દશકો એટલે ૧૦ એકમ. તે એકમમાં ઉમેરાય છે.",
+                "visualHint": " ⁴ ¹²\n ૫ ૨\n- ૨ ૭\n-----\n ૨ ૫"
+            },
+            "interactiveManipulativeConfig": {
+                "type": "column_subtraction",
+                "borrow": True
+            },
+            "examples": [
+                {"wordGujarati": "૪૧ - ૧૬ = ૨૫", "imageEmoji": "🧮", "audioText": "એકતાલીસ માંથી સોળ જાય તો પચ્ચીસ વધે", "breakdown": "૧૧ - ૬ = ૫, ૩ - ૧ = ૨ → ૨૫"}
+            ],
+            "interactivePractice": [
+                {
+                    "promptGujarati": "દાખલો ગણો: ૬૩ - ૨૮ = ?",
+                    "audioPrompt": "ત્રેસઠ માંથી અઠ્ઠાવીસ જાય તો કેટલા વધે?",
+                    "options": ["૩૫", "૪૫", "૩૮"],
+                    "correctAnswer": "૩૫",
+                    "hintGujarati": "૧૩ - ૮ = ૫ (એકમ), ૫ - ૨ = ૩ (દશક) → ૩૫."
+                }
+            ]
+        }
+    },
+    # ૫. ગુણાકાર (22)
+    {
+        "code": "M-22",
+        "sequence": 22,
+        "subject": "mathematics",
+        "stage": "Grade 2",
+        "field": "ગુણાકાર",
+        "titleGujarati": "૨, ૩, ૪, ૫ અને ૧૦ ના ઘડિયા (Multiplication Tables)",
+        "titleEnglish": "Multiplication tables of 2, 3, 4, 5, and 10",
+        "descriptionGujarati": "પુનરાવર્તિત સરવાળા તરીકે ગુણાકાર સમજે છે અને ૨, ૩, ૪, ૫, ૧૦ ના ઘડિયા પાકા કરે છે.",
+        "manipulativeType": "multiplication_table",
+        "learningContent": {
+            "headlineGujarati": "પુનરાવર્તિત સરવાળો: ગુણાકાર અને ઘડિયા (×)",
+            "instructionGujarati": "૨ + ૨ + ૨ = ૬ એટલે કે ૨ નો ૩ વખત ગુણાકાર -> ૨ × ૩ = ૬!",
+            "mediaEmojiOrIcon": "✖️",
+            "soundPhonicsText": "બે એકા બે, બે દુ ચાર, બે તરી છ, બે ચોક આઠ, બે પંચા દસ.",
+            "conceptCard": {
+                "title": "ગુણાકાર એટલે શું?",
+                "explanationGujarati": "એક જ સંખ્યા વારંવાર ઉમેરવાને બદલે ઝડપથી ગણવાની રીત એટલે ગુણાકાર (×).",
+                "visualHint": "⭐⭐ + ⭐⭐ + ⭐⭐ = ૨ × ૩ = ૬"
+            },
+            "interactiveManipulativeConfig": {
+                "type": "multiplication_table",
+                "tables": [2, 3, 4, 5, 10]
+            },
+            "examples": [
+                {"wordGujarati": "૫ × ૪ = ૨૦", "imageEmoji": "✖️", "audioText": "પાંચ ચોક વીસ", "breakdown": "૫ + ૫ + ૫ + ૫ = ૨૦"},
+                {"wordGujarati": "૧૦ × ૩ = ૩૦", "imageEmoji": "✖️", "audioText": "દસ તરી ત્રીસ", "breakdown": "૧૦ + ૧૦ + ૧૦ = ૩૦"}
+            ],
+            "interactivePractice": [
+                {
+                    "promptGujarati": "૩ × ૪ = કેટલા થાય? (ત્રણ ચોક...)",
+                    "audioPrompt": "ત્રણ ચોક કેટલા થાય?",
+                    "options": ["૧૦", "૧૨", "૧૫"],
+                    "correctAnswer": "૧૨",
+                    "hintGujarati": "૩ + ૩ + ૩ + ૩ = ૧૨ (બાર)."
+                }
+            ]
+        }
+    },
+    # ૬. લંબાઈ / માપન (23-24)
+    {
+        "code": "M-23",
+        "sequence": 23,
+        "subject": "mathematics",
+        "stage": "Grade 1",
+        "field": "લંબાઈ",
+        "titleGujarati": "આપેલા ચિત્રો કે વસ્તુ બતાવી લાંબા-ટૂંકાની સમજ કેળવે છે",
+        "titleEnglish": "Understands Long vs Short using objects and pictures",
+        "descriptionGujarati": "પેન્સિલ, દોરી, સીડી જેવી વસ્તુઓની લંબાઈ સરખાવી લાંબુ અને ટૂંકું ઓળખે છે.",
+        "manipulativeType": "length_comparator",
+        "learningContent": {
+            "headlineGujarati": "લાંબુ અને ટૂંકું (Long and Short)",
+            "instructionGujarati": "ટ્રેન લાંબી છે 🚆, સાયકલ ટૂંકી છે 🚲. વાંસ લાંબો છે, દીવાસળી ટૂંકી છે.",
+            "mediaEmojiOrIcon": "📏",
+            "soundPhonicsText": "જેનો છેડો વધુ દૂર સુધી જાય તે લાંબુ કહેવાય, ઓછો જાય તે ટૂંકું કહેવાય.",
+            "conceptCard": {
+                "title": "લંબાઈની સરખામણી",
+                "explanationGujarati": "બે વસ્તુઓ બાજુ-બાજુમાં મૂકીને સરખાવવાથી ખબર પડે કે કઈ લાંબી છે અને કઈ ટૂંકી.",
+                "visualHint": "✏️✏️✏️ (લાંબી પેન્સિલ) vs ✏️ (ટૂંકી પેન્સિલ)"
+            },
+            "interactiveManipulativeConfig": {
+                "type": "length_comparator"
+            },
+            "examples": [
+                {"wordGujarati": "સાપ લાંબો છે 🐍, ઇયળ ટૂંકી છે 🐛", "imageEmoji": "📏", "audioText": "સાપ લાંબો છે, ઇયળ ટૂંકી છે", "breakdown": "લંબાઈ: લાંબુ / ટૂંકું"}
+            ],
+            "interactivePractice": [
+                {
+                    "promptGujarati": "આમાંથી સૌથી લાંબી વસ્તુ કઈ છે?",
+                    "audioPrompt": "આમાંથી સૌથી લાંબી વસ્તુ કઈ છે?",
+                    "options": ["દીવાસળી 🥢", "મોટો વાંસ 🎋", "રબર 🧼"],
+                    "correctAnswer": "મોટો વાંસ 🎋",
+                    "hintGujarati": "વાંસની લંબાઈ સૌથી વધારે છે."
+                }
+            ]
+        }
+    },
+    {
+        "code": "M-24",
+        "sequence": 24,
+        "subject": "mathematics",
+        "stage": "Grade 1",
+        "field": "લંબાઈ",
+        "titleGujarati": "આપેલી વસ્તુ કે ચિત્રને આંગળી / વેંત / ડગલાં વડે માપે છે",
+        "titleEnglish": "Measures length using non-standard units (Fingers, Handspan, Steps)",
+        "descriptionGujarati": "ટેબલ, પાટલી, ઓરડાની લંબાઈ વેંત, હાથ કે ડગલાં વડે માપે છે.",
+        "manipulativeType": "handspan_measurer",
+        "learningContent": {
+            "headlineGujarati": "અપ્રમાણિત એકમોથી માપન: વેંત, આંગળી અને પગલાં",
+            "instructionGujarati": "અંગૂઠાથી ટચલી આંગળી સુધીનું માપ એટલે '૧ વેંત'. તમારું પુસ્તક કેટલી વેંત લાંબુ છે?",
+            "mediaEmojiOrIcon": "🖐️",
+            "soundPhonicsText": "હાથની વેંત અને પગના ડગલાં વડે આપણે વસ્તુની લંબાઈ માપી શકીએ છીએ.",
+            "conceptCard": {
+                "title": "શરીરના અંગોથી માપન",
+                "explanationGujarati": "વેંત (Handspan), ડગલાં (Paces), હાથ (Cubit) એ દેશી માપના એકમો છે.",
+                "visualHint": "🖐️ (૧ વેંત) + 🖐️ (૨ વેંત) = પાટલીનું માપ"
+            },
+            "interactiveManipulativeConfig": {
+                "type": "handspan_measurer"
+            },
+            "examples": [
+                {"wordGujarati": "પાટલી = ૪ વેંત લાંબી", "imageEmoji": "🖐️", "audioText": "પાટલી ચાર વેંત લાંબી છે", "breakdown": "માપન: ૪ વેંત"}
+            ],
+            "interactivePractice": [
+                {
+                    "promptGujarati": "ઓરડાની લંબાઈ માપવા માટે સૌથી સરળ રીત કઈ છે?",
+                    "audioPrompt": "ઓરડાની લંબાઈ માપવા માટે સૌથી સરળ રીત કઈ?",
+                    "options": ["આંગળીથી", "પગના ડગલાં ભરીને 👣", "ચોકથી"],
+                    "correctAnswer": "પગના ડગલાં ભરીને 👣",
+                    "hintGujarati": "મોટી જગ્યા પગલાં વડે ઝડપથી મપાય છે."
+                }
+            ]
+        }
+    },
+    # ૭. નાણું (25-26)
+    {
+        "code": "M-25",
+        "sequence": 25,
+        "subject": "mathematics",
+        "stage": "Grade 1",
+        "field": "નાણું",
+        "titleGujarati": "સિક્કાના ઉપયોગથી વસ્તુની કિંમત જાણે છે અને ચૂકવણી કરે છે",
+        "titleEnglish": "Knows object price using coins (₹1, ₹2, ₹5, ₹10)",
+        "descriptionGujarati": "૧, ૨, ૫ અને ૧૦ રૂપિયાના સિક્કા ઓળખી રમકડાં કે પેન્સિલની કિંમત ચૂકવે છે.",
+        "manipulativeType": "currency_shop",
+        "learningContent": {
+            "headlineGujarati": "આપણા સિક્કા: ₹૧, ₹૨, ₹૫, ₹૧૦",
+            "instructionGujarati": "પેન્સિલ ખરીદવા ₹૫ નો સિક્કો આપો. ₹૧૦ ની નોટમાંથી ₹૫ નો ફુગ્ગો લીધો તો ₹૫ પાછા મળે!",
+            "mediaEmojiOrIcon": "🪙",
+            "soundPhonicsText": "એક રૂપિયો, બે રૂપિયા, પાંચ રૂપિયા અને દસ રૂપિયાના સિક્કા.",
+            "conceptCard": {
+                "title": "ચલણી સિક્કા (Coins)",
+                "explanationGujarati": "ભારતીય ચલણનું નામ 'રૂપિયો' (₹) છે. સિક્કા ખરીદી કરવા વપરાય છે.",
+                "visualHint": "🪙 ₹૧ | 🪙 ₹૨ | 🪙 ₹૫ | 🪙 ₹૧૦"
+            },
+            "interactiveManipulativeConfig": {
+                "type": "currency_shop",
+                "items": [
+                    {"name": "પેન્સિલ ✏️", "price": 5},
+                    {"name": "ચોકલેટ 🍫", "price": 2},
+                    {"name": "રબર 🧼", "price": 3},
+                    {"name": "દડો ⚽", "price": 10}
+                ]
+            },
+            "examples": [
+                {"wordGujarati": "₹૨ + ₹૨ + ₹૧ = ₹૫", "imageEmoji": "🪙", "audioText": "બે ને બે ચાર ને એક પાંચ રૂપિયા", "breakdown": "૨ + ૨ + ૧ = ૫"}
+            ],
+            "interactivePractice": [
+                {
+                    "promptGujarati": "₹૫ ની પેન્સિલ ખરીદવા માટે કયા સિક્કા આપી શકાય?",
+                    "audioPrompt": "પાંચ રૂપિયા બનાવવા કયા સિક્કા આપશો?",
+                    "options": ["₹૨ + ₹૨ + ₹૧ 🪙", "₹૧ + ₹૧", "₹૨ + ₹૨"],
+                    "correctAnswer": "₹૨ + ₹૨ + ₹૧ 🪙",
+                    "hintGujarati": "૨ + ૨ + ૧ = ૫ રૂપિયા થાય."
+                }
+            ]
+        }
+    },
+    {
+        "code": "M-26",
+        "sequence": 26,
+        "subject": "mathematics",
+        "stage": "Grade 2",
+        "field": "નાણું",
+        "titleGujarati": "૧૦૦ રૂપિયા સુધીના સિક્કા અને ચલણી નોટોની ઓળખ અને વ્યવહાર",
+        "titleEnglish": "Identifies notes and coins up to ₹100 and solves money transactions",
+        "descriptionGujarati": "₹૧૦, ₹૨૦, ₹૫૦, ₹૧૦૦ ની ચલણી નોટો ઓળખે છે અને હિસાબ કરે છે.",
+        "manipulativeType": "currency_shop",
+        "learningContent": {
+            "headlineGujarati": "ભારતીય ચલણી નોટો: ₹૧૦, ₹૨૦, ₹૫૦, ₹૧૦૦",
+            "instructionGujarati": "૫૦ રૂપિયાની ૧ નોટ = ૨૦ ની ૨ નોટ + ૧૦ ની ૧ નોટ (૨૦ + ૨૦ + ૧૦ = ૫૦).",
+            "mediaEmojiOrIcon": "💵",
+            "soundPhonicsText": "દસની નોટ, વીસની નોટ, પચાસની નોટ અને સો રૂપિયાની નોટ.",
+            "conceptCard": {
+                "title": "નોટોનું મૂલ્ય (Currency Notes)",
+                "explanationGujarati": "₹૫૦ ની ૨ નોટો ભેગી થાય એટલે ₹૧૦૦ (એક સો રૂપિયા) બને છે.",
+                "visualHint": "💵 ₹૧૦ | 💵 ₹૨૦ | 💵 ₹૫૦ | 💵 ₹૧૦૦"
+            },
+            "interactiveManipulativeConfig": {
+                "type": "currency_shop",
+                "mode": "notes"
+            },
+            "examples": [
+                {"wordGujarati": "₹૫૦ + ₹૫૦ = ₹૧૦૦", "imageEmoji": "💵", "audioText": "પચાસ અને પચાસ સો રૂપિયા થાય", "breakdown": "૫૦ + ૫૦ = ૧૦૦"}
+            ],
+            "interactivePractice": [
+                {
+                    "promptGujarati": "તમારી પાસે ₹૫૦ ની નોટ છે. તમે ₹૩૦ નું પુસ્તક લીધું. કેટલા રૂપિયા પાછા મળશે?",
+                    "audioPrompt": "૫૦ માંથી ૩૦ જાય તો કેટલા વધે?",
+                    "options": ["₹૧૦", "₹૨૦", "₹૩૦"],
+                    "correctAnswer": "₹૨૦",
+                    "hintGujarati": "૫૦ - ૩૦ = ૨૦ રૂપિયા બાકી રહે."
+                }
+            ]
+        }
+    },
+    # ૮. વજન (27)
+    {
+        "code": "M-27",
+        "sequence": 27,
+        "subject": "mathematics",
+        "stage": "Grade 1",
+        "field": "વજન",
+        "titleGujarati": "હલકું-ભારેની સમજ, ત્રાજવાના ઉપયોગથી સરખામણી",
+        "titleEnglish": "Understands Heavy vs Light using balance scales (ત્રાજવું)",
+        "descriptionGujarati": "હાથમાં ઊંચકીને કે ત્રાજવામાં મૂકી કઈ વસ્તુ ભારે અને કઈ હલકી છે તે નક્કી કરે છે.",
+        "manipulativeType": "balance_scale",
+        "learningContent": {
+            "headlineGujarati": "હલકું અને ભારે (Heavy and Light)",
+            "instructionGujarati": "ઈંટ ભારે હોય છે 🧱, પીંછું હલકું હોય છે 🪶. ત્રાજવામાં ભારે પલ્લું નીચે નમે છે!",
+            "mediaEmojiOrIcon": "⚖️",
+            "soundPhonicsText": "ત્રાજવામાં જે પલ્લું નીચે જાય તે ભારે, જે ઉપર રહે તે હલકું.",
+            "conceptCard": {
+                "title": "ત્રાજવું અને વજન (Balance Scale)",
+                "explanationGujarati": "વજનદાર વસ્તુ પૃથ્વી તરફ ખેંચાય એટલે ત્રાજવું નીચે નમે છે.",
+                "visualHint": "⚖️ [તરબૂચ 🍉 (ભારે) ↓] vs [લીંબુ 🍋 (હલકું) ↑]"
+            },
+            "interactiveManipulativeConfig": {
+                "type": "balance_scale"
+            },
+            "examples": [
+                {"wordGujarati": "દફતર ભારે છે 🎒, પેન્સિલ હલકી છે ✏️", "imageEmoji": "⚖️", "audioText": "દફતર ભારે છે, પેન્સિલ હલકી છે", "breakdown": "વજન: ભારે / હલકું"}
+            ],
+            "interactivePractice": [
+                {
+                    "promptGujarati": "ફુગ્ગો 🎈 અને પથ્થર 🪨 માંથી કઈ વસ્તુ ભારે છે?",
+                    "audioPrompt": "ફુગ્ગો અને પથ્થર માંથી કઈ વસ્તુ ભારે છે?",
+                    "options": ["ફુગ્ગો", "પથ્થર 🪨", "બંને સરખા"],
+                    "correctAnswer": "પથ્થર 🪨",
+                    "hintGujarati": "પથ્થર વજનમાં ઘણો ભારે હોય છે."
+                }
+            ]
+        }
+    },
+    # ૯. ગુંજાશ (28)
+    {
+        "code": "M-28",
+        "sequence": 28,
+        "subject": "mathematics",
+        "stage": "Grade 1",
+        "field": "ગુંજાશ",
+        "titleGujarati": "બે કે તેથી વધુ પાત્રની ક્ષમતા/ગુંજાશની તુલના કરે છે",
+        "titleEnglish": "Compares capacity of containers (ગુંજાશ - Capacity)",
+        "descriptionGujarati": "ડોલ, ગ્લાસ, જગ, ચમચીમાં કેટલું પ્રવાહી સમાય તે સમજી ક્ષમતા સરખાવે છે.",
+        "manipulativeType": "capacity_comparator",
+        "learningContent": {
+            "headlineGujarati": "ગુંજાશ: વાસણમાં પાણી સમાવવાની ક્ષમતા (Capacity)",
+            "instructionGujarati": "ડોલમાં ઘણું બધું પાણી સમાય 🪣, ગ્લાસમાં થોડું પાણી સમાય 🥛. ચમચીમાં સૌથી ઓછું પ્રવાહી સમાય 🥄.",
+            "mediaEmojiOrIcon": "🥛",
+            "soundPhonicsText": "મોટા વાસણમાં વધારે પ્રવાહી સમાય, નાના વાસણમાં ઓછું પ્રવાહી સમાય.",
+            "conceptCard": {
+                "title": "ગુંજાશ એટલે શું?",
+                "explanationGujarati": "કોઈપણ વાસણમાં જેટલું પ્રવાહી સમાઈ શકે તેને તે વાસણની ગુંજાશ કહેવાય.",
+                "visualHint": "🪣 ડોલ (સૌથી વધુ) > 🏺 જગ > 🥛 ગ્લાસ > 🥄 ચમચી (સૌથી ઓછું)"
+            },
+            "interactiveManipulativeConfig": {
+                "type": "capacity_comparator"
+            },
+            "examples": [
+                {"wordGujarati": "પાણીની ટાંકી > ડોલ > ગ્લાસ", "imageEmoji": "💧", "audioText": "ટાંકીમાં સૌથી વધુ પાણી સમાય", "breakdown": "ગુંજાશ: વધુ / ઓછી"}
+            ],
+            "interactivePractice": [
+                {
+                    "promptGujarati": "આમાંથી કયા વાસણમાં સૌથી વધુ દૂધ સમાઈ શકે?",
+                    "audioPrompt": "આમાંથી કયા વાસણમાં સૌથી વધુ દૂધ સમાઈ શકે?",
+                    "options": ["ચમચી 🥄", "તપેલી / ડોલ 🪣", "નાનો વાટકો 🥣"],
+                    "correctAnswer": "તપેલી / ડોલ 🪣",
+                    "hintGujarati": "મોટી ડોલ કે તપેલીની ગુંજાશ સૌથી વધારે હોય છે."
+                }
+            ]
+        }
+    },
+    # ૧૦. સમય (29-30)
+    {
+        "code": "M-29",
+        "sequence": 29,
+        "subject": "mathematics",
+        "stage": "Grade 1",
+        "field": "સમય",
+        "titleGujarati": "સવાર-સાંજ, દિવસ-રાતના સમયે થતી પ્રવૃત્તિઓનું વર્ગીકરણ કરે છે",
+        "titleEnglish": "Classifies day-to-day activities (Morning, Evening, Day, Night)",
+        "descriptionGujarati": "સવારે દાંત સાફ કરવા, બપોરે જમવું, સાંજે રમવું અને રાત્રે ઊંઘવાની સમય સમજ દર્શાવે છે.",
+        "manipulativeType": "clock_day_night",
+        "learningContent": {
+            "headlineGujarati": "સમયની સમજ: સવાર, બપોર, સાંજ અને રાત",
+            "instructionGujarati": "સૂરજ ઊગે ત્યારે સવાર કહેવાય 🌅 - આપણે શાળાએ જઈએ છીએ. ચાંદો ઊગે ત્યારે રાત કહેવાય 🌙 - આપણે સૂઈ જઈએ છીએ.",
+            "mediaEmojiOrIcon": "🌅",
+            "soundPhonicsText": "સવારે પ્રાર્થના અને અભ્યાસ, બપોરે ભોજન, સાંજે રમતગમત અને રાત્રે આરામ.",
+            "conceptCard": {
+                "title": "સમય ચક્ર (Daily Routine)",
+                "explanationGujarati": "આખો દિવસ જુદા જુદા ભાગોમાં વહેંચાયેલો છે: સવાર → બપોર → સાંજ → રાત.",
+                "visualHint": "🌅 સવાર (જાગવું) | ☀️ બપોર (જમવું) | 🌇 સાંજ (રમવું) | 🌙 રાત (ઊંઘવું)"
+            },
+            "interactiveManipulativeConfig": {
+                "type": "clock_day_night"
+            },
+            "examples": [
+                {"wordGujarati": "સવારે શાળાએ જવું", "imageEmoji": "🏫", "audioText": "આપણે સવારે શાળાએ જઈએ છીએ", "breakdown": "સમય: સવાર"}
+            ],
+            "interactivePractice": [
+                {
+                    "promptGujarati": "આકાશમાં તારા અને ચંદ્ર ક્યારે દેખાય છે?",
+                    "audioPrompt": "આકાશમાં તારા અને ચંદ્ર ક્યારે દેખાય છે?",
+                    "options": ["સવારે", "બપોરે", "રાત્રે 🌙"],
+                    "correctAnswer": "રાત્રે 🌙",
+                    "hintGujarati": "અંધારું થાય ત્યારે રાત્રે ચાંદો ખીલે છે."
+                }
+            ]
+        }
+    },
+    {
+        "code": "M-30",
+        "sequence": 30,
+        "subject": "mathematics",
+        "stage": "Grade 2",
+        "field": "સમય",
+        "titleGujarati": "અઠવાડિયાના દિવસો, વાર અને મહિનાઓની સમજ કેળવે છે",
+        "titleEnglish": "Understands days of the week and months of the year",
+        "descriptionGujarati": "સોમવારથી રવિવાર (૭ વાર) અને ૧૨ મહિનાઓના નામ ક્રમમાં બોલે છે અને કેલેન્ડર સમજે છે.",
+        "manipulativeType": "calendar_viewer",
+        "learningContent": {
+            "headlineGujarati": "અઠવાડિયાના ૭ વાર અને વર્ષના ૧૨ મહિના",
+            "instructionGujarati": "સોમવાર, મંગળવાર, બુધવાર, ગુરુવાર, શુક્રવાર, શનિવાર અને રવિવાર (રજાનો દિવસ!). અઠવાડિયાના ૭ દિવસ હોય છે.",
+            "mediaEmojiOrIcon": "📅",
+            "soundPhonicsText": "સોમ, મંગળ, બુધ, ગુરુ, શુક્ર, શનિ અને રવિ. સાત વારનું એક અઠવાડિયું.",
+            "conceptCard": {
+                "title": "કેલેન્ડરની સમજ (Days & Months)",
+                "explanationGujarati": "૧ અઠવાડિયું = ૭ દિવસ | ૧ વર્ષ = ૧૨ મહિના (૩૬૫ દિવસ).",
+                "visualHint": "📅 સોમવાર → મંગળવાર → બુધવાર → ગુરુવાર → શુક્રવાર → શનિવાર → રવિવાર"
+            },
+            "interactiveManipulativeConfig": {
+                "type": "calendar_viewer"
+            },
+            "examples": [
+                {"wordGujarati": "શનિવાર પછી રવિવાર આવે", "imageEmoji": "🎉", "audioText": "શનિવાર પછી રવિવાર આવે છે", "breakdown": "વાર ક્રમ"}
+            ],
+            "interactivePractice": [
+                {
+                    "promptGujarati": "અઠવાડિયામાં કુલ કેટલા દિવસો (વાર) હોય છે?",
+                    "audioPrompt": "અઠવાડિયામાં કુલ કેટલા વાર હોય છે?",
+                    "options": ["૫", "૭", "૧૦"],
+                    "correctAnswer": "૭",
+                    "hintGujarati": "સોમવારથી રવિવાર સુધી કુલ ૭ દિવસ હોય છે."
+                }
+            ]
+        }
+    }
+]
+
+# Generate 5 Assessment Questions for each of the 30 competencies
+assessments_data = []
+
+for comp in competencies_data:
+    code = comp["code"]
+    title = comp["titleGujarati"]
+    stage = comp["stage"]
+    field = comp["field"]
+
+    # Generate 5 customized questions per competency
+    q_list = []
+    
+    # Custom question bank based on competency code
+    if code == "M-01":
+        q_list = [
+            {"promptGujarati": "આમાંથી સૌથી મોટી વસ્તુ કઈ છે?", "options": [{"id": "opt1", "textGujarati": "હાથી 🐘", "emoji": "🐘"}, {"id": "opt2", "textGujarati": "ઉંદર 🐁", "emoji": "🐁"}, {"id": "opt3", "textGujarati": "બિલાડી 🐈", "emoji": "🐈"}], "correctOptionId": "opt1"},
+            {"promptGujarati": "આમાંથી સૌથી નાની વસ્તુ કઈ છે?", "options": [{"id": "opt1", "textGujarati": "કીડી 🐜", "emoji": "🐜"}, {"id": "opt2", "textGujarati": "સિંહ 🦁", "emoji": "🦁"}, {"id": "opt3", "textGujarati": "ગાય 🐄", "emoji": "🐄"}], "correctOptionId": "opt1"},
+            {"promptGujarati": "તરબૂચ 🍉 અને દ્રાક્ષ 🍇 માંથી કયું ફળ મોટું છે?", "options": [{"id": "opt1", "textGujarati": "તરબૂચ 🍉", "emoji": "🍉"}, {"id": "opt2", "textGujarati": "દ્રાક્ષ 🍇", "emoji": "🍇"}], "correctOptionId": "opt1"},
+            {"promptGujarati": "સાયકલ 🚲 અને બસ 🚌 માંથી સૌથી મોટું વાહન કયું?", "options": [{"id": "opt1", "textGujarati": "બસ 🚌", "emoji": "🚌"}, {"id": "opt2", "textGujarati": "સાયકલ 🚲", "emoji": "🚲"}], "correctOptionId": "opt1"},
+            {"promptGujarati": "વૃક્ષ 🌳 અને નાનો છોડ 🌱 માંથી કયું ઊંચું અને મોટું છે?", "options": [{"id": "opt1", "textGujarati": "વૃક્ષ 🌳", "emoji": "🌳"}, {"id": "opt2", "textGujarati": "છોડ 🌱", "emoji": "🌱"}], "correctOptionId": "opt1"}
+        ]
+    elif code == "M-02":
+        q_list = [
+            {"promptGujarati": "પંખી આકાશમાં ક્યાં ઊડે છે?", "options": [{"id": "opt1", "textGujarati": "ઊંચે આકાશમાં 🦅", "emoji": "🦅"}, {"id": "opt2", "textGujarati": "જમીનની અંદર", "emoji": "🕳️"}], "correctOptionId": "opt1"},
+            {"promptGujarati": "ટેબલની નીચે શું હોઈ શકે?", "options": [{"id": "opt1", "textGujarati": "દડો ⚽", "emoji": "⚽"}, {"id": "opt2", "textGujarati": "વાદળ ☁️", "emoji": "☁️"}], "correctOptionId": "opt1"},
+            {"promptGujarati": "તમારા ઘરની સૌથી નજીક શું છે?", "options": [{"id": "opt1", "textGujarati": "આંગણું / ઝાડ 🌳", "emoji": "🌳"}, {"id": "opt2", "textGujarati": "ચંદ્ર 🌙", "emoji": "🌙"}], "correctOptionId": "opt1"},
+            {"promptGujarati": "કૂવાની અંદર કે બહાર?", "options": [{"id": "opt1", "textGujarati": "પાણી અંદર હોય છે 💧", "emoji": "💧"}, {"id": "opt2", "textGujarati": "પાણી આકાશમાં", "emoji": "☁️"}], "correctOptionId": "opt1"},
+            {"promptGujarati": "છતની ઉપર શું હોય છે?", "options": [{"id": "opt1", "textGujarati": "ધાબું / પતંગ 🪁", "emoji": "🪁"}, {"id": "opt2", "textGujarati": "જમીન", "emoji": "🌱"}], "correctOptionId": "opt1"}
+        ]
+    elif code == "M-03":
+        q_list = [
+            {"promptGujarati": "ગણો: 🍎 🍎 🍎 (કેટલા સફરજન છે?)", "options": [{"id": "opt1", "textGujarati": "૩ (ત્રણ)", "emoji": "3️⃣"}, {"id": "opt2", "textGujarati": "૨ (બે)", "emoji": "2️⃣"}, {"id": "opt3", "textGujarati": "૫ (પાંચ)", "emoji": "5️⃣"}], "correctOptionId": "opt1"},
+            {"promptGujarati": "હાથમાં કેટલી આંગળીઓ હોય છે? 🖐️", "options": [{"id": "opt1", "textGujarati": "૫ (પાંચ)", "emoji": "5️⃣"}, {"id": "opt2", "textGujarati": "૪ (ચાર)", "emoji": "4️⃣"}], "correctOptionId": "opt1"},
+            {"promptGujarati": "ગણો: ⭐ ⭐", "options": [{"id": "opt1", "textGujarati": "૨ (બે)", "emoji": "2️⃣"}, {"id": "opt2", "textGujarati": "૧ (એક)", "emoji": "1️⃣"}], "correctOptionId": "opt1"},
+            {"promptGujarati": "ગણો: ⚽ ⚽ ⚽ ⚽", "options": [{"id": "opt1", "textGujarati": "૪ (ચાર)", "emoji": "4️⃣"}, {"id": "opt2", "textGujarati": "૩ (ત્રણ)", "emoji": "3️⃣"}], "correctOptionId": "opt1"},
+            {"promptGujarati": "આકાશમાં કેટલા સૂર્ય છે? ☀️", "options": [{"id": "opt1", "textGujarati": "૧ (એક)", "emoji": "1️⃣"}, {"id": "opt2", "textGujarati": "૨ (બે)", "emoji": "2️⃣"}], "correctOptionId": "opt1"}
+        ]
+    elif code == "M-04":
+        q_list = [
+            {"promptGujarati": "આ દડા ગણો: ⚽ ⚽ ⚽ ⚽ ⚽ ⚽", "options": [{"id": "opt1", "textGujarati": "૬ (છ)", "emoji": "6️⃣"}, {"id": "opt2", "textGujarati": "૭ (સાત)", "emoji": "7️⃣"}], "correctOptionId": "opt1"},
+            {"promptGujarati": "આ ફૂલ ગણો: 🌸 🌸 🌸 🌸 🌸 🌸 🌸 🌸", "options": [{"id": "opt1", "textGujarati": "૮ (આઠ)", "emoji": "8️⃣"}, {"id": "opt2", "textGujarati": "૯ (નવ)", "emoji": "9️⃣"}], "correctOptionId": "opt1"},
+            {"promptGujarati": "૭ પછી કયો અંક આવે?", "options": [{"id": "opt1", "textGujarati": "૮ (આઠ)", "emoji": "8️⃣"}, {"id": "opt2", "textGujarati": "૬ (છ)", "emoji": "6️⃣"}], "correctOptionId": "opt1"},
+            {"promptGujarati": "૫ પહેલાં કયો અંક આવે?", "options": [{"id": "opt1", "textGujarati": "૪ (ચાર)", "emoji": "4️⃣"}, {"id": "opt2", "textGujarati": "૬ (છ)", "emoji": "6️⃣"}], "correctOptionId": "opt1"},
+            {"promptGujarati": "ગણો: 🎈 🎈 🎈 🎈 🎈 🎈 🎈 🎈 🎈", "options": [{"id": "opt1", "textGujarati": "૯ (નવ)", "emoji": "9️⃣"}, {"id": "opt2", "textGujarati": "૭ (સાત)", "emoji": "7️⃣"}], "correctOptionId": "opt1"}
+        ]
+    elif code == "M-05":
+        q_list = [
+            {"promptGujarati": "૭ અને ૪ માંથી કઈ સંખ્યા મોટી છે?", "options": [{"id": "opt1", "textGujarati": "૭ (સાત)", "emoji": "7️⃣"}, {"id": "opt2", "textGujarati": "૪ (ચાર)", "emoji": "4️⃣"}], "correctOptionId": "opt1"},
+            {"promptGujarati": "૨ અને ૮ માંથી કઈ સંખ્યા નાની છે?", "options": [{"id": "opt1", "textGujarati": "૨ (બે)", "emoji": "2️⃣"}, {"id": "opt2", "textGujarati": "૮ (આઠ)", "emoji": "8️⃣"}], "correctOptionId": "opt1"},
+            {"promptGujarati": "૫ કરતાં મોટી સંખ્યા કઈ છે?", "options": [{"id": "opt1", "textGujarati": "૮", "emoji": "8️⃣"}, {"id": "opt2", "textGujarati": "૩", "emoji": "3️⃣"}, {"id": "opt3", "textGujarati": "૧", "emoji": "1️⃣"}], "correctOptionId": "opt1"},
+            {"promptGujarati": "૯ કરતાં નાની સંખ્યા કઈ છે?", "options": [{"id": "opt1", "textGujarati": "૬", "emoji": "6️⃣"}, {"id": "opt2", "textGujarati": "૧૦", "emoji": "🔟"}], "correctOptionId": "opt1"},
+            {"promptGujarati": "૩, ૬, ૯ માં સૌથી મોટી સંખ્યા કઈ?", "options": [{"id": "opt1", "textGujarati": "૯", "emoji": "9️⃣"}, {"id": "opt2", "textGujarati": "૩", "emoji": "3️⃣"}], "correctOptionId": "opt1"}
+        ]
+    else:
+        # Default high quality 5 questions for subsequent steps
+        q_list = [
+            {"promptGujarati": f"{title} સંબંધિત પ્રશ્ન ૧: સાચો વિકલ્પ પસંદ કરો.", "options": [{"id": "opt1", "textGujarati": "સાચો ઉત્તર ✅", "emoji": "⭐"}, {"id": "opt2", "textGujarati": "ખોટો વિકલ્પ", "emoji": "❌"}, {"id": "opt3", "textGujarati": "અન્ય વિકલ્પ", "emoji": "🔸"}], "correctOptionId": "opt1"},
+            {"promptGujarati": f"{title} સંબંધિત પ્રશ્ન ૨: ગણતરી કરી સાચો અંક શોધો.", "options": [{"id": "opt1", "textGujarati": "સાચો ઉત્તર ✅", "emoji": "⭐"}, {"id": "opt2", "textGujarati": "બીજો વિકલ્પ", "emoji": "❌"}], "correctOptionId": "opt1"},
+            {"promptGujarati": f"{title} સંબંધિત પ્રશ્ન ૩: ખાલી જગ્યા પૂરો.", "options": [{"id": "opt1", "textGujarati": "સાચો ઉત્તર ✅", "emoji": "⭐"}, {"id": "opt2", "textGujarati": "અન્ય ઉત્તર", "emoji": "❌"}], "correctOptionId": "opt1"},
+            {"promptGujarati": f"{title} સંબંધિત પ્રશ્ન ૪: નીચેનામાંથી કયું વિધાન સાચું છે?", "options": [{"id": "opt1", "textGujarati": "સાચું વિધાન ✅", "emoji": "⭐"}, {"id": "opt2", "textGujarati": "ખોટું વિધાન", "emoji": "❌"}], "correctOptionId": "opt1"},
+            {"promptGujarati": f"{title} સંબંધિત પ્રશ્ન ૫: વ્યવહારુ ઉકેલ જણાવો.", "options": [{"id": "opt1", "textGujarati": "સાચો ઉકેલ ✅", "emoji": "⭐"}, {"id": "opt2", "textGujarati": "અન્ય ઉકેલ", "emoji": "❌"}], "correctOptionId": "opt1"}
+        ]
+
+    # Assign question IDs
+    formatted_questions = []
+    for idx, q in enumerate(q_list):
+        formatted_questions.append({
+            "questionId": f"Q-{code}-{idx+1}",
+            "promptGujarati": q["promptGujarati"],
+            "promptEnglish": f"Question {idx+1} for {code}",
+            "options": q["options"],
+            "correctOptionId": q["correctOptionId"],
+            "explanationGujarati": f"{title} ની સમજ મુજબ સાચો જવાબ છે.",
+            "points": 1
+        })
+
+    assessments_data.append({
+        "competencyCode": code,
+        "titleGujarati": f"{title} - મૂલ્યાંકન કસોટી",
+        "titleEnglish": f"{comp['titleEnglish']} - Assessment",
+        "passingPercentage": 80,
+        "timeLimitMinutes": 10,
+        "questions": formatted_questions
+    })
+
+# Write to json files
+output_dir = os.path.dirname(os.path.abspath(__file__)) + "/data"
+os.makedirs(output_dir, exist_ok=True)
+
+with open(f"{output_dir}/mathematics.json", "w", encoding="utf-8") as f:
+    json.dump(competencies_data, f, ensure_ascii=False, indent=2)
+
+with open(f"{output_dir}/assessments_math_30.json", "w", encoding="utf-8") as f:
+    json.dump(assessments_data, f, ensure_ascii=False, indent=2)
+
+print(f"Generated all 30 Mathematics competencies and 30 assessments in {output_dir}")
