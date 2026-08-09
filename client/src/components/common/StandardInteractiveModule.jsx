@@ -364,63 +364,165 @@ export default function StandardInteractiveModule({ competency, learningContent,
       )}
 
       {/* ========================================================
-          STAGE 2: INTERACTIVE CONCEPT LEARNING & ACTIVITIES
+          STAGE 2: RICH INTERACTIVE MULTI-MODAL LEARNING HUB
       ======================================================== */}
       {currentStage === 2 && (
         <div className="space-y-6">
           {/* Concept Header Card */}
-          <div className="bg-gradient-to-r from-emerald-700 to-teal-800 text-white p-6 rounded-3xl shadow-lg space-y-3">
+          <div className="bg-gradient-to-r from-emerald-700 via-teal-800 to-slate-900 text-white p-6 rounded-3xl shadow-xl space-y-3 border-2 border-emerald-400">
             <div className="flex items-center gap-3">
-              <div className="w-12 h-12 rounded-2xl bg-white/20 flex items-center justify-center text-3xl shadow-inner">
+              <div className="w-14 h-14 rounded-2xl bg-white/20 flex items-center justify-center text-3xl shadow-inner ring-2 ring-white/30 shrink-0">
                 {learningContent?.mediaEmojiOrIcon || '💡'}
               </div>
               <div>
-                <h2 className="text-xl font-black">
-                  {learningContent?.conceptCard?.title || 'સંકલ્પના સમજ (Concept Guide)'}
+                <span className="px-2.5 py-0.5 bg-emerald-500/40 text-emerald-200 rounded-full text-[10px] font-black uppercase tracking-wider">
+                  સંપૂર્ણ સંકલ્પના માર્ગદર્શિકા (Master Concept)
+                </span>
+                <h2 className="text-xl sm:text-2xl font-black text-white">
+                  {learningContent?.conceptCard?.title || competency?.titleGujarati}
                 </h2>
-                <p className="text-xs text-emerald-100">
+                <p className="text-xs text-emerald-100 mt-0.5">
                   {learningContent?.instructionGujarati || competency?.descriptionGujarati}
                 </p>
               </div>
             </div>
 
-            <p className="text-sm font-semibold leading-relaxed bg-white/10 p-4 rounded-2xl border border-white/20">
+            <div className="p-4 bg-white/10 backdrop-blur-md rounded-2xl border border-white/20 text-sm font-semibold leading-relaxed">
               {learningContent?.conceptCard?.explanationGujarati || competency?.descriptionGujarati}
-            </p>
+            </div>
 
             {learningContent?.conceptCard?.visualHint && (
-              <div className="p-3 bg-amber-400 text-slate-950 font-black rounded-xl text-center text-sm shadow-md">
-                {learningContent.conceptCard.visualHint}
+              <div className="p-3 bg-amber-400 text-slate-950 font-black rounded-xl text-center text-sm shadow-md flex items-center justify-center gap-2">
+                <span>⭐ મુખ્ય નિયમ:</span>
+                <span>{learningContent.conceptCard.visualHint}</span>
               </div>
             )}
           </div>
 
-          {/* Interactive Discovery Examples Grid */}
+          {/* Interactive Learning Modalities Tabs */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            {/* 1. Hands-on Interactive Sandbox Counter ("રમતાં રમતાં શિક્ષણ") */}
+            <div className="bg-white p-6 rounded-3xl border-2 border-emerald-200 shadow-md space-y-4">
+              <div className="flex items-center justify-between">
+                <h3 className="font-black text-base text-slate-900 flex items-center gap-2">
+                  <Sparkles className="w-5 h-5 text-emerald-600" />
+                  <span>ઇન્ટરેક્ટિવ કાઉન્ટર લેબ (Touch Sandbox)</span>
+                </h3>
+                <span className="text-xs font-bold px-2.5 py-1 bg-emerald-100 text-emerald-800 rounded-full">
+                  રમતાં શીખો
+                </span>
+              </div>
+
+              <p className="text-xs text-slate-600">
+                નીચે આપેલી વસ્તુઓ પર ટૅપ કરો અને સંકલ્પનાનો અનુભવ કરો:
+              </p>
+
+              {/* Dynamic Interactive Object Sandbox */}
+              <div className="p-5 bg-gradient-to-br from-emerald-50 to-teal-50 rounded-2xl border border-emerald-200 text-center space-y-3 min-h-[140px] flex flex-col items-center justify-center">
+                <div className="flex flex-wrap items-center justify-center gap-2.5">
+                  {interactiveItems.map((item, idx) => (
+                    <button
+                      key={idx}
+                      onClick={() => {
+                        const updated = [...interactiveItems];
+                        updated[idx].tapped = !updated[idx].tapped;
+                        setInteractiveItems(updated);
+                      }}
+                      className={`p-3 rounded-2xl text-3xl shadow-sm transition-all active:scale-90 ${
+                        item.tapped
+                          ? 'bg-emerald-300 ring-4 ring-emerald-400 scale-110'
+                          : 'bg-white hover:scale-105 border border-slate-200'
+                      }`}
+                    >
+                      {idx === 0 ? '🍎' : (idx === 1 ? '⭐' : (idx === 2 ? '🌸' : '🎈'))}
+                    </button>
+                  ))}
+                </div>
+
+                <div className="text-xs font-black text-emerald-800">
+                  {interactiveItems.filter(i => i.tapped).length} વસ્તુઓ પસંદ કરેલ છે!
+                </div>
+
+                <div className="flex items-center gap-2 pt-1">
+                  <button
+                    onClick={() => setInteractiveItems(prev => [...prev, { id: prev.length + 1, label: 'નવી વસ્તુ', tapped: false }])}
+                    disabled={interactiveItems.length >= 8}
+                    className="px-3 py-1 bg-emerald-600 hover:bg-emerald-700 disabled:opacity-40 text-white text-xs font-bold rounded-xl transition-all"
+                  >
+                    + વસ્તુ ઉમેરો
+                  </button>
+                  <button
+                    onClick={() => setInteractiveItems([{ id: 1, label: '૧', tapped: false }])}
+                    className="px-3 py-1 bg-slate-200 hover:bg-slate-300 text-slate-800 text-xs font-bold rounded-xl transition-all"
+                  >
+                    રીસેટ
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            {/* 2. Audio Phonics & Pronunciation Lab */}
+            <div className="bg-white p-6 rounded-3xl border-2 border-emerald-200 shadow-md space-y-4">
+              <div className="flex items-center justify-between">
+                <h3 className="font-black text-base text-slate-900 flex items-center gap-2">
+                  <Volume2 className="w-5 h-5 text-teal-600" />
+                  <span>ઓડિયો ઉચ્ચારણ લેબ (Phonics Sound Lab)</span>
+                </h3>
+                <span className="text-xs font-bold px-2.5 py-1 bg-teal-100 text-teal-800 rounded-full">
+                  સાંભળો અને બોલો
+                </span>
+              </div>
+
+              <p className="text-xs text-slate-600">
+                શુદ્ધ ગુજરાતી ઉચ્ચારણ સાંભળવા માટે બટન પર ક્લિક કરો:
+              </p>
+
+              <div className="p-5 bg-slate-50 rounded-2xl border border-slate-200 text-center space-y-3">
+                <div className="text-4xl font-black text-slate-800">
+                  {learningContent?.letterOrSymbol || competency?.titleGujarati?.substring(0, 8)}
+                </div>
+                <div className="text-xs font-semibold text-slate-600">
+                  {learningContent?.soundPhonicsText || competency?.titleGujarati}
+                </div>
+
+                <div className="pt-2">
+                  <GujaratiVoiceButton
+                    text={learningContent?.soundPhonicsText || competency?.titleGujarati}
+                    label="🔊 મોટેથી સાંભળો (Listen Phonics)"
+                    size="md"
+                    className="w-full justify-center py-2.5 text-xs font-black shadow-sm"
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* 3. Comprehensive Themed Real-World Examples Grid */}
           {learningContent?.examples && learningContent.examples.length > 0 && (
             <div className="bg-white p-6 rounded-3xl border border-slate-200 shadow-sm space-y-4">
               <div className="flex items-center justify-between">
                 <h3 className="text-base font-extrabold text-slate-900 flex items-center gap-2">
-                  <Sparkles className="w-4 h-4 text-emerald-600" />
-                  <span>ઉદાહરણો અને પ્રવૃત્તિ (Tap to Listen & Explore):</span>
+                  <Award className="w-4 h-4 text-emerald-600" />
+                  <span>વાસ્તવિક જીવનના ઉદાહરણો (Real-World Examples & Practice):</span>
                 </h3>
                 <span className="text-xs text-slate-500 font-mono">
-                  {learningContent.examples.length} ઉદાહરણો
+                  {learningContent.examples.length} કાર્ડ્સ
                 </span>
               </div>
 
-              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3">
+              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3.5">
                 {learningContent.examples.map((ex, idx) => (
                   <div
                     key={idx}
                     onClick={() => setSelectedExampleIdx(idx)}
                     className={`p-4 rounded-2xl border-2 transition-all cursor-pointer flex flex-col justify-between gap-3 ${
                       selectedExampleIdx === idx
-                        ? 'border-emerald-500 bg-emerald-50/70 shadow-md scale-102'
+                        ? 'border-emerald-500 bg-emerald-50/80 shadow-md scale-102 ring-2 ring-emerald-300'
                         : 'border-slate-200 bg-white hover:border-emerald-300'
                     }`}
                   >
                     <div className="flex items-center gap-3">
-                      <span className="text-4xl">{ex.imageEmoji || '🌟'}</span>
+                      <span className="text-4xl animate-bounce-soft">{ex.imageEmoji || '🌟'}</span>
                       <div>
                         <div className="font-black text-slate-900 text-base">
                           {ex.wordGujarati}
@@ -433,7 +535,8 @@ export default function StandardInteractiveModule({ competency, learningContent,
                       </div>
                     </div>
 
-                    <div className="self-end">
+                    <div className="flex items-center justify-between pt-1 border-t border-slate-100">
+                      <span className="text-[11px] text-slate-500 font-medium">ટૅપ કરીને સાંભળો</span>
                       <GujaratiVoiceButton
                         text={ex.audioText || ex.wordGujarati}
                         label=""
@@ -446,7 +549,7 @@ export default function StandardInteractiveModule({ competency, learningContent,
             </div>
           )}
 
-          {/* Navigation to Practice */}
+          {/* Navigation to Practice Step */}
           <div className="flex justify-end pt-2">
             <button
               onClick={() => setCurrentStage(3)}

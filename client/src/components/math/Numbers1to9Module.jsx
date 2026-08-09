@@ -624,64 +624,106 @@ export default function Numbers1to9Module({ competency, progress, onTestReady })
       )}
 
       {/* ========================================================
-          STAGE 3: NUMBER INTRODUCTION (૧ થી ૯ અંકો અને જથ્થો)
+          STAGE 3: MULTI-MODAL NUMBER EXPLORATION & LEARNING
       ======================================================== */}
       {currentStage === 3 && (
         <div className="bg-white rounded-3xl p-6 sm:p-8 border-2 border-emerald-200 shadow-xl space-y-6">
           <div className="text-center space-y-1">
             <h2 className="text-2xl font-black text-slate-900">
-              અંક અને જથ્થાની ઓળખ (Numbers ૧ to ૯)
+              સંપૂર્ણ અંક શિક્ષણ (Explore Numbers ૧ to ૯)
             </h2>
             <p className="text-xs text-slate-600">
-              અંક પર ટૅપ કરો, તેનો અવાજ સાંભળો અને વસ્તુઓની ગણતરી કરો.
+              અંક પસંદ કરો, આંગળીઓથી ગણતરી જુઓ અને વસ્તુઓ પર ટૅપ કરીને જાતે ગણો!
             </p>
           </div>
 
           {/* Large Interactive Active Number Display */}
-          <div className="p-6 bg-gradient-to-br from-emerald-50 to-teal-50 border-2 border-emerald-300 rounded-3xl text-center space-y-3">
-            <div className="text-6xl sm:text-7xl font-black text-emerald-700 font-gujarati">
-              {NUMBERS_DATA[activeExploreIdx].num}
-            </div>
-            <div className="text-xl font-black text-slate-800">
-              “{NUMBERS_DATA[activeExploreIdx].word}”
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            {/* Main Numeral & Visual Quantity Box */}
+            <div className="p-6 bg-gradient-to-br from-emerald-50 to-teal-50 border-2 border-emerald-300 rounded-3xl text-center space-y-3 shadow-sm">
+              <div className="text-6xl sm:text-7xl font-black text-emerald-700 font-gujarati">
+                {NUMBERS_DATA[activeExploreIdx].num}
+              </div>
+              <div className="text-2xl font-black text-slate-800">
+                “{NUMBERS_DATA[activeExploreIdx].word}”
+              </div>
+
+              {/* Visual Object Quantity Display */}
+              <div className="flex flex-wrap items-center justify-center gap-2 py-2 min-h-[70px]">
+                {Array.from({ length: NUMBERS_DATA[activeExploreIdx].english }).map((_, i) => (
+                  <span key={i} className="text-4xl animate-bounce-soft">
+                    {NUMBERS_DATA[activeExploreIdx].emoji}
+                  </span>
+                ))}
+              </div>
+              <div className="text-xs font-bold text-emerald-900">
+                {NUMBERS_DATA[activeExploreIdx].english} {NUMBERS_DATA[activeExploreIdx].name}
+              </div>
+
+              <div className="pt-2">
+                <GujaratiVoiceButton
+                  text={`${NUMBERS_DATA[activeExploreIdx].word}, ${NUMBERS_DATA[activeExploreIdx].english} ${NUMBERS_DATA[activeExploreIdx].name}`}
+                  label="🔊 ઉચ્ચારણ સાંભળો"
+                  size="md"
+                  className="w-full justify-center shadow-xs"
+                />
+              </div>
             </div>
 
-            {/* Visual Object Quantity Display */}
-            <div className="flex flex-wrap items-center justify-center gap-2 py-3">
-              {Array.from({ length: NUMBERS_DATA[activeExploreIdx].english }).map((_, i) => (
-                <span key={i} className="text-4xl animate-bounce-soft">
-                  {NUMBERS_DATA[activeExploreIdx].emoji}
+            {/* Visual Finger Counting & Hands-on Touch Sandbox */}
+            <div className="p-6 bg-amber-50 border-2 border-amber-300 rounded-3xl text-center space-y-3 shadow-sm flex flex-col justify-between">
+              <div className="space-y-1">
+                <span className="text-[10px] font-black uppercase text-amber-800 px-2 py-0.5 bg-amber-200 rounded-full">
+                  આંગળીઓ દ્વારા ગણતરી
                 </span>
-              ))}
-            </div>
-            <div className="text-xs font-bold text-slate-500">
-              {NUMBERS_DATA[activeExploreIdx].english} {NUMBERS_DATA[activeExploreIdx].name}
-            </div>
+                <h3 className="text-base font-black text-amber-950">
+                  🖐️ હાથની આંગળીઓ ({NUMBERS_DATA[activeExploreIdx].word})
+                </h3>
+              </div>
 
-            <div className="pt-2">
-              <GujaratiVoiceButton
-                text={`${NUMBERS_DATA[activeExploreIdx].word}, ${NUMBERS_DATA[activeExploreIdx].english} ${NUMBERS_DATA[activeExploreIdx].name}`}
-                label="🔊 સાંભળો"
-                size="md"
-              />
+              {/* Finger Emojis */}
+              <div className="py-2 text-4xl flex items-center justify-center gap-2 min-h-[60px]">
+                {activeExploreIdx === 0 && '☝️ (૧ આંગળી)'}
+                {activeExploreIdx === 1 && '✌️ (૨ આંગળીઓ)'}
+                {activeExploreIdx === 2 && '🤟 (૩ આંગળીઓ)'}
+                {activeExploreIdx === 3 && '🖖 (૪ આંગળીઓ)'}
+                {activeExploreIdx === 4 && '🖐️ (૫ આંગળીઓ - ૧ આખો હાથ)'}
+                {activeExploreIdx === 5 && '🖐️ + ☝️ (૬ આંગળીઓ)'}
+                {activeExploreIdx === 6 && '🖐️ + ✌️ (૭ આંગળીઓ)'}
+                {activeExploreIdx === 7 && '🖐️ + 🤟 (૮ આંગળીઓ)'}
+                {activeExploreIdx === 8 && '🖐️ + 🖖 (૯ આંગળીઓ)'}
+              </div>
+
+              <div className="p-3 bg-white/80 rounded-2xl border border-amber-200 text-xs font-bold text-amber-900 leading-relaxed">
+                👉 {NUMBERS_DATA[activeExploreIdx].num} એટલે {activeExploreIdx === 0 ? 'શરૂઆતનો પ્રથમ અંક' : `${NUMBERS_DATA[activeExploreIdx - 1].num} કરતાં ૧ વધુ`}!
+              </div>
+
+              <div className="text-[11px] text-amber-800 font-semibold">
+                બાળકો પોતાના હાથની આંગળીઓ ઊંચી કરીને ગણી શકે છે.
+              </div>
             </div>
           </div>
 
           {/* 1 to 9 Selector Buttons Grid */}
-          <div className="grid grid-cols-3 sm:grid-cols-9 gap-2">
-            {NUMBERS_DATA.map((item, idx) => (
-              <button
-                key={idx}
-                onClick={() => setActiveExploreIdx(idx)}
-                className={`py-3 rounded-2xl text-2xl font-black transition-all ${
-                  activeExploreIdx === idx
-                    ? 'bg-emerald-600 text-white shadow-lg scale-105 ring-2 ring-emerald-400'
-                    : 'bg-slate-100 hover:bg-emerald-100 text-slate-800'
-                }`}
-              >
-                {item.num}
-              </button>
-            ))}
+          <div className="space-y-2">
+            <h4 className="text-xs font-black text-slate-700 uppercase text-center">
+              બીજો અંક શીખવા માટે ક્લિક કરો:
+            </h4>
+            <div className="grid grid-cols-3 sm:grid-cols-9 gap-2">
+              {NUMBERS_DATA.map((item, idx) => (
+                <button
+                  key={idx}
+                  onClick={() => setActiveExploreIdx(idx)}
+                  className={`py-3 rounded-2xl text-2xl font-black transition-all ${
+                    activeExploreIdx === idx
+                      ? 'bg-emerald-600 text-white shadow-lg scale-105 ring-2 ring-emerald-400'
+                      : 'bg-slate-100 hover:bg-emerald-100 text-slate-800'
+                  }`}
+                >
+                  {item.num}
+                </button>
+              ))}
+            </div>
           </div>
 
           <div className="flex justify-end pt-2">
@@ -689,7 +731,7 @@ export default function Numbers1to9Module({ competency, progress, onTestReady })
               onClick={() => setCurrentStage(4)}
               className="px-8 py-3.5 bg-emerald-600 hover:bg-emerald-700 text-white font-black rounded-2xl shadow-lg active:scale-95 transition-all text-sm flex items-center gap-2"
             >
-              <span>પ્રવૃત્તિ ૧: નંબર શોધો ➔</span>
+              <span>ઇન્ટરેક્ટિવ પ્રવૃત્તિઓ શરૂ કરો ➔</span>
               <ArrowRight className="w-4 h-4" />
             </button>
           </div>
