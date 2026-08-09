@@ -12,7 +12,8 @@ import {
   ArrowRight,
   Sparkles,
   Users,
-  BookOpen
+  BookOpen,
+  MapPin
 } from 'lucide-react';
 
 export default function UnifiedLoginPage() {
