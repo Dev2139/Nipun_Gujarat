@@ -340,39 +340,23 @@ async function seedDatabase() {
             status = 'AVAILABLE';
           }
         } else if (student.uid === 'NG-2026-001') {
-          // Ravi (Solid Learner)
-          if (comp.subject === 'gujarati') {
-            if (comp.sequence <= 2) {
-              status = 'MASTERED';
-              attempts = 1;
-              highestScore = 80;
-              latestScore = 80;
-              learningCompleted = true;
-              practiceCompleted = true;
-              assessmentUnlocked = true;
-            } else if (comp.sequence === 3) {
-              status = 'RELEARN';
-              attempts = 2;
-              highestScore = 60;
-              latestScore = 60;
-              learningCompleted = true;
-              practiceCompleted = true;
-              assessmentUnlocked = true;
-            }
-          }
-          if (comp.subject === 'mathematics') {
-            if (comp.sequence === 1) {
-              status = 'MASTERED';
-              attempts = 1;
-              highestScore = 100;
-              latestScore = 100;
-              learningCompleted = true;
-              practiceCompleted = true;
-              assessmentUnlocked = true;
-            } else if (comp.sequence === 2) {
-              status = 'AVAILABLE';
-              learningCompleted = true;
-            }
+          // Ravi (NG-2026-001): All lessons open & unlocked for testing and review
+          if (comp.sequence <= 2) {
+            status = 'MASTERED';
+            attempts = 1;
+            highestScore = 100;
+            latestScore = 100;
+            learningCompleted = true;
+            practiceCompleted = true;
+            assessmentUnlocked = true;
+          } else {
+            status = 'AVAILABLE';
+            attempts = 0;
+            highestScore = 0;
+            latestScore = 0;
+            learningCompleted = true;
+            practiceCompleted = true;
+            assessmentUnlocked = true;
           }
         } else if (student.uid === 'NG-2026-003') {
           // Aarav (Needs Teacher Attention)
