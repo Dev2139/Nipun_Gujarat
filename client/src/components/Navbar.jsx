@@ -5,6 +5,7 @@ import { useLanguage } from '../context/LanguageContext';
 import LanguageSwitcher from './LanguageSwitcher';
 import { Flame, Star, LogOut, User, Sparkles, BookOpen, Download, Smartphone } from 'lucide-react';
 import { usePWA } from '../context/PWAContext';
+import SchoolHeaderBanner from './SchoolHeaderBanner';
 
 export default function Navbar() {
   const { user, role, logout } = useAuth();
@@ -19,6 +20,9 @@ export default function Navbar() {
 
   return (
     <header className="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-slate-200 shadow-xs">
+      {/* Top School Header Banner */}
+      <SchoolHeaderBanner />
+
       <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
         {/* Brand Logo */}
         <Link to="/" className="flex items-center gap-2.5 sm:gap-3 group">

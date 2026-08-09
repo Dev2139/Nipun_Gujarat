@@ -152,6 +152,16 @@ export default function UnifiedLoginPage() {
           </div>
         </div>
 
+        {/* School Attribution Dedicated Card */}
+        <div className="bg-gradient-to-r from-amber-50 via-emerald-50 to-teal-50 border-2 border-emerald-300 rounded-2xl p-3.5 text-center space-y-1 shadow-xs">
+          <div className="text-xs sm:text-sm font-black text-emerald-950 flex items-center justify-center gap-1.5">
+            <span>🏫 જાડીયાણા પ્રાથમિક શાળા</span>
+          </div>
+          <div className="text-xs font-bold text-emerald-800 flex items-center justify-center gap-1">
+            <span>📍 તા./જી. છોટાઉદેપુર (Chhota Udepur)</span>
+          </div>
+        </div>
+
         {/* Native App-Style Role Tabs */}
         <div className="grid grid-cols-2 p-1.5 bg-slate-100/90 rounded-2xl border border-slate-200 text-xs font-black">
           <button
