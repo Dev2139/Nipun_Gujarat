@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { teacherService } from '../../services';
 import { useAuth } from '../../context/AuthContext';
 import { useLanguage } from '../../context/LanguageContext';
+import { usePWA } from '../../context/PWAContext';
 import TeacherNoteModal from '../../components/TeacherNoteModal';
 import {
   Users,
@@ -31,6 +32,7 @@ import {
 export default function TeacherDashboard() {
   const { user } = useAuth();
   const { t } = useLanguage();
+  const { realStats, installCount } = usePWA();
 
   const [classes, setClasses] = useState([]);
   const [selectedClassId, setSelectedClassId] = useState('');
@@ -188,6 +190,40 @@ export default function TeacherDashboard() {
           <div className="text-xs text-rose-700 font-gujarati font-bold">
             ધ્યાન આપવા યોગ્ય વિદ્યાર્થીઓ
           </div>
+        </div>
+      </div>
+
+      {/* Quick Real App Downloads Live Stat Bar */}
+      <div className="bg-gradient-to-r from-emerald-50 via-teal-50 to-white border-2 border-emerald-300 rounded-3xl p-5 flex flex-col sm:flex-row sm:items-center justify-between gap-4 text-emerald-950 font-gujarati shadow-sm">
+        <div className="flex items-center gap-3.5">
+          <div className="w-12 h-12 rounded-2xl bg-emerald-600 text-white flex items-center justify-center text-2xl shadow-md shrink-0 ring-4 ring-emerald-100">
+            📲
+          </div>
+          <div>
+            <div className="font-black text-base flex items-center gap-2">
+              <span>ઉપકરણો પર એપ ડાઉનલોડ્સ (Real App Downloads)</span>
+              <span className="px-2.5 py-0.5 bg-emerald-200 text-emerald-900 rounded-full text-[10px] font-mono font-black">LIVE</span>
+            </div>
+            <div className="text-xs text-emerald-800 mt-0.5">
+              વિદ્યાર્થીઓ, શિક્ષકો અને વાલીઓના ફોન / કમ્પ્યુટર પર ડાઉનલોડ થયેલ એપની વાસ્તવિક સંખ્યા
+            </div>
+          </div>
+        </div>
+
+        <div className="flex items-center gap-4 self-start sm:self-auto shrink-0">
+          <div className="text-left sm:text-right">
+            <div className="font-mono font-black text-2xl sm:text-3xl text-emerald-700 leading-tight">
+              {realStats?.totalAppInstalls || installCount || 0}
+            </div>
+            <div className="text-[11px] text-emerald-700 font-bold">કુલ ડાઉનલોડ થયેલ ઉપકરણો</div>
+          </div>
+          <Link
+            to="/teacher/analytics"
+            className="px-4 py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-black rounded-xl shadow-md shadow-emerald-200 transition-all active:scale-95 flex items-center gap-1.5"
+          >
+            <span>વિગતવાર જુઓ</span>
+            <ArrowRight className="w-3.5 h-3.5" />
+          </Link>
         </div>
       </div>
 

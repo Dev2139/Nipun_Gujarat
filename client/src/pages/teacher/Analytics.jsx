@@ -86,7 +86,85 @@ export default function Analytics() {
         </div>
       </div>
 
-      {/* KPI Top Cards */}
+      {/* Real Live Site Traffic & User Counter Section */}
+      <div className="bg-gradient-to-r from-emerald-800 via-teal-800 to-slate-900 text-white p-6 rounded-3xl shadow-xl space-y-4 font-gujarati border-2 border-emerald-400">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-white/15 pb-3">
+          <div className="flex items-center gap-3">
+            <div className="w-10 h-10 rounded-2xl bg-white/20 flex items-center justify-center text-xl shadow-inner ring-2 ring-white/30">
+              📊
+            </div>
+            <div>
+              <h2 className="text-lg sm:text-xl font-black text-white flex items-center gap-2">
+                <span>વાસ્તવિક વેબસાઇટ વપરાશકર્તાઓ (Real Live Traffic Counter)</span>
+                <span className="flex h-2.5 w-2.5 relative">
+                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                  <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-400"></span>
+                </span>
+              </h2>
+              <p className="text-xs text-emerald-200">
+                તમારી સાઇટ પર આવતા વાસ્તવિક વપરાશકર્તાઓ, મુલાકાતીઓ અને એપ ઇન્સ્ટોલનો લાઈવ ડેટા
+              </p>
+            </div>
+          </div>
+
+          <div className="px-3 py-1 bg-white/10 rounded-xl text-xs font-mono font-bold text-emerald-200 border border-white/10 self-start sm:self-auto">
+            🟢 100% Real Database Analytics
+          </div>
+        </div>
+
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-3 pt-1">
+          {/* Total Unique Visitors */}
+          <div className="p-4 bg-white/10 backdrop-blur-md rounded-2xl border border-white/15 space-y-1">
+            <div className="flex items-center justify-between text-emerald-200 text-xs font-bold">
+              <span>👥 કુલ મુલાકાતીઓ</span>
+              <span className="text-[10px] bg-emerald-500/30 px-1.5 py-0.5 rounded text-white">Unique</span>
+            </div>
+            <div className="text-2xl sm:text-3xl font-black font-mono text-white">
+              {overview?.totalVisitors || 1}
+            </div>
+            <div className="text-[10px] text-emerald-200">કુલ સાઇટ વાપરનાર લોકો</div>
+          </div>
+
+          {/* Today's Active Visitors */}
+          <div className="p-4 bg-white/10 backdrop-blur-md rounded-2xl border border-white/15 space-y-1">
+            <div className="flex items-center justify-between text-amber-200 text-xs font-bold">
+              <span>⚡ આજના મુલાકાતીઓ</span>
+              <span className="text-[10px] bg-amber-500/30 px-1.5 py-0.5 rounded text-white">Today</span>
+            </div>
+            <div className="text-2xl sm:text-3xl font-black font-mono text-amber-300">
+              {overview?.todayVisitors || 1}
+            </div>
+            <div className="text-[10px] text-emerald-200">આજે સાઇટ ખોલનાર લોકો</div>
+          </div>
+
+          {/* Live Active Right Now */}
+          <div className="p-4 bg-white/10 backdrop-blur-md rounded-2xl border border-white/15 space-y-1">
+            <div className="flex items-center justify-between text-emerald-300 text-xs font-bold">
+              <span>🟢 હાલમાં લાઈવ</span>
+              <span className="text-[10px] bg-emerald-500/40 px-1.5 py-0.5 rounded text-white">Active</span>
+            </div>
+            <div className="text-2xl sm:text-3xl font-black font-mono text-emerald-300 flex items-center gap-1.5">
+              <span>{overview?.liveActiveUsers || 1}</span>
+              <span className="text-xs font-normal text-emerald-200">(ઓનલાઇન)</span>
+            </div>
+            <div className="text-[10px] text-emerald-200">છેલ્લી ૧૫ મિનિટમાં સક્રિય</div>
+          </div>
+
+          {/* Real App Installs */}
+          <div className="p-4 bg-white/10 backdrop-blur-md rounded-2xl border border-white/15 space-y-1">
+            <div className="flex items-center justify-between text-teal-200 text-xs font-bold">
+              <span>📲 એપ ઇન્સ્ટોલ</span>
+              <span className="text-[10px] bg-teal-500/30 px-1.5 py-0.5 rounded text-white">PWA</span>
+            </div>
+            <div className="text-2xl sm:text-3xl font-black font-mono text-teal-300">
+              {overview?.totalAppInstalls || 0}
+            </div>
+            <div className="text-[10px] text-emerald-200">ફોન/PC પર ઇન્સ્ટોલ કરેલ</div>
+          </div>
+        </div>
+      </div>
+
+      {/* Student FLN Performance Top Cards */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
         <div className="bg-white p-5 rounded-3xl border border-slate-200 shadow-sm space-y-1">
           <div className="flex items-center justify-between text-slate-500">
@@ -97,7 +175,7 @@ export default function Analytics() {
             {overview?.totalStudents || 0}
           </div>
           <div className="text-[11px] text-slate-500 font-gujarati">
-            સક્રિય વર્ગના નોંધાયેલ બાળકો
+            નોંધાયેલ વિદ્યાર્થીઓ
           </div>
         </div>
 
@@ -114,20 +192,6 @@ export default function Analytics() {
           </div>
         </div>
 
-        <div className="bg-white p-5 rounded-3xl border-2 border-emerald-300 shadow-md space-y-1 relative overflow-hidden bg-gradient-to-br from-emerald-50/50 to-white">
-          <div className="flex items-center justify-between text-emerald-800">
-            <span className="text-xs font-black font-gujarati">📱 એપ ઇન્સ્ટોલેશન્સ</span>
-            <span className="px-2 py-0.5 bg-emerald-200 text-emerald-900 rounded-full text-[10px] font-bold">Live</span>
-          </div>
-          <div className="text-2xl sm:text-3xl font-black text-emerald-800 font-mono flex items-center gap-1">
-            <span>{overview?.totalAppInstalls || 128}</span>
-            <span className="text-sm font-bold text-emerald-600">+</span>
-          </div>
-          <div className="text-[11px] text-emerald-700 font-gujarati font-semibold">
-            વેબ & મોબાઇલ એપ ડાઉનલોડ
-          </div>
-        </div>
-
         <div className="bg-white p-5 rounded-3xl border border-slate-200 shadow-sm space-y-1">
           <div className="flex items-center justify-between text-slate-500">
             <span className="text-xs font-bold font-gujarati">પ્રગતિ પર (On Track)</span>
@@ -138,6 +202,19 @@ export default function Analytics() {
           </div>
           <div className="text-[11px] text-slate-500 font-gujarati">
             નિયમિત મહાવરો કરતા બાળકો
+          </div>
+        </div>
+
+        <div className="bg-white p-5 rounded-3xl border border-slate-200 shadow-sm space-y-1">
+          <div className="flex items-center justify-between text-slate-500">
+            <span className="text-xs font-bold font-gujarati">ધ્યાન આપવાની જરૂર</span>
+            <Award className="w-4 h-4 text-rose-500" />
+          </div>
+          <div className="text-2xl sm:text-3xl font-black text-rose-600 font-mono">
+            {overview?.needsSupportCount || 0}
+          </div>
+          <div className="text-[11px] text-slate-500 font-gujarati">
+            પુનરાવર્તનની જરૂરવાળા બાળકો
           </div>
         </div>
       </div>

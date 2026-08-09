@@ -18,7 +18,7 @@ import {
 export default function UnifiedLoginPage() {
   const { user, role, loginStudent, loginTeacher, loading: authLoading } = useAuth();
   const { t } = useLanguage();
-  const { installCount } = usePWA();
+  const { installCount, realStats } = usePWA();
   const navigate = useNavigate();
 
   // Active Tab: 'student' | 'teacher'
@@ -140,14 +140,14 @@ export default function UnifiedLoginPage() {
             </p>
           </div>
 
-          {/* Live App Installation Count Badge */}
-          <div className="pt-1">
+          {/* Live Real Device App Downloads Counter Badge */}
+          <div className="pt-1 flex items-center justify-center">
             <div className="inline-flex items-center gap-2 px-3.5 py-1.5 bg-emerald-50 border border-emerald-300 text-emerald-950 rounded-full text-xs font-bold shadow-xs">
-              <span className="flex h-2 w-2 relative">
+              <span className="flex h-2.5 w-2.5 relative">
                 <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-                <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-600"></span>
+                <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-600"></span>
               </span>
-              <span>📲 {installCount || 128}+ લોકોએ એપ ઇન્સ્ટોલ કરી છે</span>
+              <span>📲 {realStats?.totalAppInstalls || installCount || 0} ઉપકરણો પર એપ ડાઉનલોડ થયેલ (App Downloads)</span>
             </div>
           </div>
         </div>

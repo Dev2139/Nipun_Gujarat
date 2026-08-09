@@ -116,6 +116,11 @@ export const assessmentService = {
 };
 
 export const analyticsService = {
+  trackVisit: async (data = {}) => {
+    const res = await api.post('/analytics/visit', data);
+    return res.data;
+  },
+
   trackInstall: async (data = {}) => {
     const res = await api.post('/analytics/install', data);
     return res.data;
@@ -123,6 +128,11 @@ export const analyticsService = {
 
   getInstallStats: async () => {
     const res = await api.get('/analytics/installs');
+    return res.data;
+  },
+
+  getRealSiteStats: async () => {
+    const res = await api.get('/analytics/real-stats');
     return res.data;
   },
 

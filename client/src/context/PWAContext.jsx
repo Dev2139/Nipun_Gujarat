@@ -9,8 +9,21 @@ export const PWAProvider = ({ children }) => {
   const [isInstalled, setIsInstalled] = useState(false);
   const [isIOS, setIsIOS] = useState(false);
   const [showIOSModal, setShowIOSModal] = useState(false);
-  const [installCount, setInstallCount] = useState(128); // Default fallback
-  const [installBreakdown, setInstallBreakdown] = useState({ android: 92, ios: 21, desktop: 15 });
+
+  // Real Analytics Stats
+  const [realStats, setRealStats] = useState({
+    totalUniqueVisitors: 1,
+    todayVisitors: 1,
+    liveActiveUsers: 1,
+    totalAppInstalls: 0,
+    totalRegisteredStudents: 9,
+    totalRegisteredTeachers: 1,
+    osBreakdown: {},
+    deviceBreakdown: {},
+  });
+
+  const [installCount, setInstallCount] = useState(0);
+  const [installBreakdown, setInstallBreakdown] = useState({ android: 0, ios: 0, desktop: 0 });
 
   // Get or create persistent device ID
   const getDeviceId = () => {
@@ -20,6 +33,16 @@ export const PWAProvider = ({ children }) => {
       localStorage.setItem('nipun_device_id', devId);
     }
     return devId;
+  };
+
+  // Get or create persistent visitor ID for real traffic counting
+  const getVisitorId = () => {
+    let visId = localStorage.getItem('nipun_visitor_id');
+    if (!visId) {
+      visId = `vis_${Math.random().toString(36).substring(2, 11)}_${Date.now()}`;
+      localStorage.setItem('nipun_visitor_id', visId);
+    }
+    return visId;
   };
 
   // Helper to detect device specs
@@ -46,10 +69,22 @@ export const PWAProvider = ({ children }) => {
     return { os, browser, deviceType };
   };
 
+  // Track site visit in backend
+  const recordVisitToBackend = async () => {
+    try {
+      const visitorId = getVisitorId();
+      await analyticsService.trackVisit({
+        visitorId,
+        path: window.location.pathname || '/',
+      });
+    } catch (err) {
+      // silent background failure
+    }
+  };
+
   // Send install event to backend analytics
   const recordInstallToBackend = async (source = 'pwa_prompt') => {
     try {
-      const alreadyRecorded = localStorage.getItem('nipun_pwa_installed_recorded');
       const specs = getDeviceSpecs();
       const deviceId = getDeviceId();
 
@@ -59,33 +94,39 @@ export const PWAProvider = ({ children }) => {
         source,
       });
 
-      if (res?.data?.totalInstalls) {
+      if (res?.data?.totalInstalls !== undefined) {
         setInstallCount(res.data.totalInstalls);
       }
       localStorage.setItem('nipun_pwa_installed_recorded', 'true');
+      fetchRealSiteStats();
     } catch (err) {
       console.warn('[PWA] Failed to record install analytics:', err?.message);
     }
   };
 
-  // Fetch live install stats from backend
-  const fetchLiveInstallStats = async () => {
+  // Fetch 100% Real Live Site Stats from backend
+  const fetchRealSiteStats = async () => {
     try {
-      const res = await analyticsService.getInstallStats();
+      const res = await analyticsService.getRealSiteStats();
       if (res?.success && res.data) {
-        setInstallCount(res.data.totalInstalls);
-        if (res.data.breakdown) {
-          setInstallBreakdown(res.data.breakdown);
-        }
+        setRealStats(res.data);
+        setInstallCount(res.data.totalAppInstalls || 0);
       }
     } catch (err) {
-      console.warn('[PWA] Failed to fetch install stats:', err?.message);
+      console.warn('[PWA] Failed to fetch real site stats:', err?.message);
     }
   };
 
   useEffect(() => {
-    // 1. Fetch live install stats
-    fetchLiveInstallStats();
+    // 1. Record site visit & fetch real stats
+    recordVisitToBackend();
+    fetchRealSiteStats();
+
+    // Refresh real stats every 60 seconds
+    const interval = setInterval(() => {
+      recordVisitToBackend();
+      fetchRealSiteStats();
+    }, 60000);
 
     // 2. Detect if running in standalone mode (already installed)
     const isStandalone = window.matchMedia('(display-mode: standalone)').matches || 
@@ -123,6 +164,7 @@ export const PWAProvider = ({ children }) => {
     window.addEventListener('appinstalled', handleAppInstalled);
 
     return () => {
+      clearInterval(interval);
       window.removeEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
       window.removeEventListener('appinstalled', handleAppInstalled);
     };
@@ -168,9 +210,10 @@ export const PWAProvider = ({ children }) => {
         setShowIOSModal,
         installCount,
         installBreakdown,
+        realStats,
         installPWA,
         handleIOSDone,
-        refreshInstallCount: fetchLiveInstallStats,
+        refreshStats: fetchRealSiteStats,
       }}
     >
       {children}

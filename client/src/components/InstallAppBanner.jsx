@@ -22,13 +22,13 @@ export default function InstallAppBanner() {
             <div>
               <div className="flex items-center gap-1.5 text-[11px] font-bold uppercase tracking-wider text-amber-300 font-gujarati">
                 <Sparkles className="w-3 h-3" />
-                <span>{installCount ? `${installCount}+ ડાઉનલોડ` : 'મોબાઇલ અને કમ્પ્યુટર એપ'}</span>
+                <span>{installCount > 0 ? `${installCount} ઉપકરણો પર ડાઉનલોડ થયેલ` : 'મોબાઇલ અને કમ્પ્યુટર એપ'}</span>
               </div>
               <h4 className="font-black text-sm font-gujarati leading-tight">
-                નિપુણ ગુજરાત એપ ઇન્સ્ટોલ કરો
+                નિપુણ ગુજરાત એપ ડાઉનલોડ કરો
               </h4>
               <p className="text-[11px] text-emerald-100 font-gujarati">
-                {installCount ? `${installCount}+ વિદ્યાર્થીઓ અને શિક્ષકો દ્વારા વપરાશ` : 'ઝડપી ઑફલાઇન પ્રવેશ અને સરળ શિક્ષણ'}
+                {installCount > 0 ? `અત્યાર સુધી ${installCount} લોકોએ પોતાના ફોનમાં એપ ડાઉનલોડ કરી છે` : 'ઝડપી ઑફલાઇન પ્રવેશ અને સરળ શિક્ષણ'}
               </p>
             </div>
           </div>
