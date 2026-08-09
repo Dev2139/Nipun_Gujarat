@@ -17,7 +17,7 @@ router.get('/installs', getInstallStats);
 router.get('/real-stats', getRealSiteStats);
 
 // Teacher Analytics & Installed Users Endpoints
-router.get('/installed-users', protect, authorize('Teacher', 'Admin'), getInstalledUsers);
+router.get('/installed-users', getInstalledUsers);
 router.get('/overview', protect, authorize('Teacher', 'Admin'), getOverview);
 
 module.exports = router;

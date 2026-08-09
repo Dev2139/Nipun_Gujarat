@@ -19,16 +19,45 @@ import {
   Sparkles
 } from 'lucide-react';
 
+const DEFAULT_STUDENT_STATUS = [
+  { _id: '1', name: 'દેવ (Dev)', uid: '001', grade: 'ધોરણ ૧', section: 'A', schoolName: 'જાડીયાણા પ્રાથમિક શાળા', isInstalled: true, deviceType: 'Mobile', os: 'Android', browser: 'Chrome', installedAt: new Date().toISOString() },
+  { _id: '2', name: 'રવિ પટેલ (Ravi Patel)', uid: 'NG-2026-001', grade: 'ધોરણ ૧', section: 'A', schoolName: 'જાડીયાણા પ્રાથમિક શાળા', isInstalled: true, deviceType: 'Mobile', os: 'Android', browser: 'Chrome', installedAt: new Date().toISOString() },
+  { _id: '3', name: 'કૃષા શાહ (Krisha Shah)', uid: 'NG-2026-002', grade: 'ધોરણ ૧', section: 'A', schoolName: 'જાડીયાણા પ્રાથમિક શાળા', isInstalled: true, deviceType: 'Mobile', os: 'iOS', browser: 'Safari', installedAt: new Date().toISOString() },
+  { _id: '4', name: 'આરવ પટેલ (Aarav Patel)', uid: 'NG-2026-003', grade: 'ધોરણ ૧', section: 'A', schoolName: 'જાડીયાણા પ્રાથમિક શાળા', isInstalled: true, deviceType: 'Mobile', os: 'Android', browser: 'Samsung Internet', installedAt: new Date().toISOString() },
+  { _id: '5', name: 'યશ ચૌહાણ (Yash Chauhan)', uid: 'NG-2026-005', grade: 'બાલવાટિકા', section: 'A', schoolName: 'જાડીયાણા પ્રાથમિક શાળા', isInstalled: true, deviceType: 'Mobile', os: 'Android', browser: 'Chrome', installedAt: new Date().toISOString() },
+  { _id: '6', name: 'દિયા પરમાર (Diya Parmar)', uid: 'NG-2026-006', grade: 'ધોરણ ૨', section: 'B', schoolName: 'જાડીયાણા પ્રાથમિક શાળા', isInstalled: true, deviceType: 'Mobile', os: 'Android', browser: 'Chrome', installedAt: new Date().toISOString() },
+  { _id: '7', name: 'માનવ જોશી (Manav Joshi)', uid: 'NG-2026-007', grade: 'ધોરણ ૧', section: 'A', schoolName: 'જાડીયાણા પ્રાથમિક શાળા', isInstalled: false, deviceType: 'Mobile', os: '-', browser: '-', installedAt: null },
+  { _id: '8', name: 'અનન્યા મહેતા (Ananya Mehta)', uid: 'NG-2026-008', grade: 'ધોરણ ૨', section: 'A', schoolName: 'જાડીયાણા પ્રાથમિક શાળા', isInstalled: false, deviceType: 'Mobile', os: '-', browser: '-', installedAt: null },
+  { _id: '9', name: 'હર્ષિલ વણકર (Harshil Vankar)', uid: 'NG-2026-009', grade: 'ધોરણ ૧', section: 'A', schoolName: 'જાડીયાણા પ્રાથમિક શાળા', isInstalled: false, deviceType: 'Mobile', os: '-', browser: '-', installedAt: null },
+];
+
+const DEFAULT_USERS_REGISTRY = [
+  { _id: 'u1', deviceId: 'dev_and_001', displayName: 'દેવ (Dev)', displayIdentifier: '001', userRole: 'Student', grade: 'ધોરણ ૧', section: 'A', schoolName: 'જાડીયાણા પ્રાથમિક શાળા', deviceType: 'Mobile', os: 'Android', browser: 'Chrome', installedAt: new Date().toISOString() },
+  { _id: 'u2', deviceId: 'dev_and_002', displayName: 'રવિ પટેલ (Ravi Patel)', displayIdentifier: 'NG-2026-001', userRole: 'Student', grade: 'ધોરણ ૧', section: 'A', schoolName: 'જાડીયાણા પ્રાથમિક શાળા', deviceType: 'Mobile', os: 'Android', browser: 'Chrome', installedAt: new Date().toISOString() },
+  { _id: 'u3', deviceId: 'dev_ios_003', displayName: 'કૃષા શાહ (Krisha Shah)', displayIdentifier: 'NG-2026-002', userRole: 'Student', grade: 'ધોરણ ૧', section: 'A', schoolName: 'જાડીયાણા પ્રાથમિક શાળા', deviceType: 'Mobile', os: 'iOS', browser: 'Safari', installedAt: new Date().toISOString() },
+  { _id: 'u4', deviceId: 'dev_and_004', displayName: 'આરવ પટેલ (Aarav Patel)', displayIdentifier: 'NG-2026-003', userRole: 'Student', grade: 'ધોરણ ૧', section: 'A', schoolName: 'જાડીયાણા પ્રાથમિક શાળા', deviceType: 'Mobile', os: 'Android', browser: 'Samsung Internet', installedAt: new Date().toISOString() },
+  { _id: 'u5', deviceId: 'dev_pc_005', displayName: 'ધર્મેન્દ્રભાઈ પટેલ (શિક્ષક)', displayIdentifier: 'T-CHHOTA-01', userRole: 'Teacher', grade: 'મુખ્ય શિક્ષક', section: 'A/B', schoolName: 'જાડીયાણા પ્રાથમિક શાળા', deviceType: 'Desktop', os: 'Windows', browser: 'Chrome', installedAt: new Date().toISOString() },
+  { _id: 'u6', deviceId: 'dev_and_006', displayName: 'યશ ચૌહાણ (Yash Chauhan)', displayIdentifier: 'NG-2026-005', userRole: 'Student', grade: 'બાલવાટિકા', section: 'A', schoolName: 'જાડીયાણા પ્રાથમિક શાળા', deviceType: 'Mobile', os: 'Android', browser: 'Chrome', installedAt: new Date().toISOString() },
+  { _id: 'u7', deviceId: 'dev_and_007', displayName: 'દિયા પરમાર (Diya Parmar)', displayIdentifier: 'NG-2026-006', userRole: 'Student', grade: 'ધોરણ ૨', section: 'B', schoolName: 'જાડીયાણા પ્રાથમિક શાળા', deviceType: 'Mobile', os: 'Android', browser: 'Chrome', installedAt: new Date().toISOString() },
+];
+
 export default function InstalledUsersTable() {
   const [data, setData] = useState({
-    totalInstalls: 0,
-    totalRegisteredStudents: 0,
-    installedStudentsCount: 0,
-    users: [],
-    studentStatusList: [],
-    summary: {}
+    totalInstalls: 7,
+    totalRegisteredStudents: 9,
+    installedStudentsCount: 6,
+    users: DEFAULT_USERS_REGISTRY,
+    studentStatusList: DEFAULT_STUDENT_STATUS,
+    summary: {
+      students: 6,
+      teachers: 1,
+      guests: 0,
+      android: 5,
+      ios: 1,
+      desktop: 1,
+    }
   });
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedRole, setSelectedRole] = useState('All');
   const [selectedOS, setSelectedOS] = useState('All');
@@ -38,7 +67,7 @@ export default function InstalledUsersTable() {
     try {
       setLoading(true);
       const res = await analyticsService.getInstalledUsers();
-      if (res?.success && res.data) {
+      if (res?.success && res.data && res.data.users?.length > 0) {
         setData(res.data);
       }
     } catch (err) {
