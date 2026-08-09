@@ -22,6 +22,7 @@ import {
   CheckCircle2,
   GraduationCap
 } from 'lucide-react';
+import { LessonSkeleton } from '../../components/common/SkeletonLoader';
 
 export default function LearnLesson() {
   const { code } = useParams();
