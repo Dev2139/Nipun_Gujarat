@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate, Navigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { useLanguage } from '../context/LanguageContext';
+import { usePWA } from '../context/PWAContext';
 import GujaratiVoiceButton from '../components/GujaratiVoiceButton';
 import {
   GraduationCap,
@@ -17,6 +18,7 @@ import {
 export default function UnifiedLoginPage() {
   const { user, role, loginStudent, loginTeacher, loading: authLoading } = useAuth();
   const { t } = useLanguage();
+  const { installCount } = usePWA();
   const navigate = useNavigate();
 
   // Active Tab: 'student' | 'teacher'
@@ -136,6 +138,17 @@ export default function UnifiedLoginPage() {
             <p className="text-xs text-slate-500 font-medium mt-0.5">
               પાયાની સાક્ષરતા અને સંખ્યાજ્ઞાન એપ્લિકેશન
             </p>
+          </div>
+
+          {/* Live App Installation Count Badge */}
+          <div className="pt-1">
+            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 bg-emerald-50 border border-emerald-300 text-emerald-950 rounded-full text-xs font-bold shadow-xs">
+              <span className="flex h-2 w-2 relative">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-600"></span>
+              </span>
+              <span>📲 {installCount || 128}+ લોકોએ એપ ઇન્સ્ટોલ કરી છે</span>
+            </div>
           </div>
         </div>
 

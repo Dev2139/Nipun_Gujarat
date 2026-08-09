@@ -114,3 +114,21 @@ export const assessmentService = {
     return res.data;
   },
 };
+
+export const analyticsService = {
+  trackInstall: async (data = {}) => {
+    const res = await api.post('/analytics/install', data);
+    return res.data;
+  },
+
+  getInstallStats: async () => {
+    const res = await api.get('/analytics/installs');
+    return res.data;
+  },
+
+  getOverview: async (classId) => {
+    const res = await api.get('/analytics/overview', { params: { classId } });
+    return res.data;
+  },
+};
+

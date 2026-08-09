@@ -3,7 +3,7 @@ import { usePWA } from '../context/PWAContext';
 import { Download, X, Smartphone, Monitor, Share2, PlusSquare, Sparkles, CheckCircle2 } from 'lucide-react';
 
 export default function InstallAppBanner() {
-  const { isInstalled, isIOS, showIOSModal, setShowIOSModal, installPWA } = usePWA();
+  const { isInstalled, isIOS, showIOSModal, setShowIOSModal, installPWA, installCount, handleIOSDone } = usePWA();
   const [dismissed, setDismissed] = useState(false);
 
   if (isInstalled || dismissed) {
@@ -20,15 +20,15 @@ export default function InstallAppBanner() {
               📲
             </div>
             <div>
-              <div className="flex items-center gap-1 text-[11px] font-bold uppercase tracking-wider text-amber-300 font-gujarati">
+              <div className="flex items-center gap-1.5 text-[11px] font-bold uppercase tracking-wider text-amber-300 font-gujarati">
                 <Sparkles className="w-3 h-3" />
-                <span>મોબાઇલ અને કમ્પ્યુટર એપ</span>
+                <span>{installCount ? `${installCount}+ ડાઉનલોડ` : 'મોબાઇલ અને કમ્પ્યુટર એપ'}</span>
               </div>
               <h4 className="font-black text-sm font-gujarati leading-tight">
                 નિપુણ ગુજરાત એપ ઇન્સ્ટોલ કરો
               </h4>
               <p className="text-[11px] text-emerald-100 font-gujarati">
-                ઝડપી ઑફલાઇન પ્રવેશ અને સરળ શિક્ષણ
+                {installCount ? `${installCount}+ વિદ્યાર્થીઓ અને શિક્ષકો દ્વારા વપરાશ` : 'ઝડપી ઑફલાઇન પ્રવેશ અને સરળ શિક્ષણ'}
               </p>
             </div>
           </div>
@@ -91,7 +91,7 @@ export default function InstallAppBanner() {
             </div>
 
             <button
-              onClick={() => setShowIOSModal(false)}
+              onClick={handleIOSDone}
               className="w-full py-3 bg-emerald-600 hover:bg-emerald-700 text-white font-black text-xs rounded-xl shadow-md active:scale-95 transition-all"
             >
               સમજાયું (Done) ✓

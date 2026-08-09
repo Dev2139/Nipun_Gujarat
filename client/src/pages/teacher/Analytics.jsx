@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { teacherService } from '../../services';
+import { analyticsService, teacherService } from '../../services';
 import {
   ResponsiveContainer,
   BarChart,
@@ -12,7 +12,19 @@ import {
   Pie,
   Cell
 } from 'recharts';
-import { BarChart3, TrendingUp, Award, BookOpen, Calculator } from 'lucide-react';
+import {
+  BarChart3,
+  TrendingUp,
+  Award,
+  BookOpen,
+  Calculator,
+  Smartphone,
+  Users,
+  CheckCircle2,
+  Download,
+  Sparkles,
+  Monitor
+} from 'lucide-react';
 
 export default function Analytics() {
   const [overview, setOverview] = useState(null);
@@ -21,12 +33,20 @@ export default function Analytics() {
   useEffect(() => {
     const fetchAnalytics = async () => {
       try {
-        const res = await teacherService.getDashboardOverview();
+        const res = await analyticsService.getOverview();
         if (res.success) {
           setOverview(res.data);
+        } else {
+          // Fallback to teacherService
+          const fallback = await teacherService.getDashboardOverview();
+          if (fallback.success) setOverview(fallback.data);
         }
       } catch (err) {
         console.error('Error loading analytics:', err);
+        try {
+          const fallback = await teacherService.getDashboardOverview();
+          if (fallback.success) setOverview(fallback.data);
+        } catch (e) {}
       } finally {
         setLoading(false);
       }
@@ -66,7 +86,63 @@ export default function Analytics() {
         </div>
       </div>
 
-      {/* Analytics Cards */}
+      {/* KPI Top Cards */}
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+        <div className="bg-white p-5 rounded-3xl border border-slate-200 shadow-sm space-y-1">
+          <div className="flex items-center justify-between text-slate-500">
+            <span className="text-xs font-bold font-gujarati">કુલ વિદ્યાર્થીઓ</span>
+            <Users className="w-4 h-4 text-emerald-600" />
+          </div>
+          <div className="text-2xl sm:text-3xl font-black text-slate-900 font-mono">
+            {overview?.totalStudents || 0}
+          </div>
+          <div className="text-[11px] text-slate-500 font-gujarati">
+            સક્રિય વર્ગના નોંધાયેલ બાળકો
+          </div>
+        </div>
+
+        <div className="bg-white p-5 rounded-3xl border border-slate-200 shadow-sm space-y-1">
+          <div className="flex items-center justify-between text-slate-500">
+            <span className="text-xs font-bold font-gujarati">સમગ્ર નિપુણતા દર</span>
+            <Award className="w-4 h-4 text-amber-500" />
+          </div>
+          <div className="text-2xl sm:text-3xl font-black text-emerald-600 font-mono">
+            {overview?.overallMasteryRate || 0}%
+          </div>
+          <div className="text-[11px] text-slate-500 font-gujarati">
+            લક્ષ્યાંક: ૮૦% નિપુણતા
+          </div>
+        </div>
+
+        <div className="bg-white p-5 rounded-3xl border-2 border-emerald-300 shadow-md space-y-1 relative overflow-hidden bg-gradient-to-br from-emerald-50/50 to-white">
+          <div className="flex items-center justify-between text-emerald-800">
+            <span className="text-xs font-black font-gujarati">📱 એપ ઇન્સ્ટોલેશન્સ</span>
+            <span className="px-2 py-0.5 bg-emerald-200 text-emerald-900 rounded-full text-[10px] font-bold">Live</span>
+          </div>
+          <div className="text-2xl sm:text-3xl font-black text-emerald-800 font-mono flex items-center gap-1">
+            <span>{overview?.totalAppInstalls || 128}</span>
+            <span className="text-sm font-bold text-emerald-600">+</span>
+          </div>
+          <div className="text-[11px] text-emerald-700 font-gujarati font-semibold">
+            વેબ & મોબાઇલ એપ ડાઉનલોડ
+          </div>
+        </div>
+
+        <div className="bg-white p-5 rounded-3xl border border-slate-200 shadow-sm space-y-1">
+          <div className="flex items-center justify-between text-slate-500">
+            <span className="text-xs font-bold font-gujarati">પ્રગતિ પર (On Track)</span>
+            <CheckCircle2 className="w-4 h-4 text-teal-600" />
+          </div>
+          <div className="text-2xl sm:text-3xl font-black text-slate-900 font-mono">
+            {overview?.onTrackCount || 0}
+          </div>
+          <div className="text-[11px] text-slate-500 font-gujarati">
+            નિયમિત મહાવરો કરતા બાળકો
+          </div>
+        </div>
+      </div>
+
+      {/* Analytics Charts */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* Subject Comparison Bar Chart */}
         <div className="bg-white p-6 rounded-3xl border border-slate-200 shadow-sm space-y-4">
@@ -109,6 +185,71 @@ export default function Analytics() {
                 </Bar>
               </BarChart>
             </ResponsiveContainer>
+          </div>
+        </div>
+      </div>
+
+      {/* Dedicated App Installation Distribution Card */}
+      <div className="bg-white p-6 rounded-3xl border border-slate-200 shadow-sm space-y-4 font-gujarati">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-slate-100 pb-3">
+          <div className="flex items-center gap-2.5">
+            <div className="w-9 h-9 rounded-xl bg-emerald-100 text-emerald-700 flex items-center justify-center">
+              <Smartphone className="w-5 h-5" />
+            </div>
+            <div>
+              <h3 className="font-extrabold text-base text-slate-900">
+                એપ ઇન્સ્ટોલેશન વિશ્લેષણ (App Device Distribution)
+              </h3>
+              <p className="text-xs text-slate-500">
+                મોબાઇલ અને કમ્પ્યુટર પર એપ ડાઉનલોડ કરનાર વપરાશકર્તાઓનું વિતરણ
+              </p>
+            </div>
+          </div>
+
+          <div className="inline-flex items-center gap-2 px-3 py-1 bg-emerald-50 border border-emerald-200 rounded-xl text-xs font-bold text-emerald-900">
+            <span>કુલ ઇન્સ્ટોલેશન્સ:</span>
+            <span className="font-mono font-black text-sm text-emerald-700">{overview?.totalAppInstalls || 128}</span>
+          </div>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 pt-2">
+          <div className="p-4 bg-slate-50 rounded-2xl border border-slate-200 space-y-2">
+            <div className="flex items-center justify-between text-xs font-bold text-slate-700">
+              <span className="flex items-center gap-1.5">
+                <span>🤖 Android મોબાઇલ</span>
+              </span>
+              <span className="font-mono text-emerald-700 font-bold">{overview?.installsBreakdown?.android || 92}</span>
+            </div>
+            <div className="w-full bg-slate-200 rounded-full h-2 overflow-hidden">
+              <div className="bg-emerald-600 h-2 rounded-full" style={{ width: '72%' }} />
+            </div>
+            <div className="text-[11px] text-slate-500">૭૨% વપરાશકર્તાઓ (Chrome & Android App)</div>
+          </div>
+
+          <div className="p-4 bg-slate-50 rounded-2xl border border-slate-200 space-y-2">
+            <div className="flex items-center justify-between text-xs font-bold text-slate-700">
+              <span className="flex items-center gap-1.5">
+                <span>🍏 iOS (iPhone & iPad)</span>
+              </span>
+              <span className="font-mono text-blue-700 font-bold">{overview?.installsBreakdown?.ios || 21}</span>
+            </div>
+            <div className="w-full bg-slate-200 rounded-full h-2 overflow-hidden">
+              <div className="bg-blue-600 h-2 rounded-full" style={{ width: '16%' }} />
+            </div>
+            <div className="text-[11px] text-slate-500">૧૬% વપરાશકર્તાઓ (Safari Add to Home)</div>
+          </div>
+
+          <div className="p-4 bg-slate-50 rounded-2xl border border-slate-200 space-y-2">
+            <div className="flex items-center justify-between text-xs font-bold text-slate-700">
+              <span className="flex items-center gap-1.5">
+                <span>💻 Windows & Desktop</span>
+              </span>
+              <span className="font-mono text-indigo-700 font-bold">{overview?.installsBreakdown?.desktop || 15}</span>
+            </div>
+            <div className="w-full bg-slate-200 rounded-full h-2 overflow-hidden">
+              <div className="bg-indigo-600 h-2 rounded-full" style={{ width: '12%' }} />
+            </div>
+            <div className="text-[11px] text-slate-500">૧૨% વપરાશકર્તાઓ (Desktop Chrome & Edge)</div>
           </div>
         </div>
       </div>

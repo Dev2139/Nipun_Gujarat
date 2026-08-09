@@ -15,6 +15,7 @@ const progressRoutes = require('./routes/progressRoutes');
 const assessmentRoutes = require('./routes/assessmentRoutes');
 const teacherRoutes = require('./routes/teacherRoutes');
 const reportRoutes = require('./routes/reportRoutes');
+const analyticsRoutes = require('./routes/analyticsRoutes');
 
 const errorHandler = require('./middleware/errorMiddleware');
 
@@ -185,6 +186,7 @@ app.use('/api/progress', progressRoutes);
 app.use('/api/assessments', assessmentRoutes);
 app.use('/api/teachers', teacherRoutes);
 app.use('/api/reports', reportRoutes);
+app.use('/api/analytics', analyticsRoutes);
 
 // Error Handler Middleware
 app.use(errorHandler);
