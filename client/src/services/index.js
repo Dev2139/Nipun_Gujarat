@@ -136,6 +136,11 @@ export const analyticsService = {
     return res.data;
   },
 
+  getInstalledUsers: async () => {
+    const res = await api.get('/analytics/installed-users');
+    return res.data;
+  },
+
   getOverview: async (classId) => {
     const res = await api.get('/analytics/overview', { params: { classId } });
     return res.data;

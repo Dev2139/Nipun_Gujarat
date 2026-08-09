@@ -33,6 +33,27 @@ export const AuthProvider = ({ children }) => {
     fetchMe();
   }, [token]);
 
+  const syncDeviceWithUser = async (u, r) => {
+    try {
+      const devId = localStorage.getItem('nipun_device_id');
+      if (devId && u) {
+        await axios.post('/api/analytics/install', {
+          deviceId: devId,
+          userId: u._id,
+          userRole: r,
+          userName: u.name,
+          userIdentifier: u.uid || u.email || u.schoolCode || '',
+          userGrade: u.grade || u.class?.grade || '',
+          userSection: u.section || u.class?.section || '',
+          schoolName: u.schoolName || 'જાડીયાણા પ્રાથમિક શાળા',
+          source: 'login_sync',
+        });
+      }
+    } catch (e) {
+      // silent background sync
+    }
+  };
+
   const loginTeacher = async (identifier, password) => {
     const res = await axios.post('/api/auth/teacher/login', { identifier, password });
     if (res.data.success) {
@@ -42,6 +63,7 @@ export const AuthProvider = ({ children }) => {
       setToken(receivedToken);
       setUser(receivedUser);
       setRole('Teacher');
+      syncDeviceWithUser(receivedUser, 'Teacher');
       return receivedUser;
     }
   };
@@ -55,6 +77,7 @@ export const AuthProvider = ({ children }) => {
       setToken(receivedToken);
       setUser(receivedUser);
       setRole('Student');
+      syncDeviceWithUser(receivedUser, 'Student');
       return receivedUser;
     }
   };

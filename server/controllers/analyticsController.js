@@ -89,7 +89,7 @@ exports.recordVisit = async (req, res, next) => {
   }
 };
 
-// @desc    Record an App/PWA Installation
+// @desc    Record or Update an App/PWA Installation with User Info
 // @route   POST /api/analytics/install
 exports.recordInstall = async (req, res, next) => {
   try {
@@ -100,6 +100,11 @@ exports.recordInstall = async (req, res, next) => {
       browser,
       userRole,
       userId,
+      userName,
+      userIdentifier,
+      userGrade,
+      userSection,
+      schoolName,
       source,
     } = req.body;
 
@@ -112,6 +117,36 @@ exports.recordInstall = async (req, res, next) => {
     const finalBrowser = browser || parseBrowser(userAgent);
     const finalDeviceType = deviceType || parseDeviceType(userAgent);
 
+    let finalName = userName || '';
+    let finalIdentifier = userIdentifier || '';
+    let finalGrade = userGrade || '';
+    let finalSection = userSection || '';
+    let finalSchool = schoolName || 'જાડીયાણા પ્રાથમિક શાળા';
+    let resolvedRole = userRole || 'Guest';
+
+    // If userId is provided, look up student or teacher record to enrich
+    if (userId) {
+      if (resolvedRole === 'Student' || resolvedRole === 'student') {
+        const student = await Student.findById(userId).populate('class');
+        if (student) {
+          finalName = student.name;
+          finalIdentifier = student.uid || student.rollNumber?.toString() || '';
+          finalGrade = student.class?.grade || student.grade || '';
+          finalSection = student.class?.section || student.section || '';
+          finalSchool = student.schoolName || finalSchool;
+          resolvedRole = 'Student';
+        }
+      } else if (resolvedRole === 'Teacher' || resolvedRole === 'teacher') {
+        const teacher = await Teacher.findById(userId);
+        if (teacher) {
+          finalName = teacher.name;
+          finalIdentifier = teacher.email || teacher.schoolCode || '';
+          finalSchool = teacher.schoolName || finalSchool;
+          resolvedRole = 'Teacher';
+        }
+      }
+    }
+
     const installDoc = await AppInstall.findOneAndUpdate(
       { deviceId: finalDeviceId },
       {
@@ -119,9 +154,14 @@ exports.recordInstall = async (req, res, next) => {
         deviceType: finalDeviceType,
         os: finalOs,
         browser: finalBrowser,
-        userRole: userRole || 'Guest',
+        userRole: resolvedRole,
+        userName: finalName,
+        userIdentifier: finalIdentifier,
+        userGrade: finalGrade,
+        userSection: finalSection,
+        schoolName: finalSchool,
         userId: userId || undefined,
-        userModel: userRole === 'Teacher' ? 'Teacher' : (userRole === 'Student' ? 'Student' : undefined),
+        userModel: resolvedRole === 'Teacher' ? 'Teacher' : (resolvedRole === 'Student' ? 'Student' : undefined),
         source: source || 'pwa_prompt',
         ip,
         userAgent,
@@ -139,6 +179,86 @@ exports.recordInstall = async (req, res, next) => {
         installId: installDoc._id,
         totalInstalls,
         installedAt: installDoc.installedAt,
+      }
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+// @desc    Get Detailed List of All Installed Users / Devices (For Teacher/Admin)
+// @route   GET /api/analytics/installed-users
+exports.getInstalledUsers = async (req, res, next) => {
+  try {
+    const installs = await AppInstall.find()
+      .populate({
+        path: 'userId',
+        select: 'name uid rollNumber grade section email schoolName schoolCode'
+      })
+      .sort({ installedAt: -1 })
+      .lean();
+
+    // Enrich install records
+    const enrichedList = installs.map((item, index) => {
+      let displayName = item.userName;
+      let displayIdentifier = item.userIdentifier;
+      let displayGrade = item.userGrade;
+      let displaySection = item.userSection;
+      let displaySchool = item.schoolName || 'જાડીયાણા પ્રાથમિક શાળા';
+
+      if (item.userId && typeof item.userId === 'object') {
+        displayName = item.userId.name || displayName;
+        displayIdentifier = item.userId.uid || item.userId.email || item.userId.schoolCode || displayIdentifier;
+        displayGrade = item.userId.grade || displayGrade;
+        displaySection = item.userId.section || displaySection;
+        displaySchool = item.userId.schoolName || displaySchool;
+      }
+
+      if (!displayName) {
+        displayName = item.userRole === 'Guest' ? `મુલાકાતી વપરાશકર્તા #${index + 1}` : `${item.userRole} #${index + 1}`;
+      }
+
+      return {
+        _id: item._id,
+        deviceId: item.deviceId,
+        displayName,
+        displayIdentifier: displayIdentifier || 'N/A',
+        userRole: item.userRole || 'Guest',
+        grade: displayGrade || '-',
+        section: displaySection || '-',
+        schoolName: displaySchool,
+        deviceType: item.deviceType || 'Mobile',
+        os: item.os || 'Android',
+        browser: item.browser || 'Chrome',
+        source: item.source || 'pwa_prompt',
+        ip: item.ip || 'Local',
+        installedAt: item.installedAt || item.createdAt,
+      };
+    });
+
+    // Compute stats
+    const total = enrichedList.length;
+    const studentsCount = enrichedList.filter(i => i.userRole === 'Student').length;
+    const teachersCount = enrichedList.filter(i => i.userRole === 'Teacher').length;
+    const guestsCount = enrichedList.filter(i => i.userRole === 'Guest').length;
+
+    const androidCount = enrichedList.filter(i => i.os?.toLowerCase().includes('android')).length;
+    const iosCount = enrichedList.filter(i => i.os?.toLowerCase().includes('ios')).length;
+    const desktopCount = enrichedList.filter(i => i.os?.toLowerCase().includes('windows') || i.os?.toLowerCase().includes('mac')).length;
+
+    res.status(200).json({
+      success: true,
+      data: {
+        totalInstalls: total,
+        summary: {
+          students: studentsCount,
+          teachers: teachersCount,
+          guests: guestsCount,
+          android: androidCount,
+          ios: iosCount,
+          desktop: desktopCount,
+        },
+        users: enrichedList,
       }
     });
   } catch (error) {
@@ -249,12 +369,13 @@ exports.getOverview = async (req, res, next) => {
     const teacherId = req.user._id;
     const { classId } = req.query;
 
-    const [overview, totalAppInstalls, totalVisitors, todayVisitors, liveActiveUsers] = await Promise.all([
+    const [overview, totalAppInstalls, totalVisitors, todayVisitors, liveActiveUsers, recentInstalls] = await Promise.all([
       getTeacherDashboardOverview(teacherId, classId),
       AppInstall.countDocuments(),
       SiteVisit.countDocuments(),
       SiteVisit.countDocuments({ lastActiveAt: { $gte: new Date(new Date().setHours(0, 0, 0, 0)) } }),
       SiteVisit.countDocuments({ lastActiveAt: { $gte: new Date(Date.now() - 15 * 60 * 1000) } }),
+      AppInstall.find().sort({ installedAt: -1 }).limit(10).lean(),
     ]);
 
     res.status(200).json({
@@ -265,6 +386,7 @@ exports.getOverview = async (req, res, next) => {
         totalVisitors: Math.max(1, totalVisitors),
         todayVisitors: Math.max(1, todayVisitors),
         liveActiveUsers: Math.max(1, liveActiveUsers),
+        recentInstalls,
       }
     });
   } catch (error) {

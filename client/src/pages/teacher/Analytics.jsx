@@ -25,6 +25,7 @@ import {
   Sparkles,
   Monitor
 } from 'lucide-react';
+import InstalledUsersTable from '../../components/teacher/InstalledUsersTable';
 
 export default function Analytics() {
   const [overview, setOverview] = useState(null);
@@ -330,6 +331,9 @@ export default function Analytics() {
           </div>
         </div>
       </div>
+
+      {/* Detailed Installed Users Registry Table */}
+      <InstalledUsersTable />
     </div>
   );
 }

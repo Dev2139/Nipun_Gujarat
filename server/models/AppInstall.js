@@ -27,6 +27,26 @@ const appInstallSchema = new mongoose.Schema({
     enum: ['Student', 'Teacher', 'Guest'],
     default: 'Guest',
   },
+  userName: {
+    type: String,
+    default: '',
+  },
+  userIdentifier: {
+    type: String, // UID for student, email/schoolCode for teacher
+    default: '',
+  },
+  userGrade: {
+    type: String,
+    default: '',
+  },
+  userSection: {
+    type: String,
+    default: '',
+  },
+  schoolName: {
+    type: String,
+    default: 'જાડીયાણા પ્રાથમિક શાળા',
+  },
   userId: {
     type: mongoose.Schema.Types.ObjectId,
     refPath: 'userModel',
