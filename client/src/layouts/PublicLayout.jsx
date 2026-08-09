@@ -1,7 +1,6 @@
 import React from 'react';
 import { Outlet } from 'react-router-dom';
 import Navbar from '../components/Navbar';
-import InstallAppBanner from '../components/InstallAppBanner';
 
 export default function PublicLayout() {
   return (
@@ -10,9 +9,6 @@ export default function PublicLayout() {
       <main className="flex-1">
         <Outlet />
       </main>
-
-      {/* Floating In-App Install Prompt Banner */}
-      <InstallAppBanner />
 
       <footer className="bg-slate-900 text-slate-400 py-8 border-t border-slate-800 text-center text-xs">
         <div className="max-w-7xl mx-auto px-4 space-y-2 font-gujarati">

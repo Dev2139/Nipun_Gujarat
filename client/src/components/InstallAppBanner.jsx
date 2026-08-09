@@ -1,13 +1,18 @@
 import React, { useState } from 'react';
+import { useLocation } from 'react-router-dom';
 import { usePWA } from '../context/PWAContext';
 import { Download, X, Smartphone, Monitor, Share2, PlusSquare, Sparkles, CheckCircle2 } from 'lucide-react';
 
 export default function InstallAppBanner() {
   const { isInstalled, isIOS, showIOSModal, setShowIOSModal, installPWA, installCount, handleIOSDone } = usePWA();
   const [dismissed, setDismissed] = useState(false);
+  const location = useLocation();
 
-  if (isInstalled || dismissed) {
-    return null;
+  // Do not show the floating badge on login pages
+  const isLoginPage = location.pathname === '/' || location.pathname.startsWith('/login');
+
+  if (isInstalled || dismissed || isLoginPage) {
+    if (!showIOSModal) return null;
   }
 
   return (
