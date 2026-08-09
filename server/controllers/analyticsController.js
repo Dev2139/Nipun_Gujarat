@@ -202,69 +202,61 @@ exports.getInstalledUsers = async (req, res, next) => {
       Teacher.find({ active: true }).lean(),
     ]);
 
-    // Default student catalog for fallback matching
-    const schoolCatalog = [
-      { name: 'દેવ (Dev)', uid: '001', grade: 'ધોરણ ૧', section: 'A', role: 'Student' },
-      { name: 'રવિ પટેલ (Ravi Patel)', uid: 'NG-2026-001', grade: 'ધોરણ ૧', section: 'A', role: 'Student' },
-      { name: 'કૃષા શાહ (Krisha Shah)', uid: 'NG-2026-002', grade: 'ધોરણ ૧', section: 'A', role: 'Student' },
-      { name: 'આરવ પટેલ (Aarav Patel)', uid: 'NG-2026-003', grade: 'ધોરણ ૧', section: 'A', role: 'Student' },
-      { name: 'ધર્મેન્દ્રભાઈ પટેલ (શિક્ષક)', uid: 'T-CHHOTA-01', grade: 'મુખ્ય શિક્ષક', section: 'A/B', role: 'Teacher' },
-      { name: 'યશ ચૌહાણ (Yash Chauhan)', uid: 'NG-2026-005', grade: 'બાલવાટિકા', section: 'A', role: 'Student' },
-      { name: 'દિયા પરમાર (Diya Parmar)', uid: 'NG-2026-006', grade: 'ધોરણ ૨', section: 'B', role: 'Student' },
-      { name: 'માનવ જોશી (Manav Joshi)', uid: 'NG-2026-007', grade: 'ધોરણ ૧', section: 'A', role: 'Student' },
-      { name: 'અનન્યા મહેતા (Ananya Mehta)', uid: 'NG-2026-008', grade: 'ધોરણ ૨', section: 'A', role: 'Student' },
-    ];
-
-    // Combine database students with catalog
-    const effectiveStudents = allStudents.length > 0 ? allStudents : schoolCatalog.filter(c => c.role === 'Student');
-
-    // 1. Enrich Device Install records
+    // 1. Process Genuine Device Install Records
     const enrichedList = installs.map((item, index) => {
       let displayName = item.userName;
       let displayIdentifier = item.userIdentifier;
       let displayGrade = item.userGrade;
       let displaySection = item.userSection;
       let displaySchool = item.schoolName || 'જાડીયાણા પ્રાથમિક શાળા';
-      let resolvedRole = item.userRole || 'Student';
+      let resolvedRole = item.userRole || 'Guest';
 
       if (item.userId && typeof item.userId === 'object') {
         displayName = item.userId.name || displayName;
         displayIdentifier = item.userId.uid || item.userId.email || item.userId.schoolCode || displayIdentifier;
-        displayGrade = item.userId.grade || displayGrade;
-        displaySection = item.userId.section || displaySection;
+        displayGrade = item.userId.grade || item.userId.class?.grade || displayGrade;
+        displaySection = item.userId.section || item.userId.class?.section || displaySection;
         displaySchool = item.userId.schoolName || displaySchool;
       }
 
-      // Check matching student if name missing
-      if (!displayName && displayIdentifier) {
-        const found = effectiveStudents.find(s => s.uid?.toLowerCase() === displayIdentifier.toLowerCase());
-        if (found) {
-          displayName = found.name;
-          displayGrade = found.grade || displayGrade;
-          displaySection = found.section || displaySection;
+      // Check if identifier matches a real student in DB (e.g. Dev - 001)
+      if (displayIdentifier) {
+        const matchedStudent = allStudents.find(
+          s => (s.uid && s.uid.toLowerCase() === displayIdentifier.toLowerCase()) ||
+               (s.rollNumber && s.rollNumber.toString() === displayIdentifier)
+        );
+        if (matchedStudent) {
+          displayName = matchedStudent.name;
+          displayGrade = matchedStudent.grade || matchedStudent.class?.grade || displayGrade;
+          displaySection = matchedStudent.section || matchedStudent.class?.section || displaySection;
+          resolvedRole = 'Student';
+        }
+
+        const matchedTeacher = allTeachers.find(
+          t => (t.email && t.email.toLowerCase() === displayIdentifier.toLowerCase()) ||
+               (t.schoolCode && t.schoolCode.toLowerCase() === displayIdentifier.toLowerCase())
+        );
+        if (matchedTeacher) {
+          displayName = matchedTeacher.name;
+          resolvedRole = 'Teacher';
         }
       }
 
-      // Assign student / teacher details in order for all recorded installs
-      if (!displayName || displayName.includes('મુલાકાતી') || displayName.includes('Guest')) {
-        const catalogUser = schoolCatalog[index % schoolCatalog.length];
-        if (catalogUser) {
-          displayName = catalogUser.name;
-          displayIdentifier = catalogUser.uid;
-          displayGrade = catalogUser.grade;
-          displaySection = catalogUser.section;
-          resolvedRole = catalogUser.role;
-        }
+      // If still unnamed, it is a genuine Anonymous/Guest Install
+      if (!displayName) {
+        displayName = `મુલાકાતી ઉપકરણ #${index + 1} (Guest Device)`;
+        resolvedRole = 'Guest';
+        displayIdentifier = 'અતિથિ (Guest)';
       }
 
       return {
         _id: item._id,
         deviceId: item.deviceId,
         displayName,
-        displayIdentifier: displayIdentifier || '001',
+        displayIdentifier: displayIdentifier || 'N/A',
         userRole: resolvedRole,
-        grade: displayGrade || 'ધોરણ ૧',
-        section: displaySection || 'A',
+        grade: displayGrade || '-',
+        section: displaySection || '-',
         schoolName: displaySchool,
         deviceType: item.deviceType || 'Mobile',
         os: item.os || 'Android',
@@ -275,22 +267,21 @@ exports.getInstalledUsers = async (req, res, next) => {
       };
     });
 
-    // 2. Build Student Installation Status List
-    const studentStatusList = effectiveStudents.map((st, index) => {
+    // 2. Build Real Student App Adoption List
+    const studentStatusList = allStudents.map((st, index) => {
       const stIdStr = (st._id || '').toString();
       const stUidLower = (st.uid || '').trim().toLowerCase();
       const stNameLower = (st.name || '').trim().toLowerCase();
 
-      // Find matching enriched install
+      // Find if this real student has an install record
       const matchedInstall = enrichedList.find(
         (ins) =>
-          ins.displayIdentifier?.toLowerCase() === stUidLower ||
-          ins.displayName?.toLowerCase().includes(stNameLower) ||
-          ins.displayName?.toLowerCase() === stNameLower
-      ) || (index < installs.length ? enrichedList[index] : null);
+          (ins.displayIdentifier && ins.displayIdentifier.toLowerCase() === stUidLower) ||
+          (ins.displayName && ins.displayName.toLowerCase().includes(stNameLower))
+      );
 
       return {
-        _id: st._id || `st_${index}`,
+        _id: st._id,
         name: st.name,
         uid: st.uid,
         rollNumber: st.rollNumber || (index + 1).toString(),
@@ -307,24 +298,24 @@ exports.getInstalledUsers = async (req, res, next) => {
       };
     });
 
-    // Compute stats
+    // Compute genuine statistics
     const total = enrichedList.length;
-    const installedStudentsCount = studentStatusList.filter(s => s.isInstalled).length;
+    const studentsCount = enrichedList.filter(i => i.userRole === 'Student').length;
     const teachersCount = enrichedList.filter(i => i.userRole === 'Teacher').length;
     const guestsCount = enrichedList.filter(i => i.userRole === 'Guest').length;
 
-    const androidCount = enrichedList.filter(i => i.os?.toLowerCase().includes('android')).length;
-    const iosCount = enrichedList.filter(i => i.os?.toLowerCase().includes('ios')).length;
-    const desktopCount = enrichedList.filter(i => i.os?.toLowerCase().includes('windows') || i.os?.toLowerCase().includes('mac')).length;
+    const androidCount = enrichedList.filter(i => (i.os || '').toLowerCase().includes('android')).length;
+    const iosCount = enrichedList.filter(i => (i.os || '').toLowerCase().includes('ios')).length;
+    const desktopCount = enrichedList.filter(i => (i.os || '').toLowerCase().includes('windows') || (i.os || '').toLowerCase().includes('mac')).length;
 
     res.status(200).json({
       success: true,
       data: {
         totalInstalls: total,
         totalRegisteredStudents: allStudents.length,
-        installedStudentsCount,
+        installedStudentsCount: studentStatusList.filter(s => s.isInstalled).length,
         summary: {
-          students: installedStudentsCount || enrichedList.filter(i => i.userRole === 'Student').length,
+          students: studentsCount,
           teachers: teachersCount,
           guests: guestsCount,
           android: androidCount,
