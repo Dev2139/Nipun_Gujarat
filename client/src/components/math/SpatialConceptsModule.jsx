@@ -27,14 +27,195 @@ import {
 export default function SpatialConceptsModule({ competency, progress, onTestReady }) {
   const navigate = useNavigate();
 
-  // 10 pedagogical stages
+  // 11 pedagogical stages (including in-module test & result)
   const [currentStage, setCurrentStage] = useState(1);
-  const totalStages = 10;
+  const totalStages = 11;
 
   // Tracking metrics
   const [activitiesDone, setActivitiesDone] = useState(0);
   const [practiceScore, setPracticeScore] = useState(0);
   const [hintsUsed, setHintsUsed] = useState(0);
+
+  // In-Module Final Assessment State
+  const [testIdx, setTestIdx] = useState(0);
+  const [testUserAnswers, setTestUserAnswers] = useState({});
+  const [testResultData, setTestResultData] = useState(null);
+  const [submittingTest, setSubmittingTest] = useState(false);
+
+  // Test questions for M-02
+  const testQuestions = [
+    {
+      id: 't1',
+      category: 'ઉપર અને નીચે (Basic Up & Down)',
+      promptGujarati: 'પક્ષી વૃક્ષની ક્યાં છે? (🐦 ઉપર / 🌳 વૃક્ષ)',
+      visual: '🌳\n🐦 (ઉપર)',
+      options: [
+        { id: 'opt1', text: 'વૃક્ષની ઉપર (Top / Above ⬆️)', emoji: '🐦' },
+        { id: 'opt2', text: 'વૃક્ષની નીચે (Bottom / Below ⬇️)', emoji: '🌳' },
+      ],
+      correctId: 'opt1',
+      explain: 'પક્ષી વૃક્ષની ટોચ પર (ઉપર) બેઠું છે.',
+    },
+    {
+      id: 't2',
+      category: 'ઉપર અને નીચે (Basic Up & Down)',
+      promptGujarati: 'કૂતરો વૃક્ષની ક્યાં બેઠો છે? (🐕 નીચે / 🌳 વૃક્ષ)',
+      visual: '🌳\n🐕 (નીચે)',
+      options: [
+        { id: 'opt1', text: 'વૃક્ષની નીચે (Bottom / Below ⬇️)', emoji: '🐕' },
+        { id: 'opt2', text: 'વૃક્ષની ઉપર (Top / Above ⬆️)', emoji: '🌳' },
+      ],
+      correctId: 'opt1',
+      explain: 'કૂતરો જમીન પર વૃક્ષના થડ પાસે નીચે બેઠો છે.',
+    },
+    {
+      id: 't3',
+      category: 'ની ઉપર અને ની નીચે (Relative Position: Above & Below)',
+      promptGujarati: 'સફરજન ટોપલીની ક્યાં છે? (🍎 સફરજન / 🧺 ટોપલી)',
+      visual: '🍎 (ઉપર)\n🧺 (ટોપલી)',
+      options: [
+        { id: 'opt1', text: 'ટોપલીની ઉપર (On / Above Basket ⬆️)', emoji: '🍎' },
+        { id: 'opt2', text: 'ટોપલીની નીચે (Below Basket ⬇️)', emoji: '🧺' },
+      ],
+      correctId: 'opt1',
+      explain: 'સફરજન ટોપલીની ઉપર મુકેલું છે.',
+    },
+    {
+      id: 't4',
+      category: 'ની ઉપર અને ની નીચે (Relative Position: Above & Below)',
+      promptGujarati: 'છોકરો પતંગની ક્યાં ઊભો છે? (🪁 આકાશમાં પતંગ / 👦 છોકરો)',
+      visual: '🪁 (આકાશમાં)\n👦 (જમીન પર)',
+      options: [
+        { id: 'opt1', text: 'પતંગની નીચે જમીન પર (Below ⬇️)', emoji: '👦' },
+        { id: 'opt2', text: 'પતંગની ઉપર આકાશમાં (Above ⬆️)', emoji: '🪁' },
+      ],
+      correctId: 'opt1',
+      explain: 'પતંગ આકાશમાં ઊડે છે અને છોકરો તેની નીચે જમીન પર ઊભો છે.',
+    },
+    {
+      id: 't5',
+      category: 'ઉપરથી નીચે / નીચેથી ઉપર (Vertical Ordering)',
+      promptGujarati: 'ફળોને ઉપરથી નીચેના ક્રમમાં (૧ થી ૩) ગોઠવો: 🍉(૧), 🍎(૨), 🍇(૩)',
+      visual: '🍉 (૧ - ટોચ)\n🍎 (૨ - વચ્ચે)\n🍇 (૩ - તળિયે)',
+      options: [
+        { id: 'opt1', text: '🍉 → 🍎 → 🍇 (ઉપરથી નીચે ⬇️)', emoji: '🎯' },
+        { id: 'opt2', text: '🍇 → 🍎 → 🍉 (નીચેથી ઉપર ⬆️)', emoji: '❌' },
+        { id: 'opt3', text: '🍎 → 🍉 → 🍇 (અયોગ્ય ક્રમ)', emoji: '❌' },
+      ],
+      correctId: 'opt1',
+      explain: 'ઉપરથી નીચે ક્રમ: 🍉 (સૌથી ઉપર) → 🍎 (વચ્ચે) → 🍇 (સૌથી નીચે).',
+    },
+    {
+      id: 't6',
+      category: 'ઉપરથી નીચે / નીચેથી ઉપર (Vertical Ordering)',
+      promptGujarati: 'નીચેથી ઉપરના ક્રમમાં (⬆️) ગોઠવો: 🍇(તળિયે), 🍎(વચ્ચે), 🍉(ટોચ)',
+      visual: '🍉 (ટોચ)\n🍎 (વચ્ચે)\n🍇 (તળિયે)',
+      options: [
+        { id: 'opt1', text: '🍇 → 🍎 → 🍉 (નીચેથી ઉપર ⬆️)', emoji: '🎯' },
+        { id: 'opt2', text: '🍉 → 🍎 → 🍇 (ઉપરથી નીચે ⬇️)', emoji: '❌' },
+        { id: 'opt3', text: '🍇 → 🍉 → 🍎 (અયોગ્ય ક્રમ)', emoji: '❌' },
+      ],
+      correctId: 'opt1',
+      explain: 'નીચેથી ઉપર ક્રમ: 🍇 → 🍎 → 🍉.',
+    },
+    {
+      id: 't7',
+      category: 'નજીક અને દૂર (Near & Far)',
+      promptGujarati: 'ચિત્ર જુઓ: 👦 ⚽ — બોલ બાળકની ક્યાં છે?',
+      visual: '👦 ⚽ (સાથે)',
+      options: [
+        { id: 'opt1', text: 'બાળકની નજીક (Near 🟢)', emoji: '⚽' },
+        { id: 'opt2', text: 'બાળકથી દૂર (Far 🔴)', emoji: '📍' },
+      ],
+      correctId: 'opt1',
+      explain: 'બોલ બાળકની એકદમ પાસે એટલે નજીક છે.',
+    },
+    {
+      id: 't8',
+      category: 'નજીક અને દૂર (Near & Far)',
+      promptGujarati: 'ચિત્ર જુઓ: 👦 . . . . . ⚽ — બોલ બાળકની ક્યાં છે?',
+      visual: '👦  - - - - -  ⚽',
+      options: [
+        { id: 'opt1', text: 'બાળકથી દૂર (Far 🔴)', emoji: '⚽' },
+        { id: 'opt2', text: 'બાળકની નજીક (Near 🟢)', emoji: '📍' },
+      ],
+      correctId: 'opt1',
+      explain: 'બોલ અને બાળક વચ્ચે ઘણું અંતર છે, એટલે બોલ દૂર છે.',
+    },
+    {
+      id: 't9',
+      category: 'ની ઉપર અને ની નીચે (Relative Position: Above & Below)',
+      promptGujarati: 'બિલાડી ખુરશીની ક્યાં સંતાઈ છે? (🪑 ખુરશી / 🐱 બિલાડી)',
+      visual: '🪑 (ખુરશી)\n🐱 (પાયા વચ્ચે નીચે)',
+      options: [
+        { id: 'opt1', text: 'ખુરશીની નીચે (Under / Below ⬇️)', emoji: '🐱' },
+        { id: 'opt2', text: 'ખુરશીની ઉપર (On chair ⬆️)', emoji: '🪑' },
+      ],
+      correctId: 'opt1',
+      explain: 'બિલાડી ખુરશીની નીચે બેઠી છે.',
+    },
+    {
+      id: 't10',
+      category: 'ની ઉપર અને ની નીચે (Relative Position: Above & Below)',
+      promptGujarati: 'રંગબેરંગી ફુગ્ગો ઘરની ક્યાં ઊડી રહ્યો છે? (🎈 ફુગ્ગો / 🏠 ઘર)',
+      visual: '🎈 (આકાશમાં)\n🏠 (જમીન પર)',
+      options: [
+        { id: 'opt1', text: 'ઘરની ઉપર આકાશમાં (Above house ⬆️)', emoji: '🎈' },
+        { id: 'opt2', text: 'ઘરની નીચે જમીનમાં (Below house ⬇️)', emoji: '🏠' },
+      ],
+      correctId: 'opt1',
+      explain: 'ફુગ્ગો ઘરની ઉપર આકાશમાં ઊડે છે.',
+    },
+  ];
+
+  const handleSubmitFinalAssessment = async () => {
+    setSubmittingTest(true);
+    let correctCount = 0;
+    const categoryMistakes = {};
+
+    testQuestions.forEach((q, i) => {
+      const selected = testUserAnswers[i];
+      if (selected === q.correctId) {
+        correctCount += 1;
+      } else {
+        categoryMistakes[q.category] = (categoryMistakes[q.category] || 0) + 1;
+      }
+    });
+
+    const scorePct = Math.round((correctCount / testQuestions.length) * 100);
+    const isMastered = scorePct >= 80;
+    const diagnosedWeakAreas = Object.keys(categoryMistakes);
+
+    const resultPayload = {
+      score: scorePct,
+      correctCount,
+      totalQuestions: testQuestions.length,
+      isMastered,
+      status: isMastered ? 'MASTERED' : scorePct >= 31 ? 'DEVELOPING' : 'NEEDS_SUPPORT',
+      weakAreas: diagnosedWeakAreas,
+    };
+
+    try {
+      await progressService.submitAssessment({
+        competencyCode: 'M-02',
+        answers: Object.keys(testUserAnswers).map(k => ({
+          questionIndex: Number(k),
+          selectedOptionId: testUserAnswers[k],
+        })),
+        weakAreas: diagnosedWeakAreas,
+      });
+      if (isMastered) triggerWin();
+      setTestResultData(resultPayload);
+      setCurrentStage(11);
+    } catch (err) {
+      console.warn('[SpatialConceptsModule] Submit error:', err);
+      if (isMastered) triggerWin();
+      setTestResultData(resultPayload);
+      setCurrentStage(11);
+    } finally {
+      setSubmittingTest(false);
+    }
+  };
 
   // Sync activity progress to backend
   const updateBackend = async (data = {}) => {
@@ -1269,48 +1450,221 @@ export default function SpatialConceptsModule({ competency, progress, onTestRead
       )}
 
       {/* ========================================================
-          STAGE 10: FINAL TEST UNLOCKED
+          STAGE 10: IN-MODULE FINAL ASSESSMENT (10 QUESTIONS)
           ======================================================== */}
       {currentStage === 10 && (
-        <div className="bg-white rounded-3xl p-6 md:p-8 border-4 border-emerald-400 shadow-2xl text-center space-y-6 animate-in zoom-in-95 duration-300">
-          <div className="w-24 h-24 mx-auto rounded-3xl bg-gradient-to-tr from-emerald-500 to-teal-400 text-white flex items-center justify-center text-5xl shadow-xl animate-bounce">
-            🎯
+        <div className="bg-white rounded-3xl p-6 md:p-8 border-2 border-emerald-300 shadow-2xl space-y-6 animate-in fade-in-50 duration-300">
+          {/* Header */}
+          <div className="flex items-center justify-between border-b border-slate-100 pb-3">
+            <div>
+              <span className="px-3 py-1 bg-emerald-100 text-emerald-800 text-xs font-black rounded-full uppercase tracking-wider">
+                અંતિમ કસોટી (Final Test)
+              </span>
+              <div className="text-xs text-slate-500 font-bold mt-1">
+                પ્રશ્ન {testIdx + 1} / {testQuestions.length}
+              </div>
+            </div>
+            <GujaratiVoiceButton
+              text={testQuestions[testIdx]?.promptGujarati}
+              label="સાંભળો"
+              size="sm"
+            />
           </div>
 
-          <div className="space-y-2">
-            <span className="px-3.5 py-1 bg-emerald-100 text-emerald-800 rounded-full text-xs font-black">
-              તમે તૈયાર છો!
-            </span>
-            <h1 className="text-3xl font-black text-slate-900">
-              સરસ! હવે ૧૦ પ્રશ્નોની કસોટી આપો 🚀
-            </h1>
-            <p className="text-sm font-semibold text-slate-600 max-w-md mx-auto">
-              ૮૦% કે તેથી વધુ ગુણ મેળવવાથી આગળની ક્ષમતા (M-03) અનલૉક થશે.
-            </p>
+          {/* Progress Dots */}
+          <div className="flex items-center justify-center gap-1.5 overflow-x-auto py-1">
+            {testQuestions.map((q, i) => {
+              const isAnswered = testUserAnswers[i] !== undefined;
+              const isCurrent = i === testIdx;
+              return (
+                <button
+                  key={i}
+                  onClick={() => setTestIdx(i)}
+                  className={`w-7 h-7 rounded-xl font-mono text-xs font-black transition-all ${
+                    isCurrent
+                      ? 'bg-emerald-600 text-white ring-4 ring-emerald-200 scale-110'
+                      : isAnswered
+                      ? 'bg-emerald-100 text-emerald-800 border border-emerald-300'
+                      : 'bg-slate-100 text-slate-500'
+                  }`}
+                >
+                  {i + 1}
+                </button>
+              );
+            })}
           </div>
 
-          <div className="p-4 bg-emerald-50 rounded-2xl border border-emerald-200 text-left max-w-sm mx-auto space-y-2 text-xs">
-            <div className="font-black text-emerald-950">તમે શું શીખ્યા:</div>
-            <div className="flex flex-wrap gap-1.5">
-              <span className="px-2 py-0.5 bg-white border border-emerald-300 rounded text-emerald-800 font-bold">✓ ઉપર (Up)</span>
-              <span className="px-2 py-0.5 bg-white border border-emerald-300 rounded text-emerald-800 font-bold">✓ નીચે (Down)</span>
-              <span className="px-2 py-0.5 bg-white border border-emerald-300 rounded text-emerald-800 font-bold">✓ ની ઉપર (Above)</span>
-              <span className="px-2 py-0.5 bg-white border border-emerald-300 rounded text-emerald-800 font-bold">✓ ની નીચે (Below)</span>
-              <span className="px-2 py-0.5 bg-white border border-emerald-300 rounded text-emerald-800 font-bold">✓ ઉપરથી નીચે (Top to Bottom)</span>
-              <span className="px-2 py-0.5 bg-white border border-emerald-300 rounded text-emerald-800 font-bold">✓ નીચેથી ઉપર (Bottom to Top)</span>
-              <span className="px-2 py-0.5 bg-white border border-emerald-300 rounded text-emerald-800 font-bold">✓ નજીક (Near)</span>
-              <span className="px-2 py-0.5 bg-white border border-emerald-300 rounded text-emerald-800 font-bold">✓ દૂર (Far)</span>
+          {/* Question Prompt */}
+          <div className="text-center space-y-3">
+            <h2 className="text-xl md:text-2xl font-black text-slate-900 leading-snug">
+              {testQuestions[testIdx]?.promptGujarati}
+            </h2>
+
+            {/* Visual Preview */}
+            <div className="p-4 bg-slate-50 border border-slate-200 rounded-2xl max-w-sm mx-auto text-center font-bold text-slate-700 whitespace-pre-line text-sm">
+              {testQuestions[testIdx]?.visual}
             </div>
           </div>
 
-          <div className="pt-2">
+          {/* Options */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 max-w-md mx-auto">
+            {testQuestions[testIdx]?.options.map((opt) => {
+              const isSelected = testUserAnswers[testIdx] === opt.id;
+              return (
+                <button
+                  key={opt.id}
+                  onClick={() => setTestUserAnswers({ ...testUserAnswers, [testIdx]: opt.id })}
+                  className={`p-4 rounded-2xl border-2 font-black text-sm text-center shadow-xs transition-all active:scale-95 flex items-center justify-center gap-2 ${
+                    isSelected
+                      ? 'border-emerald-600 bg-emerald-50 text-emerald-950 ring-4 ring-emerald-100'
+                      : 'border-slate-200 bg-white hover:border-emerald-300 text-slate-800'
+                  }`}
+                >
+                  <span className="text-lg">{opt.emoji}</span>
+                  <span>{opt.text}</span>
+                </button>
+              );
+            })}
+          </div>
+
+          {/* Navigation Controls */}
+          <div className="flex items-center justify-between pt-4 border-t border-slate-100">
             <button
-              onClick={() => navigate('/student/test/M-02')}
-              className="px-10 py-4 bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-700 hover:to-teal-700 text-white font-black text-base rounded-2xl shadow-xl shadow-emerald-200 active:scale-95 transition-all flex items-center gap-2 mx-auto"
+              onClick={() => setTestIdx(Math.max(0, testIdx - 1))}
+              disabled={testIdx === 0}
+              className="px-4 py-2.5 border rounded-xl font-bold text-xs text-slate-600 disabled:opacity-30"
             >
-              <span>કસોટી શરૂ કરો (Start Test) 🚀</span>
-              <ArrowRight className="w-5 h-5" />
+              ← પાછળ
             </button>
+
+            {testIdx < testQuestions.length - 1 ? (
+              <button
+                onClick={() => setTestIdx(testIdx + 1)}
+                disabled={!testUserAnswers[testIdx]}
+                className="px-6 py-2.5 bg-emerald-600 hover:bg-emerald-700 disabled:opacity-40 text-white font-black text-xs rounded-xl shadow-md flex items-center gap-1.5 active:scale-95"
+              >
+                <span>આગળનો પ્રશ્ન ▶</span>
+              </button>
+            ) : (
+              <button
+                onClick={handleSubmitFinalAssessment}
+                disabled={Object.keys(testUserAnswers).length < testQuestions.length || submittingTest}
+                className="px-8 py-3 bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-700 hover:to-teal-700 disabled:opacity-40 text-white font-black text-xs rounded-xl shadow-xl shadow-emerald-200 flex items-center gap-2 active:scale-95"
+              >
+                <span>{submittingTest ? 'પરિણામ તપાસી રહ્યા છીએ...' : 'કસોટી સબમિટ કરો (Submit Test) ✓'}</span>
+              </button>
+            )}
+          </div>
+        </div>
+      )}
+
+      {/* ========================================================
+          STAGE 11: FINAL RESULT SCREEN & WEAKNESS DIAGNOSIS
+          ======================================================== */}
+      {currentStage === 11 && testResultData && (
+        <div className={`rounded-3xl p-8 border-4 text-center shadow-2xl space-y-6 animate-in zoom-in-95 duration-300 ${
+          testResultData.isMastered
+            ? 'bg-gradient-to-b from-emerald-50 via-white to-emerald-50 border-emerald-400'
+            : testResultData.score >= 31
+            ? 'bg-gradient-to-b from-amber-50 via-white to-amber-50 border-amber-400'
+            : 'bg-gradient-to-b from-rose-50 via-white to-rose-50 border-rose-400'
+        }`}>
+          <div className={`w-24 h-24 mx-auto rounded-3xl flex items-center justify-center text-5xl shadow-xl animate-bounce ${
+            testResultData.isMastered
+              ? 'bg-emerald-500 text-white ring-8 ring-emerald-100'
+              : testResultData.score >= 31
+              ? 'bg-amber-400 text-white ring-8 ring-amber-100'
+              : 'bg-rose-400 text-white ring-8 ring-rose-100'
+          }`}>
+            {testResultData.isMastered ? '🎉' : (testResultData.score >= 31 ? '👍' : '💪')}
+          </div>
+
+          <div className="space-y-2">
+            <div className="inline-flex items-center gap-1.5 px-4 py-1 rounded-full text-xs font-black uppercase tracking-wider font-mono bg-white shadow-xs">
+              સ્કોર: {testResultData.correctCount} / {testResultData.totalQuestions} ({testResultData.score}%)
+            </div>
+
+            <h1 className="text-2xl sm:text-3xl font-black text-slate-900">
+              {testResultData.isMastered
+                ? '🎉 અભિનંદન! તમે સ્થાનિક સંકલ્પનાઓ (M-02) માં નિપુણતા મેળવી!'
+                : (testResultData.score >= 31
+                  ? 'તમે થોડું વધુ શીખવાની જરૂર છે 👍'
+                  : 'ચાલો ફરીથી શીખીએ! ✨')}
+            </h1>
+
+            <p className="text-sm font-semibold text-slate-600 max-w-md mx-auto">
+              {testResultData.isMastered
+                ? 'તમે ઉપર, નીચે, ની ઉપર, ની નીચે, ઉપરથી નીચે, નીચેથી ઉપર, નજીક અને દૂર બધી સંકલ્પનાઓ સરસ રીતે સમજી લીધી છે. આગળનું પગલું (M-03) અનલૉક થઈ ગયું છે!'
+                : 'નીચે આપેલ નબળા મુદ્દાઓ પર ફરી મહાવરો કરો અને પછી ફરી કસોટી આપો.'}
+            </p>
+          </div>
+
+          {/* Weakness Diagnosis */}
+          {!testResultData.isMastered && testResultData.weakAreas && testResultData.weakAreas.length > 0 && (
+            <div className="p-4 bg-amber-50 border border-amber-200 rounded-2xl text-left text-xs space-y-2 max-w-md mx-auto">
+              <div className="font-black text-amber-950 flex items-center gap-1.5">
+                <span>🎯 ધ્યાન આપવાની જરૂર (Diagnosed Areas):</span>
+              </div>
+              <div className="flex flex-wrap gap-1.5 pt-1">
+                {testResultData.weakAreas.map((wa, i) => (
+                  <span key={i} className="px-2.5 py-1 bg-white border border-amber-300 rounded-lg text-amber-900 font-bold text-[11px]">
+                    ⚠️ {wa}
+                  </span>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {/* Action Buttons */}
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-3 pt-4 border-t border-slate-100">
+            {testResultData.isMastered ? (
+              <>
+                <button
+                  onClick={() => navigate('/student/learn/M-03')}
+                  className="w-full sm:w-auto px-8 py-3.5 bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-700 hover:to-teal-700 text-white font-black text-sm rounded-2xl shadow-lg shadow-emerald-200 active:scale-95 transition-all flex items-center justify-center gap-2"
+                >
+                  <span>આગળનું પગલું (૧ થી ૫ સુધીની સંખ્યાઓ - M-03) ▶</span>
+                  <ArrowRight className="w-4 h-4" />
+                </button>
+                <button
+                  onClick={() => navigate('/student/path/mathematics')}
+                  className="w-full sm:w-auto px-6 py-3.5 bg-white text-slate-700 border border-slate-300 font-bold text-xs rounded-2xl hover:bg-slate-50 active:scale-95 transition-all flex items-center justify-center gap-2"
+                >
+                  <span>ગણિત અધ્યયન માર્ગ (Learning Path)</span>
+                </button>
+              </>
+            ) : (
+              <>
+                <button
+                  onClick={() => {
+                    setCurrentStage(3); // Go to Activity 1
+                    setTestUserAnswers({});
+                    setTestIdx(0);
+                  }}
+                  className="w-full sm:w-auto px-6 py-3.5 bg-amber-500 hover:bg-amber-600 text-white font-bold text-xs rounded-2xl shadow-md active:scale-95 transition-all flex items-center justify-center gap-2"
+                >
+                  <RotateCcw className="w-4 h-4" />
+                  <span>રમતો ફરીથી રમો (Replay Activities)</span>
+                </button>
+                <button
+                  onClick={() => {
+                    setCurrentStage(10); // Retake Test
+                    setTestUserAnswers({});
+                    setTestIdx(0);
+                  }}
+                  className="w-full sm:w-auto px-6 py-3.5 bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs rounded-2xl shadow-md active:scale-95 transition-all flex items-center justify-center gap-2"
+                >
+                  <Sparkles className="w-4 h-4" />
+                  <span>કસોટી ફરી આપો (Retake Test)</span>
+                </button>
+                <button
+                  onClick={() => navigate('/student/dashboard')}
+                  className="w-full sm:w-auto px-6 py-3.5 bg-white text-slate-700 border border-slate-300 font-bold text-xs rounded-2xl hover:bg-slate-50 active:scale-95 transition-all flex items-center justify-center gap-2"
+                >
+                  <span>મુખ્ય પેજ</span>
+                </button>
+              </>
+            )}
           </div>
         </div>
       )}

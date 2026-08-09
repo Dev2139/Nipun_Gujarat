@@ -90,7 +90,7 @@ export default function ResultScreen() {
 
           <h1 className="text-2xl sm:text-3xl font-black text-slate-900 font-gujarati">
             {isMastered
-              ? '🎉 અભિનંદન! તમે સૌથી નાનું અને સૌથી મોટું સારી રીતે શીખી લીધું.'
+              ? `🎉 અભિનંદન! તમે ${titleGujarati || competencyCode || 'આ ક્ષમતા'} માં નિપુણતા મેળવી!`
               : (percentage >= 31
                 ? 'તમે થોડું વધુ શીખવાની જરૂર છે 👍'
                 : 'ચાલો ફરીથી શીખીએ! ✨')}

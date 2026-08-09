@@ -244,6 +244,32 @@ export default function StudentDetail() {
                         </div>
                       )}
 
+                      {p.competencyCode === 'M-03' && (
+                        <div className="mt-2 flex flex-wrap items-center gap-1.5 text-[10px] font-gujarati">
+                          <span className="font-bold text-slate-700">૧ થી ૫ કૌશલ્યો:</span>
+                          <span className={`px-2 py-0.5 rounded font-bold ${
+                            p.weakAreas?.some(w => w.includes('ઓળખ')) ? 'bg-amber-100 text-amber-900 border border-amber-300' : 'bg-emerald-100 text-emerald-900 border border-emerald-300'
+                          }`}>
+                            નંબર ઓળખ {p.weakAreas?.some(w => w.includes('ઓળખ')) ? '⚠️' : '✓'}
+                          </span>
+                          <span className={`px-2 py-0.5 rounded font-bold ${
+                            p.weakAreas?.some(w => w.includes('ગણતરી')) ? 'bg-amber-100 text-amber-900 border border-amber-300' : 'bg-emerald-100 text-emerald-900 border border-emerald-300'
+                          }`}>
+                            વસ્તુ ગણતરી {p.weakAreas?.some(w => w.includes('ગણતરી')) ? '⚠️' : '✓'}
+                          </span>
+                          <span className={`px-2 py-0.5 rounded font-bold ${
+                            p.weakAreas?.some(w => w.includes('જથ્થો')) ? 'bg-amber-100 text-amber-900 border border-amber-300' : 'bg-emerald-100 text-emerald-900 border border-emerald-300'
+                          }`}>
+                            સંખ્યા-જથ્થો {p.weakAreas?.some(w => w.includes('જથ્થો')) ? '⚠️' : '✓'}
+                          </span>
+                          <span className={`px-2 py-0.5 rounded font-bold ${
+                            p.weakAreas?.some(w => w.includes('ક્રમ')) ? 'bg-amber-100 text-amber-900 border border-amber-300' : 'bg-emerald-100 text-emerald-900 border border-emerald-300'
+                          }`}>
+                            સંખ્યા ક્રમ {p.weakAreas?.some(w => w.includes('ક્રમ')) ? '⚠️' : '✓'}
+                          </span>
+                        </div>
+                      )}
+
                       {p.weakAreas && p.weakAreas.length > 0 && (
                         <div className="mt-1.5 flex flex-wrap items-center gap-1 text-[10px] font-gujarati">
                           <span className="font-black text-rose-700">નબળો મુદ્દો:</span>

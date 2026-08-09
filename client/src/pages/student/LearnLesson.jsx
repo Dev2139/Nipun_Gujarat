@@ -10,6 +10,7 @@ import InteractiveCurrencyShop from '../../components/math/InteractiveCurrencySh
 import InteractiveClockDayNight from '../../components/math/InteractiveClockDayNight';
 import SmallestBiggestModule from '../../components/math/SmallestBiggestModule';
 import SpatialConceptsModule from '../../components/math/SpatialConceptsModule';
+import Numbers1to5Module from '../../components/math/Numbers1to5Module';
 import {
   ArrowLeft,
   BookOpen,
@@ -162,7 +163,7 @@ export default function LearnLesson() {
         </span>
       </div>
 
-      {/* Dedicated Interactive Modules for M-01 & M-02 */}
+      {/* Dedicated Interactive Modules for M-01, M-02 & M-03 */}
       {code?.toUpperCase() === 'M-01' ? (
         <SmallestBiggestModule
           competency={competency}
@@ -171,6 +172,12 @@ export default function LearnLesson() {
         />
       ) : code?.toUpperCase() === 'M-02' ? (
         <SpatialConceptsModule
+          competency={competency}
+          progress={data?.progress}
+          onTestReady={() => setPracticeDone(true)}
+        />
+      ) : code?.toUpperCase() === 'M-03' ? (
+        <Numbers1to5Module
           competency={competency}
           progress={data?.progress}
           onTestReady={() => setPracticeDone(true)}

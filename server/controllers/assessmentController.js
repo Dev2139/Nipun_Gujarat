@@ -85,7 +85,17 @@ exports.submitAssessment = async (req, res, next) => {
           const qText = (question.promptGujarati || '').toLowerCase();
           const compCode = (competencyCode || '').toUpperCase();
 
-          if (compCode === 'M-02' || qText.includes('નજીક') || qText.includes('દૂર') || qText.includes('ઉપર') || qText.includes('નીચે')) {
+          if (compCode === 'M-03') {
+            if (qText.includes('ક્રમ') || qText.includes('ખૂટતી') || qText.includes('પ્રથમ')) {
+              missedCategories.add('સંખ્યા ક્રમ (Number Sequence & Ordering)');
+            } else if (qText.includes('સમૂહ') || qText.includes('જૂથ') || qText.includes('જોડો')) {
+              missedCategories.add('સંખ્યા અને જથ્થો (Number & Quantity Matching)');
+            } else if (qText.includes('કેટલા') || qText.includes('ગણો')) {
+              missedCategories.add('વસ્તુઓની ગણતરી (Counting Objects)');
+            } else {
+              missedCategories.add('નંબર ઓળખ (Number Recognition)');
+            }
+          } else if (compCode === 'M-02' || qText.includes('નજીક') || qText.includes('દૂર') || qText.includes('ઉપર') || qText.includes('નીચે')) {
             if (qText.includes('નજીક') || qText.includes('દૂર')) {
               missedCategories.add('નજીક અને દૂર (Near & Far)');
             } else if (qText.includes('ઉપરથી નીચે') || qText.includes('નીચેથી ઉપર') || qText.includes('ક્રમ')) {

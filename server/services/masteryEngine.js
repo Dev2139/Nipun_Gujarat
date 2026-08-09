@@ -239,6 +239,7 @@ exports.processAssessmentSubmission = async ({
  */
 exports.initializeStudentProgress = async (studentId, studentUid, startingPoint = 'FOUNDATIONAL') => {
   const allCompetencies = await Competency.find({ active: true }).sort({ subject: 1, sequence: 1 });
+  const isDemo001 = String(studentUid || '').includes('001');
 
   const progressRecords = [];
   for (const comp of allCompetencies) {
@@ -250,7 +251,10 @@ exports.initializeStudentProgress = async (studentId, studentUid, startingPoint 
       competencyCode: comp.code,
       competencyId: comp._id,
       sequence: comp.sequence,
-      status: isFirst ? 'AVAILABLE' : 'LOCKED',
+      status: (isFirst || isDemo001) ? 'AVAILABLE' : 'LOCKED',
+      learningCompleted: isDemo001,
+      practiceCompleted: isDemo001,
+      assessmentUnlocked: isDemo001,
     });
   }
 

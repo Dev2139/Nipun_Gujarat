@@ -141,46 +141,65 @@
     "subject": "mathematics",
     "stage": "Balvatika",
     "field": "સંખ્યાજ્ઞાન",
-    "titleGujarati": "૧ થી ૫ સુધીનું સંખ્યાજ્ઞાન (Number Sense 1 to 5)",
-    "titleEnglish": "Number sense from 1 to 5",
-    "descriptionGujarati": "૧ થી ૫ સુધીના અંકો ઓળખે છે, ગણે છે અને વસ્તુઓ સાથે મેળવે છે.",
-    "manipulativeType": "object_counter",
+    "titleGujarati": "૧ થી ૫ સુધીની સંખ્યાઓ (Numbers 1 to 5)",
+    "titleEnglish": "Number knowledge and recognition from 1 to 5",
+    "descriptionGujarati": "૧ થી ૫ સુધીના અંકો ઓળખે છે, ગણે છે, વસ્તુઓ સાથે મેળવે છે અને સાચો ક્રમ સમજે છે.",
+    "manipulativeType": "numbers_1_to_5_module",
     "learningContent": {
-      "headlineGujarati": "૧ થી ૫ ની ગણતરી (Counting 1 to 5)",
-      "instructionGujarati": "વસ્તુઓ પર ક્લિક કરીને એક પછી એક ગણો: ૧ (એક), ૨ (બે), ૩ (ત્રણ), ૪ (ચાર), ૫ (પાંચ)",
-      "mediaEmojiOrIcon": "🍎",
+      "headlineGujarati": "૧ થી ૫ સુધીની સંખ્યાઓ (Numbers 1 to 5)",
+      "instructionGujarati": "ચાલો વિડિયો જોઈએ, ૧ થી ૫ અંકો ઓળખીએ અને મનોરંજક રમતો રમીએ!",
+      "mediaEmojiOrIcon": "🔢",
       "soundPhonicsText": "એક, બે, ત્રણ, ચાર, પાંચ. ૧, ૨, ૩, ૪, ૫.",
+      "video": {
+        "youtubeId": "eeEqwHkgqrI",
+        "titleGujarati": "ચાલો 1 થી 5 સુધીની સંખ્યાઓ શીખીએ! 🔢",
+        "embedUrl": "https://www.youtube.com/embed/eeEqwHkgqrI"
+      },
       "conceptCard": {
-        "title": "અંક અને જથ્થો (Number & Quantity)",
-        "explanationGujarati": "દરેક અંક ચોક્કસ સંખ્યામાં વસ્તુઓ દર્શાવે છે. ૧ એટલે એક વસ્તુ, ૫ એટલે પાંચ વસ્તુઓ.",
+        "title": "૧ થી ૫ સંખ્યાઓની સમજ (Numbers 1 to 5)",
+        "explanationGujarati": "૧ એટલે એક, ૨ એટલે બે, ૩ એટલે ત્રણ, ૪ એટલે ચાર, ૫ એટલે પાંચ. દરેક અંક વસ્તુઓની ચોક્કસ સંખ્યા દર્શાવે છે.",
         "visualHint": "૧: 🍎 | ૨: 🍎🍎 | ૩: 🍎🍎🍎 | ૪: 🍎🍎🍎🍎 | ૫: 🍎🍎🍎🍎🍎"
       },
       "interactiveManipulativeConfig": {
-        "type": "object_counter",
+        "type": "numbers_1_to_5_module",
         "maxCount": 5,
         "items": [
           "🍎",
-          "⚽",
           "⭐",
-          "🚗",
-          "🎈"
+          "🐟",
+          "🌸",
+          "⚽",
+          "🧸",
+          "🍌"
         ]
       },
       "examples": [
         {
-          "wordGujarati": "૧ (એક)",
+          "wordGujarati": "૧ (એક સૂર્ય)",
           "imageEmoji": "☀️",
           "audioText": "એક સૂર્ય",
           "breakdown": "૧ = એક"
         },
         {
-          "wordGujarati": "૩ (ત્રણ)",
-          "imageEmoji": "⭐⭐⭐",
-          "audioText": "ત્રણ તારા",
+          "wordGujarati": "૨ (બે આંખો)",
+          "imageEmoji": "👀",
+          "audioText": "બે આંખો",
+          "breakdown": "૨ = બે"
+        },
+        {
+          "wordGujarati": "૩ (ત્રણ પૈડાંની રીક્ષા)",
+          "imageEmoji": "🛺",
+          "audioText": "ત્રણ પૈડાંની રીક્ષા",
           "breakdown": "૩ = ત્રણ"
         },
         {
-          "wordGujarati": "૫ (પાંચ)",
+          "wordGujarati": "૪ (ચાર પગની ગાય)",
+          "imageEmoji": "🐄",
+          "audioText": "ચાર પગવાળી ગાય",
+          "breakdown": "૪ = ચાર"
+        },
+        {
+          "wordGujarati": "૫ (હાથની પાંચ આંગળીઓ)",
           "imageEmoji": "🖐️",
           "audioText": "હાથની પાંચ આંગળીઓ",
           "breakdown": "૫ = પાંચ"
@@ -188,15 +207,15 @@
       ],
       "interactivePractice": [
         {
-          "promptGujarati": "અહીં કેટલા સફરજન છે? ગણો: 🍎 🍎 🍎",
-          "audioPrompt": "અહીં કેટલા સફરજન છે?",
+          "promptGujarati": "૫ શોધો:",
+          "audioPrompt": "પાંચ શોધો",
           "options": [
-            "૨ (બે)",
-            "૩ (ત્રણ)",
-            "૫ (પાંચ)"
+            "૨",
+            "૫",
+            "૩"
           ],
-          "correctAnswer": "૩ (ત્રણ)",
-          "hintGujarati": "એક, બે, ત્રણ એમ ગણો."
+          "correctAnswer": "૫",
+          "hintGujarati": "પાંચ અંક ૫ તરીકે લખાય છે."
         }
       ]
     }

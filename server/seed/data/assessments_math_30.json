@@ -271,114 +271,149 @@
   },
   {
     "competencyCode": "M-03",
-    "titleGujarati": "૧ થી ૫ સુધીનું સંખ્યાજ્ઞાન (Number Sense 1 to 5) - મૂલ્યાંકન કસોટી",
-    "titleEnglish": "Number sense from 1 to 5 - Assessment",
+    "titleGujarati": "૧ થી ૫ સુધીની સંખ્યાઓ (Numbers 1 to 5) - મૂલ્યાંકન કસોટી",
+    "titleEnglish": "Number knowledge and recognition from 1 to 5 - Assessment",
     "passingPercentage": 80,
     "timeLimitMinutes": 10,
     "questions": [
       {
         "questionId": "Q-M-03-1",
-        "promptGujarati": "ગણો: 🍎 🍎 🍎 (કેટલા સફરજન છે?)",
-        "promptEnglish": "Question 1 for M-03",
+        "promptGujarati": "૨, ૪, ૫ માંથી ૪ પસંદ કરો:",
+        "promptEnglish": "Select number 4 among 2, 4, 5",
+        "category": "number_recognition",
         "options": [
-          {
-            "id": "opt1",
-            "textGujarati": "૩ (ત્રણ)",
-            "emoji": "3️⃣"
-          },
-          {
-            "id": "opt2",
-            "textGujarati": "૨ (બે)",
-            "emoji": "2️⃣"
-          },
-          {
-            "id": "opt3",
-            "textGujarati": "૫ (પાંચ)",
-            "emoji": "5️⃣"
-          }
+          { "id": "opt1", "textGujarati": "૪", "emoji": "4️⃣" },
+          { "id": "opt2", "textGujarati": "૨", "emoji": "2️⃣" },
+          { "id": "opt3", "textGujarati": "૫", "emoji": "5️⃣" }
         ],
         "correctOptionId": "opt1",
-        "explanationGujarati": "૧ થી ૫ સુધીનું સંખ્યાજ્ઞાન (Number Sense 1 to 5) ની સમજ મુજબ સાચો જવાબ છે.",
+        "explanationGujarati": "આપેલ સંખ્યાઓમાં ૪ સાચો નંબર છે.",
         "points": 1
       },
       {
         "questionId": "Q-M-03-2",
-        "promptGujarati": "હાથમાં કેટલી આંગળીઓ હોય છે? 🖐️",
-        "promptEnglish": "Question 2 for M-03",
+        "promptGujarati": "🍎 🍎 🍎 🍎 🍎 કેટલા સફરજન છે?",
+        "promptEnglish": "Count apples: 5",
+        "category": "counting",
         "options": [
-          {
-            "id": "opt1",
-            "textGujarati": "૫ (પાંચ)",
-            "emoji": "5️⃣"
-          },
-          {
-            "id": "opt2",
-            "textGujarati": "૪ (ચાર)",
-            "emoji": "4️⃣"
-          }
+          { "id": "opt1", "textGujarati": "૫ (પાંચ)", "emoji": "5️⃣" },
+          { "id": "opt2", "textGujarati": "૩ (ત્રણ)", "emoji": "3️⃣" },
+          { "id": "opt3", "textGujarati": "૪ (ચાર)", "emoji": "4️⃣" }
         ],
         "correctOptionId": "opt1",
-        "explanationGujarati": "૧ થી ૫ સુધીનું સંખ્યાજ્ઞાન (Number Sense 1 to 5) ની સમજ મુજબ સાચો જવાબ છે.",
+        "explanationGujarati": "એક, બે, ત્રણ, ચાર, પાંચ — કુલ ૫ સફરજન છે.",
         "points": 1
       },
       {
         "questionId": "Q-M-03-3",
-        "promptGujarati": "ગણો: ⭐ ⭐",
-        "promptEnglish": "Question 3 for M-03",
+        "promptGujarati": "સંખ્યા ૩ સાથે ૩ વસ્તુઓ ધરાવતો સમૂહ પસંદ કરો:",
+        "promptEnglish": "Match number 3 with group of 3 objects",
+        "category": "number_quantity_matching",
         "options": [
-          {
-            "id": "opt1",
-            "textGujarati": "૨ (બે)",
-            "emoji": "2️⃣"
-          },
-          {
-            "id": "opt2",
-            "textGujarati": "૧ (એક)",
-            "emoji": "1️⃣"
-          }
+          { "id": "opt1", "textGujarati": "⭐⭐⭐ (૩ તારા)", "emoji": "⭐⭐⭐" },
+          { "id": "opt2", "textGujarati": "⭐ (૧ તારો)", "emoji": "⭐" },
+          { "id": "opt3", "textGujarati": "⭐⭐⭐⭐⭐ (૫ તારા)", "emoji": "⭐⭐⭐⭐⭐" }
         ],
         "correctOptionId": "opt1",
-        "explanationGujarati": "૧ થી ૫ સુધીનું સંખ્યાજ્ઞાન (Number Sense 1 to 5) ની સમજ મુજબ સાચો જવાબ છે.",
+        "explanationGujarati": "સંખ્યા ૩ એ ૩ તારાઓના સમૂહ સાથે જોડાય છે.",
         "points": 1
       },
       {
         "questionId": "Q-M-03-4",
-        "promptGujarati": "ગણો: ⚽ ⚽ ⚽ ⚽",
-        "promptEnglish": "Question 4 for M-03",
+        "promptGujarati": "૧ → ૨ → __ → ૪ → ૫ માં ખૂટતી સંખ્યા કઈ છે?",
+        "promptEnglish": "Missing number: 1 -> 2 -> __ -> 4 -> 5",
+        "category": "sequence",
         "options": [
-          {
-            "id": "opt1",
-            "textGujarati": "૪ (ચાર)",
-            "emoji": "4️⃣"
-          },
-          {
-            "id": "opt2",
-            "textGujarati": "૩ (ત્રણ)",
-            "emoji": "3️⃣"
-          }
+          { "id": "opt1", "textGujarati": "૩", "emoji": "3️⃣" },
+          { "id": "opt2", "textGujarati": "૧", "emoji": "1️⃣" },
+          { "id": "opt3", "textGujarati": "૫", "emoji": "5️⃣" }
         ],
         "correctOptionId": "opt1",
-        "explanationGujarati": "૧ થી ૫ સુધીનું સંખ્યાજ્ઞાન (Number Sense 1 to 5) ની સમજ મુજબ સાચો જવાબ છે.",
+        "explanationGujarati": "૨ પછી અને ૪ પહેલાં ૩ આવે છે (૧ → ૨ → ૩ → ૪ → ૫).",
         "points": 1
       },
       {
         "questionId": "Q-M-03-5",
-        "promptGujarati": "આકાશમાં કેટલા સૂર્ય છે? ☀️",
-        "promptEnglish": "Question 5 for M-03",
+        "promptGujarati": "૩, ૧, ૫, ૨, ૪ ને યોગ્ય ૧ થી ૫ ના ક્રમમાં ગોઠવો:",
+        "promptEnglish": "Arrange in correct order: 3, 1, 5, 2, 4",
+        "category": "ordering",
         "options": [
-          {
-            "id": "opt1",
-            "textGujarati": "૧ (એક)",
-            "emoji": "1️⃣"
-          },
-          {
-            "id": "opt2",
-            "textGujarati": "૨ (બે)",
-            "emoji": "2️⃣"
-          }
+          { "id": "opt1", "textGujarati": "૧ → ૨ → ૩ → ૪ → ૫", "emoji": "📈" },
+          { "id": "opt2", "textGujarati": "૫ → ૪ → ૩ → ૨ → ૧", "emoji": "📉" },
+          { "id": "opt3", "textGujarati": "૧ → ૩ → ૨ → ૪ → ૫", "emoji": "❌" }
         ],
         "correctOptionId": "opt1",
-        "explanationGujarati": "૧ થી ૫ સુધીનું સંખ્યાજ્ઞાન (Number Sense 1 to 5) ની સમજ મુજબ સાચો જવાબ છે.",
+        "explanationGujarati": "સાચો ક્રમ: ૧ → ૨ → ૩ → ૪ → ૫ છે.",
+        "points": 1
+      },
+      {
+        "questionId": "Q-M-03-6",
+        "promptGujarati": "૧, ૩, ૫, ૨, ૪ કાર્ડમાંથી ૫ શોધો:",
+        "promptEnglish": "Find number 5 among 1, 3, 5, 2, 4",
+        "category": "number_recognition",
+        "options": [
+          { "id": "opt1", "textGujarati": "૫", "emoji": "5️⃣" },
+          { "id": "opt2", "textGujarati": "૩", "emoji": "3️⃣" },
+          { "id": "opt3", "textGujarati": "૨", "emoji": "2️⃣" }
+        ],
+        "correctOptionId": "opt1",
+        "explanationGujarati": "૫ એ પાંચ દર્શાવતો અંક છે.",
+        "points": 1
+      },
+      {
+        "questionId": "Q-M-03-7",
+        "promptGujarati": "આ કેટલા દડા છે? ⚽ ⚽",
+        "promptEnglish": "Count balls: 2",
+        "category": "counting",
+        "options": [
+          { "id": "opt1", "textGujarati": "૨ (બે)", "emoji": "2️⃣" },
+          { "id": "opt2", "textGujarati": "૧ (એક)", "emoji": "1️⃣" },
+          { "id": "opt3", "textGujarati": "૩ (ત્રણ)", "emoji": "3️⃣" }
+        ],
+        "correctOptionId": "opt1",
+        "explanationGujarati": "એક, બે — કુલ ૨ દડા છે.",
+        "points": 1
+      },
+      {
+        "questionId": "Q-M-03-8",
+        "promptGujarati": "સંખ્યા ૫ માટે ૫ ફૂલોવાળો સમૂહ પસંદ કરો:",
+        "promptEnglish": "Select group with 5 flowers",
+        "category": "number_quantity_matching",
+        "options": [
+          { "id": "opt1", "textGujarati": "🌸🌸🌸🌸🌸 (૫ ફૂલો)", "emoji": "🌸🌸🌸🌸🌸" },
+          { "id": "opt2", "textGujarati": "🌸🌸 (૨ ફૂલો)", "emoji": "🌸🌸" },
+          { "id": "opt3", "textGujarati": "🌸🌸🌸 (૩ ફૂલો)", "emoji": "🌸🌸🌸" }
+        ],
+        "correctOptionId": "opt1",
+        "explanationGujarati": "૫ ફૂલોવાળો સમૂહ સંખ્યા ૫ સાથે મેળ ખાય છે.",
+        "points": 1
+      },
+      {
+        "questionId": "Q-M-03-9",
+        "promptGujarati": "__ → ૨ → ૩ → ૪ → ૫ માં પ્રથમ સંખ્યા કઈ આવશે?",
+        "promptEnglish": "First number in __ -> 2 -> 3 -> 4 -> 5",
+        "category": "sequence",
+        "options": [
+          { "id": "opt1", "textGujarati": "૧ (એક)", "emoji": "1️⃣" },
+          { "id": "opt2", "textGujarati": "૩ (ત્રણ)", "emoji": "3️⃣" },
+          { "id": "opt3", "textGujarati": "૪ (ચાર)", "emoji": "4️⃣" }
+        ],
+        "correctOptionId": "opt1",
+        "explanationGujarati": "ગણતરીની શરૂઆત ૧ થી થાય છે: ૧ → ૨ → ૩ → ૪ → ૫.",
+        "points": 1
+      },
+      {
+        "questionId": "Q-M-03-10",
+        "promptGujarati": "ઝાડ પર કેટલા સફરજન છે? 🌳 🍎 🍎 🍎",
+        "promptEnglish": "Count apples on tree: 3",
+        "category": "counting",
+        "options": [
+          { "id": "opt1", "textGujarati": "૩ (ત્રણ)", "emoji": "3️⃣" },
+          { "id": "opt2", "textGujarati": "૨ (બે)", "emoji": "2️⃣" },
+          { "id": "opt3", "textGujarati": "૪ (ચાર)", "emoji": "4️⃣" }
+        ],
+        "correctOptionId": "opt1",
+        "explanationGujarati": "ઝાડ પર ૧, ૨, ૩ — કુલ ૩ સફરજન છે.",
         "points": 1
       }
     ]

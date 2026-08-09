@@ -104,11 +104,11 @@ export default function LearningPath() {
               </span>
             );
           } else if (isAvailable) {
-            cardBorder = 'border-amber-300 bg-amber-50/60 shadow-lg ring-4 ring-amber-200 current-skill-pulse';
+            cardBorder = 'border-emerald-300 bg-white shadow-md hover:border-emerald-500';
             statusBadge = (
-              <span className="px-3 py-1 bg-amber-100 text-amber-900 font-bold text-xs rounded-full font-gujarati flex items-center gap-1">
-                <Sparkles className="w-3.5 h-3.5" />
-                <span>અહીંથી શરૂ કરો</span>
+              <span className="px-3 py-1 bg-emerald-50 border border-emerald-300 text-emerald-900 font-bold text-xs rounded-full font-gujarati flex items-center gap-1">
+                <Sparkles className="w-3.5 h-3.5 text-emerald-600" />
+                <span>ખુલ્લું છે (Open 🔓)</span>
               </span>
             );
           } else {
