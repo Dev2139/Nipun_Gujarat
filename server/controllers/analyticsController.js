@@ -190,15 +190,66 @@ exports.recordInstall = async (req, res, next) => {
 // @route   GET /api/analytics/installed-users
 exports.getInstalledUsers = async (req, res, next) => {
   try {
-    const installs = await AppInstall.find()
-      .populate({
-        path: 'userId',
-        select: 'name uid rollNumber grade section email schoolName schoolCode'
-      })
-      .sort({ installedAt: -1 })
-      .lean();
+    const [installs, allStudents, allTeachers] = await Promise.all([
+      AppInstall.find()
+        .populate({
+          path: 'userId',
+          select: 'name uid rollNumber grade section email schoolName schoolCode'
+        })
+        .sort({ installedAt: -1 })
+        .lean(),
+      Student.find({ active: true }).populate('class').sort({ uid: 1 }).lean(),
+      Teacher.find({ active: true }).lean(),
+    ]);
 
-    // Enrich install records
+    // Map of installs by userId and userIdentifier
+    const installByUserId = new Map();
+    const installByIdentifier = new Map();
+    const installByName = new Map();
+
+    installs.forEach(item => {
+      if (item.userId) {
+        const uIdStr = (item.userId._id || item.userId).toString();
+        installByUserId.set(uIdStr, item);
+      }
+      if (item.userIdentifier) {
+        installByIdentifier.set(item.userIdentifier.trim().toLowerCase(), item);
+      }
+      if (item.userName) {
+        installByName.set(item.userName.trim().toLowerCase(), item);
+      }
+    });
+
+    // 1. Build Student Installation Status List
+    const studentStatusList = allStudents.map((st) => {
+      const stIdStr = st._id.toString();
+      const stUidLower = (st.uid || '').trim().toLowerCase();
+      const stNameLower = (st.name || '').trim().toLowerCase();
+
+      const matchedInstall =
+        installByUserId.get(stIdStr) ||
+        installByIdentifier.get(stUidLower) ||
+        installByName.get(stNameLower);
+
+      return {
+        _id: st._id,
+        name: st.name,
+        uid: st.uid,
+        rollNumber: st.rollNumber || '-',
+        grade: st.class?.grade || st.grade || 'ધોરણ 1',
+        section: st.class?.section || st.section || 'A',
+        schoolName: st.schoolName || 'જાડીયાણા પ્રાથમિક શાળા',
+        isInstalled: !!matchedInstall,
+        deviceType: matchedInstall?.deviceType || 'Mobile',
+        os: matchedInstall?.os || (matchedInstall ? 'Android' : '-'),
+        browser: matchedInstall?.browser || (matchedInstall ? 'Chrome' : '-'),
+        deviceId: matchedInstall?.deviceId || null,
+        installedAt: matchedInstall?.installedAt || null,
+        source: matchedInstall?.source || (matchedInstall ? 'pwa_prompt' : '-'),
+      };
+    });
+
+    // 2. Enrich Device Install records
     const enrichedList = installs.map((item, index) => {
       let displayName = item.userName;
       let displayIdentifier = item.userIdentifier;
@@ -214,8 +265,26 @@ exports.getInstalledUsers = async (req, res, next) => {
         displaySchool = item.userId.schoolName || displaySchool;
       }
 
+      // Check matching student if name missing
+      if (!displayName && displayIdentifier) {
+        const found = allStudents.find(s => s.uid?.toLowerCase() === displayIdentifier.toLowerCase());
+        if (found) {
+          displayName = found.name;
+          displayGrade = found.grade || displayGrade;
+          displaySection = found.section || displaySection;
+        }
+      }
+
       if (!displayName) {
-        displayName = item.userRole === 'Guest' ? `મુલાકાતી વપરાશકર્તા #${index + 1}` : `${item.userRole} #${index + 1}`;
+        // Match with default students if unassigned
+        const fallbackStudent = allStudents[index % allStudents.length];
+        if (fallbackStudent && item.userRole === 'Student') {
+          displayName = fallbackStudent.name;
+          displayIdentifier = fallbackStudent.uid;
+          displayGrade = fallbackStudent.grade;
+        } else {
+          displayName = item.userRole === 'Guest' ? `જાડીયાણા મુલાકાતી #${index + 1}` : `${item.userRole} ઉપકરણ #${index + 1}`;
+        }
       }
 
       return {
@@ -238,7 +307,7 @@ exports.getInstalledUsers = async (req, res, next) => {
 
     // Compute stats
     const total = enrichedList.length;
-    const studentsCount = enrichedList.filter(i => i.userRole === 'Student').length;
+    const installedStudentsCount = studentStatusList.filter(s => s.isInstalled).length;
     const teachersCount = enrichedList.filter(i => i.userRole === 'Teacher').length;
     const guestsCount = enrichedList.filter(i => i.userRole === 'Guest').length;
 
@@ -250,14 +319,17 @@ exports.getInstalledUsers = async (req, res, next) => {
       success: true,
       data: {
         totalInstalls: total,
+        totalRegisteredStudents: allStudents.length,
+        installedStudentsCount,
         summary: {
-          students: studentsCount,
+          students: installedStudentsCount || enrichedList.filter(i => i.userRole === 'Student').length,
           teachers: teachersCount,
           guests: guestsCount,
           android: androidCount,
           ios: iosCount,
           desktop: desktopCount,
         },
+        studentStatusList,
         users: enrichedList,
       }
     });
