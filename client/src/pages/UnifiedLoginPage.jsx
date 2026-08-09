@@ -18,7 +18,7 @@ import {
 export default function UnifiedLoginPage() {
   const { user, role, loginStudent, loginTeacher, loading: authLoading } = useAuth();
   const { t } = useLanguage();
-  const { installCount, realStats, syncUserWithDevice } = usePWA();
+  const { installCount, realStats } = usePWA();
   const navigate = useNavigate();
 
   // Active Tab: 'student' | 'teacher'
@@ -36,14 +36,17 @@ export default function UnifiedLoginPage() {
   const [teacherLoading, setTeacherLoading] = useState(false);
   const [teacherError, setTeacherError] = useState('');
 
-  // Fetch real students from backend for easy 1-click selection
+  // Fetch available students from DB
   React.useEffect(() => {
     const fetchStudents = async () => {
       try {
-        const res = await fetch('/api/students');
+        const res = await fetch('/api/auth/students');
         const json = await res.json();
-        if (json.success && Array.isArray(json.data)) {
+        if (json.success && json.data && json.data.length > 0) {
           setAvailableStudents(json.data);
+          if (!studentUid) {
+            setStudentUid(json.data[0].uid);
+          }
         }
       } catch (err) {
         console.error('Error fetching students for quick select:', err);
@@ -73,10 +76,7 @@ export default function UnifiedLoginPage() {
     try {
       setStudentLoading(true);
       setStudentError('');
-      const loggedStudent = await loginStudent(studentUid);
-      if (syncUserWithDevice && loggedStudent) {
-        syncUserWithDevice(loggedStudent, 'Student');
-      }
+      await loginStudent(studentUid);
       navigate('/student/dashboard');
     } catch (err) {
       setStudentError(err.response?.data?.message || 'આ UID વાળો વિદ્યાર્થી મળ્યો નથી. તમારા શિક્ષકનો સંપર્ક કરો.');

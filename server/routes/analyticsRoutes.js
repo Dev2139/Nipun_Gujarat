@@ -4,7 +4,6 @@ const {
   recordVisit,
   recordInstall,
   getInstallStats,
-  getInstalledUsers,
   getRealSiteStats,
   getOverview,
 } = require('../controllers/analyticsController');
@@ -16,8 +15,7 @@ router.post('/install', recordInstall);
 router.get('/installs', getInstallStats);
 router.get('/real-stats', getRealSiteStats);
 
-// Teacher Analytics & Installed Users Endpoints
-router.get('/installed-users', getInstalledUsers);
+// Teacher Analytics Overview Endpoint
 router.get('/overview', protect, authorize('Teacher', 'Admin'), getOverview);
 
 module.exports = router;

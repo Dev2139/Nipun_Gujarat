@@ -89,7 +89,7 @@ exports.recordVisit = async (req, res, next) => {
   }
 };
 
-// @desc    Record or Update an App/PWA Installation with User Info
+// @desc    Record an App/PWA Installation
 // @route   POST /api/analytics/install
 exports.recordInstall = async (req, res, next) => {
   try {
@@ -100,11 +100,6 @@ exports.recordInstall = async (req, res, next) => {
       browser,
       userRole,
       userId,
-      userName,
-      userIdentifier,
-      userGrade,
-      userSection,
-      schoolName,
       source,
     } = req.body;
 
@@ -117,36 +112,6 @@ exports.recordInstall = async (req, res, next) => {
     const finalBrowser = browser || parseBrowser(userAgent);
     const finalDeviceType = deviceType || parseDeviceType(userAgent);
 
-    let finalName = userName || '';
-    let finalIdentifier = userIdentifier || '';
-    let finalGrade = userGrade || '';
-    let finalSection = userSection || '';
-    let finalSchool = schoolName || 'જાડીયાણા પ્રાથમિક શાળા';
-    let resolvedRole = userRole || 'Guest';
-
-    // If userId is provided, look up student or teacher record to enrich
-    if (userId) {
-      if (resolvedRole === 'Student' || resolvedRole === 'student') {
-        const student = await Student.findById(userId).populate('class');
-        if (student) {
-          finalName = student.name;
-          finalIdentifier = student.uid || student.rollNumber?.toString() || '';
-          finalGrade = student.class?.grade || student.grade || '';
-          finalSection = student.class?.section || student.section || '';
-          finalSchool = student.schoolName || finalSchool;
-          resolvedRole = 'Student';
-        }
-      } else if (resolvedRole === 'Teacher' || resolvedRole === 'teacher') {
-        const teacher = await Teacher.findById(userId);
-        if (teacher) {
-          finalName = teacher.name;
-          finalIdentifier = teacher.email || teacher.schoolCode || '';
-          finalSchool = teacher.schoolName || finalSchool;
-          resolvedRole = 'Teacher';
-        }
-      }
-    }
-
     const installDoc = await AppInstall.findOneAndUpdate(
       { deviceId: finalDeviceId },
       {
@@ -154,14 +119,9 @@ exports.recordInstall = async (req, res, next) => {
         deviceType: finalDeviceType,
         os: finalOs,
         browser: finalBrowser,
-        userRole: resolvedRole,
-        userName: finalName,
-        userIdentifier: finalIdentifier,
-        userGrade: finalGrade,
-        userSection: finalSection,
-        schoolName: finalSchool,
+        userRole: userRole || 'Guest',
         userId: userId || undefined,
-        userModel: resolvedRole === 'Teacher' ? 'Teacher' : (resolvedRole === 'Student' ? 'Student' : undefined),
+        userModel: userRole === 'Teacher' ? 'Teacher' : (userRole === 'Student' ? 'Student' : undefined),
         source: source || 'pwa_prompt',
         ip,
         userAgent,
@@ -179,151 +139,6 @@ exports.recordInstall = async (req, res, next) => {
         installId: installDoc._id,
         totalInstalls,
         installedAt: installDoc.installedAt,
-      }
-    });
-  } catch (error) {
-    next(error);
-  }
-};
-
-// @desc    Get Detailed List of All Installed Users / Devices (For Teacher/Admin)
-// @route   GET /api/analytics/installed-users
-exports.getInstalledUsers = async (req, res, next) => {
-  try {
-    const [installs, allStudents, allTeachers] = await Promise.all([
-      AppInstall.find()
-        .populate({
-          path: 'userId',
-          select: 'name uid rollNumber grade section email schoolName schoolCode'
-        })
-        .sort({ installedAt: -1 })
-        .lean(),
-      Student.find({ active: true }).populate('class').sort({ uid: 1 }).lean(),
-      Teacher.find({ active: true }).lean(),
-    ]);
-
-    // 1. Process Genuine Device Install Records
-    const enrichedList = installs.map((item, index) => {
-      let displayName = item.userName;
-      let displayIdentifier = item.userIdentifier;
-      let displayGrade = item.userGrade;
-      let displaySection = item.userSection;
-      let displaySchool = item.schoolName || 'જાડીયાણા પ્રાથમિક શાળા';
-      let resolvedRole = item.userRole || 'Guest';
-
-      if (item.userId && typeof item.userId === 'object') {
-        displayName = item.userId.name || displayName;
-        displayIdentifier = item.userId.uid || item.userId.email || item.userId.schoolCode || displayIdentifier;
-        displayGrade = item.userId.grade || item.userId.class?.grade || displayGrade;
-        displaySection = item.userId.section || item.userId.class?.section || displaySection;
-        displaySchool = item.userId.schoolName || displaySchool;
-      }
-
-      // Check if identifier matches a real student in DB (e.g. Dev - 001)
-      if (displayIdentifier) {
-        const matchedStudent = allStudents.find(
-          s => (s.uid && s.uid.toLowerCase() === displayIdentifier.toLowerCase()) ||
-               (s.rollNumber && s.rollNumber.toString() === displayIdentifier)
-        );
-        if (matchedStudent) {
-          displayName = matchedStudent.name;
-          displayGrade = matchedStudent.grade || matchedStudent.class?.grade || displayGrade;
-          displaySection = matchedStudent.section || matchedStudent.class?.section || displaySection;
-          resolvedRole = 'Student';
-        }
-
-        const matchedTeacher = allTeachers.find(
-          t => (t.email && t.email.toLowerCase() === displayIdentifier.toLowerCase()) ||
-               (t.schoolCode && t.schoolCode.toLowerCase() === displayIdentifier.toLowerCase())
-        );
-        if (matchedTeacher) {
-          displayName = matchedTeacher.name;
-          resolvedRole = 'Teacher';
-        }
-      }
-
-      // If still unnamed, it is a genuine Anonymous/Guest Install
-      if (!displayName) {
-        displayName = `મુલાકાતી ઉપકરણ #${index + 1} (Guest Device)`;
-        resolvedRole = 'Guest';
-        displayIdentifier = 'અતિથિ (Guest)';
-      }
-
-      return {
-        _id: item._id,
-        deviceId: item.deviceId,
-        displayName,
-        displayIdentifier: displayIdentifier || 'N/A',
-        userRole: resolvedRole,
-        grade: displayGrade || '-',
-        section: displaySection || '-',
-        schoolName: displaySchool,
-        deviceType: item.deviceType || 'Mobile',
-        os: item.os || 'Android',
-        browser: item.browser || 'Chrome',
-        source: item.source || 'pwa_prompt',
-        ip: item.ip || 'Local',
-        installedAt: item.installedAt || item.createdAt,
-      };
-    });
-
-    // 2. Build Real Student App Adoption List
-    const studentStatusList = allStudents.map((st, index) => {
-      const stIdStr = (st._id || '').toString();
-      const stUidLower = (st.uid || '').trim().toLowerCase();
-      const stNameLower = (st.name || '').trim().toLowerCase();
-
-      // Find if this real student has an install record
-      const matchedInstall = enrichedList.find(
-        (ins) =>
-          (ins.displayIdentifier && ins.displayIdentifier.toLowerCase() === stUidLower) ||
-          (ins.displayName && ins.displayName.toLowerCase().includes(stNameLower))
-      );
-
-      return {
-        _id: st._id,
-        name: st.name,
-        uid: st.uid,
-        rollNumber: st.rollNumber || (index + 1).toString(),
-        grade: st.grade || (st.class?.grade) || 'ધોરણ ૧',
-        section: st.section || (st.class?.section) || 'A',
-        schoolName: st.schoolName || 'જાડીયાણા પ્રાથમિક શાળા',
-        isInstalled: !!matchedInstall,
-        deviceType: matchedInstall?.deviceType || 'Mobile',
-        os: matchedInstall?.os || (matchedInstall ? 'Android' : '-'),
-        browser: matchedInstall?.browser || (matchedInstall ? 'Chrome' : '-'),
-        deviceId: matchedInstall?.deviceId || null,
-        installedAt: matchedInstall?.installedAt || null,
-        source: matchedInstall?.source || (matchedInstall ? 'pwa_prompt' : '-'),
-      };
-    });
-
-    // Compute genuine statistics
-    const total = enrichedList.length;
-    const studentsCount = enrichedList.filter(i => i.userRole === 'Student').length;
-    const teachersCount = enrichedList.filter(i => i.userRole === 'Teacher').length;
-    const guestsCount = enrichedList.filter(i => i.userRole === 'Guest').length;
-
-    const androidCount = enrichedList.filter(i => (i.os || '').toLowerCase().includes('android')).length;
-    const iosCount = enrichedList.filter(i => (i.os || '').toLowerCase().includes('ios')).length;
-    const desktopCount = enrichedList.filter(i => (i.os || '').toLowerCase().includes('windows') || (i.os || '').toLowerCase().includes('mac')).length;
-
-    res.status(200).json({
-      success: true,
-      data: {
-        totalInstalls: total,
-        totalRegisteredStudents: allStudents.length,
-        installedStudentsCount: studentStatusList.filter(s => s.isInstalled).length,
-        summary: {
-          students: studentsCount,
-          teachers: teachersCount,
-          guests: guestsCount,
-          android: androidCount,
-          ios: iosCount,
-          desktop: desktopCount,
-        },
-        studentStatusList,
-        users: enrichedList,
       }
     });
   } catch (error) {
@@ -434,13 +249,12 @@ exports.getOverview = async (req, res, next) => {
     const teacherId = req.user._id;
     const { classId } = req.query;
 
-    const [overview, totalAppInstalls, totalVisitors, todayVisitors, liveActiveUsers, recentInstalls] = await Promise.all([
+    const [overview, totalAppInstalls, totalVisitors, todayVisitors, liveActiveUsers] = await Promise.all([
       getTeacherDashboardOverview(teacherId, classId),
       AppInstall.countDocuments(),
       SiteVisit.countDocuments(),
       SiteVisit.countDocuments({ lastActiveAt: { $gte: new Date(new Date().setHours(0, 0, 0, 0)) } }),
       SiteVisit.countDocuments({ lastActiveAt: { $gte: new Date(Date.now() - 15 * 60 * 1000) } }),
-      AppInstall.find().sort({ installedAt: -1 }).limit(10).lean(),
     ]);
 
     res.status(200).json({
@@ -451,7 +265,6 @@ exports.getOverview = async (req, res, next) => {
         totalVisitors: Math.max(1, totalVisitors),
         todayVisitors: Math.max(1, todayVisitors),
         liveActiveUsers: Math.max(1, liveActiveUsers),
-        recentInstalls,
       }
     });
   } catch (error) {

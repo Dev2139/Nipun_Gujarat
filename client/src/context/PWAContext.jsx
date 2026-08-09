@@ -24,7 +24,6 @@ export const PWAProvider = ({ children }) => {
 
   const [installCount, setInstallCount] = useState(0);
   const [installBreakdown, setInstallBreakdown] = useState({ android: 0, ios: 0, desktop: 0 });
-  const [installedUsersData, setInstalledUsersData] = useState({ totalInstalls: 0, users: [], summary: {} });
 
   // Get or create persistent device ID
   const getDeviceId = () => {
@@ -59,8 +58,8 @@ export const PWAProvider = ({ children }) => {
     let browser = 'Chrome';
     if (/samsungbrowser/.test(ua)) browser = 'Samsung Internet';
     else if (/edg\//.test(ua)) browser = 'Edge';
-    else if (/chrome|crios/.test(ua) && !/edg\//.test(ua)) browser = 'Chrome';
-    else if (/safari/.test(ua) && !/chrome|crios/.test(ua)) browser = 'Safari';
+    else if (/chrome|crios/.test(ua)) browser = 'Chrome';
+    else if (/safari/.test(ua)) browser = 'Safari';
     else if (/firefox|fxios/.test(ua)) browser = 'Firefox';
 
     let deviceType = 'Mobile';
@@ -84,7 +83,7 @@ export const PWAProvider = ({ children }) => {
   };
 
   // Send install event to backend analytics
-  const recordInstallToBackend = async (source = 'pwa_prompt', extraUserInfo = {}) => {
+  const recordInstallToBackend = async (source = 'pwa_prompt') => {
     try {
       const specs = getDeviceSpecs();
       const deviceId = getDeviceId();
@@ -92,7 +91,6 @@ export const PWAProvider = ({ children }) => {
       const res = await analyticsService.trackInstall({
         deviceId,
         ...specs,
-        ...extraUserInfo,
         source,
       });
 
@@ -103,31 +101,6 @@ export const PWAProvider = ({ children }) => {
       fetchRealSiteStats();
     } catch (err) {
       console.warn('[PWA] Failed to record install analytics:', err?.message);
-    }
-  };
-
-  // Sync Logged-in User with their Installed Device record
-  const syncUserWithDevice = async (user, role) => {
-    if (!user) return;
-    try {
-      const specs = getDeviceSpecs();
-      const deviceId = getDeviceId();
-
-      await analyticsService.trackInstall({
-        deviceId,
-        ...specs,
-        userId: user._id,
-        userRole: role,
-        userName: user.name,
-        userIdentifier: user.uid || user.email || user.schoolCode || '',
-        userGrade: user.grade || (user.class?.grade) || '',
-        userSection: user.section || (user.class?.section) || '',
-        schoolName: user.schoolName || 'જાડીયાણા પ્રાથમિક શાળા',
-        source: 'user_login_sync',
-      });
-      fetchRealSiteStats();
-    } catch (err) {
-      console.warn('[PWA] Sync user with device error:', err?.message);
     }
   };
 
@@ -142,20 +115,6 @@ export const PWAProvider = ({ children }) => {
     } catch (err) {
       console.warn('[PWA] Failed to fetch real site stats:', err?.message);
     }
-  };
-
-  // Fetch Detailed Installed Users List (Teacher/Admin)
-  const fetchInstalledUsersList = async () => {
-    try {
-      const res = await analyticsService.getInstalledUsers();
-      if (res?.success && res.data) {
-        setInstalledUsersData(res.data);
-        return res.data;
-      }
-    } catch (err) {
-      console.warn('[PWA] Failed to fetch installed users list:', err?.message);
-    }
-    return null;
   };
 
   useEffect(() => {
@@ -252,11 +211,8 @@ export const PWAProvider = ({ children }) => {
         installCount,
         installBreakdown,
         realStats,
-        installedUsersData,
         installPWA,
         handleIOSDone,
-        syncUserWithDevice,
-        fetchInstalledUsersList,
         refreshStats: fetchRealSiteStats,
       }}
     >
