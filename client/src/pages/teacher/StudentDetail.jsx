@@ -15,6 +15,7 @@ import {
   MessageSquare,
   Plus
 } from 'lucide-react';
+import { DashboardSkeleton } from '../../components/common/SkeletonLoader';
 
 export default function StudentDetail() {
   const { id } = useParams();
@@ -64,11 +65,7 @@ export default function StudentDetail() {
   }, [id]);
 
   if (loading || !data) {
-    return (
-      <div className="text-center py-20">
-        <div className="animate-spin rounded-full h-10 w-10 border-b-2 border-emerald-600 mx-auto"></div>
-      </div>
-    );
+    return <DashboardSkeleton />;
   }
 
   const { student, overallProgress, gujaratiProgress, mathProgress, progress, achievements } = data;

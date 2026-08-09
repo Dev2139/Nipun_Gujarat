@@ -37,12 +37,6 @@ export default function LearnLesson() {
         const res = await curriculumService.getCompetencyDetails(code);
         if (res.success) {
           setData(res.data);
-          // Mark learning step as started in backend
-          await progressService.markStep({
-            competencyCode: code,
-            stepType: 'learning',
-            timeSpentSeconds: 15,
-          });
         }
       } catch (err) {
         console.error('Error fetching lesson:', err);
@@ -55,11 +49,7 @@ export default function LearnLesson() {
   }, [code]);
 
   if (loading || !data) {
-    return (
-      <div className="text-center py-20">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-4 border-emerald-600 mx-auto"></div>
-      </div>
-    );
+    return <LessonSkeleton />;
   }
 
   const { competency, learningContent } = data;

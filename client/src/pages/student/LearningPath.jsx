@@ -11,6 +11,7 @@ import {
   Sparkles,
   Award
 } from 'lucide-react';
+import { LearningPathSkeleton } from '../../components/common/SkeletonLoader';
 
 export default function LearningPath() {
   const { subject } = useParams(); // 'gujarati' | 'mathematics'
@@ -40,11 +41,7 @@ export default function LearningPath() {
   }, [subject]);
 
   if (loading) {
-    return (
-      <div className="text-center py-20">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-4 border-emerald-600 mx-auto"></div>
-      </div>
-    );
+    return <LearningPathSkeleton />;
   }
 
   return (

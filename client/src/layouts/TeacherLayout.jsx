@@ -6,13 +6,15 @@ import Sidebar from '../components/Sidebar';
 import InstallAppBanner from '../components/InstallAppBanner';
 import { LayoutDashboard, Users, Grid3X3, AlertTriangle, FileSpreadsheet } from 'lucide-react';
 
+import { DashboardSkeleton } from '../components/common/SkeletonLoader';
+
 export default function TeacherLayout() {
   const { user, role, loading } = useAuth();
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-slate-50">
-        <div className="animate-spin rounded-full h-10 w-10 border-b-2 border-emerald-600"></div>
+      <div className="min-h-screen bg-slate-50 p-6 max-w-7xl mx-auto">
+        <DashboardSkeleton />
       </div>
     );
   }

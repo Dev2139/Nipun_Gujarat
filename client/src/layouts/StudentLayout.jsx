@@ -5,13 +5,15 @@ import Navbar from '../components/Navbar';
 import InstallAppBanner from '../components/InstallAppBanner';
 import { Home, BookOpen, Award, BarChart2 } from 'lucide-react';
 
+import { DashboardSkeleton } from '../components/common/SkeletonLoader';
+
 export default function StudentLayout() {
   const { user, role, loading } = useAuth();
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-emerald-50">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-4 border-emerald-600"></div>
+      <div className="min-h-screen bg-slate-50 p-4">
+        <DashboardSkeleton />
       </div>
     );
   }

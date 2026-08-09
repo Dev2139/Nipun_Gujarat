@@ -3,6 +3,7 @@ import { useParams, useNavigate, Link } from 'react-router-dom';
 import { assessmentService } from '../../services';
 import GujaratiVoiceButton from '../../components/GujaratiVoiceButton';
 import { ArrowLeft, CheckCircle2, ArrowRight, Sparkles, HelpCircle } from 'lucide-react';
+import { LessonSkeleton } from '../../components/common/SkeletonLoader';
 
 export default function AssessmentQuiz() {
   const { code } = useParams();
@@ -22,13 +23,12 @@ export default function AssessmentQuiz() {
     const fetchQuiz = async () => {
       try {
         setLoading(true);
-        const res = await assessmentService.getAssessment(code);
+        const res = await assessmentService.getAssessmentForCompetency(code);
         if (res.success) {
           setAssessment(res.data);
         }
       } catch (err) {
-        alert(err.response?.data?.message || 'કસોટી લોડ કરવામાં ભૂલ થઈ.');
-        navigate(`/student/learn/${code}`);
+        console.error('Error loading quiz:', err);
       } finally {
         setLoading(false);
       }
@@ -38,11 +38,7 @@ export default function AssessmentQuiz() {
   }, [code]);
 
   if (loading || !assessment) {
-    return (
-      <div className="text-center py-20">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-4 border-emerald-600 mx-auto"></div>
-      </div>
-    );
+    return <LessonSkeleton />;
   }
 
   const questions = assessment.questions || [];

@@ -15,6 +15,7 @@ import {
   CheckCircle2,
   RefreshCw
 } from 'lucide-react';
+import { DashboardSkeleton } from '../../components/common/SkeletonLoader';
 
 export default function StudentDashboard() {
   const { user } = useAuth();
@@ -30,7 +31,7 @@ export default function StudentDashboard() {
         setData(res.data);
       }
     } catch (err) {
-      console.error('Error loading student dashboard:', err);
+      console.error('Error fetching student dashboard data:', err);
     } finally {
       setLoading(false);
     }
@@ -41,11 +42,7 @@ export default function StudentDashboard() {
   }, []);
 
   if (loading || !data) {
-    return (
-      <div className="text-center py-20">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-4 border-emerald-600 mx-auto"></div>
-      </div>
-    );
+    return <DashboardSkeleton />;
   }
 
   const { student, subjects } = data;
