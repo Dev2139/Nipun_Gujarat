@@ -1,58 +1,60 @@
 import React, { useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import { usePWA } from '../context/PWAContext';
-import { Download, X, Smartphone, Monitor, Share2, PlusSquare, Sparkles, CheckCircle2 } from 'lucide-react';
+import { Download, X, Share2, PlusSquare, Sparkles } from 'lucide-react';
 
 export default function InstallAppBanner() {
   const { isInstalled, isIOS, showIOSModal, setShowIOSModal, installPWA, installCount, handleIOSDone } = usePWA();
   const [dismissed, setDismissed] = useState(false);
   const location = useLocation();
 
-  // Do not show the floating badge on login pages
-  const isLoginPage = location.pathname === '/' || location.pathname.startsWith('/login');
+  // Hide on login, lesson learning, and test pages to avoid disturbing interactive UI
+  const isExcludedPage = 
+    location.pathname === '/' || 
+    location.pathname.startsWith('/login') ||
+    location.pathname.startsWith('/student/lesson') ||
+    location.pathname.startsWith('/student/test');
 
-  if (isInstalled || dismissed || isLoginPage) {
+  if (isInstalled || dismissed || isExcludedPage) {
     if (!showIOSModal) return null;
   }
 
   return (
     <>
-      {/* Floating Bottom / Top Install Banner for Mobile & Desktop */}
-      <div className="fixed bottom-20 md:bottom-6 left-4 right-4 md:left-auto md:right-6 md:max-w-md z-50 animate-in slide-in-from-bottom-5 duration-300">
-        <div className="bg-gradient-to-r from-emerald-700 via-teal-700 to-emerald-800 text-white p-4 rounded-3xl shadow-2xl border-2 border-emerald-400 flex items-center justify-between gap-3 backdrop-blur-md">
-          <div className="flex items-center gap-3">
-            <div className="w-12 h-12 rounded-2xl bg-white/20 flex items-center justify-center text-2xl shadow-inner shrink-0 ring-2 ring-white/30">
+      {/* Ultra-Compact, Non-Intrusive Floating Banner for Mobile & Desktop */}
+      <div className="fixed bottom-16 md:bottom-5 left-3 right-3 sm:left-auto sm:right-5 sm:max-w-xs z-40 animate-in fade-in slide-in-from-bottom-2 duration-300 pointer-events-auto">
+        <div className="bg-gradient-to-r from-emerald-900 via-teal-900 to-slate-900 text-white py-2 px-3 sm:py-2.5 sm:px-3.5 rounded-2xl shadow-xl border border-emerald-500/50 flex items-center justify-between gap-2.5 backdrop-blur-md font-gujarati">
+          {/* Icon & Mini Label */}
+          <div className="flex items-center gap-2 min-w-0">
+            <div className="w-7 h-7 rounded-xl bg-amber-400 text-slate-950 flex items-center justify-center text-xs font-black shadow-xs shrink-0">
               📲
             </div>
-            <div>
-              <div className="flex items-center gap-1.5 text-[11px] font-bold uppercase tracking-wider text-amber-300 font-gujarati">
-                <Sparkles className="w-3 h-3" />
-                <span>{installCount > 0 ? `${installCount} ઉપકરણો પર ડાઉનલોડ થયેલ` : 'મોબાઇલ અને કમ્પ્યુટર એપ'}</span>
+            <div className="min-w-0">
+              <div className="font-extrabold text-xs text-white leading-tight truncate">
+                એપ ડાઉનલોડ કરો
               </div>
-              <h4 className="font-black text-sm font-gujarati leading-tight">
-                નિપુણ ગુજરાત એપ ડાઉનલોડ કરો
-              </h4>
-              <p className="text-[11px] text-emerald-100 font-gujarati">
-                {installCount > 0 ? `અત્યાર સુધી ${installCount} લોકોએ પોતાના ફોનમાં એપ ડાઉનલોડ કરી છે` : 'ઝડપી ઑફલાઇન પ્રવેશ અને સરળ શિક્ષણ'}
-              </p>
+              <div className="text-[10px] text-amber-300 font-medium truncate">
+                {installCount > 0 ? `${installCount} ઉપકરણો પર ડાઉનલોડ` : 'ઝડપી પ્રવેશ માટે'}
+              </div>
             </div>
           </div>
 
-          <div className="flex items-center gap-1.5 shrink-0 font-gujarati">
+          {/* Action Buttons */}
+          <div className="flex items-center gap-1 shrink-0">
             <button
               onClick={installPWA}
-              className="px-3.5 py-2 bg-amber-400 hover:bg-amber-500 active:scale-95 text-slate-950 font-black text-xs rounded-xl shadow-md flex items-center gap-1.5 transition-all"
+              className="px-2.5 py-1 sm:px-3 sm:py-1.5 bg-amber-400 hover:bg-amber-500 active:scale-95 text-slate-950 font-black text-[11px] rounded-xl shadow-xs flex items-center gap-1 transition-all"
             >
-              <Download className="w-3.5 h-3.5" />
+              <Download className="w-3 h-3" />
               <span>ઇન્સ્ટોલ</span>
             </button>
 
             <button
               onClick={() => setDismissed(true)}
-              className="p-1.5 rounded-xl hover:bg-white/10 text-white/70 hover:text-white transition-colors"
+              className="p-1 rounded-lg hover:bg-white/10 text-white/60 hover:text-white transition-colors"
               title="Dismiss"
             >
-              <X className="w-4 h-4" />
+              <X className="w-3.5 h-3.5" />
             </button>
           </div>
         </div>
