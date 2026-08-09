@@ -82,8 +82,9 @@ const connectDB = async () => {
 
   if (!cached.promise) {
     const opts = {
-      bufferCommands: false,
-      serverSelectionTimeoutMS: 10000,
+      bufferCommands: true,
+      serverSelectionTimeoutMS: 20000,
+      connectTimeoutMS: 20000,
     };
     cached.promise = mongoose.connect(process.env.MONGODB_URI, opts).then((m) => {
       console.log('✅ MongoDB connected successfully');
@@ -109,26 +110,16 @@ app.use(async (req, res, next) => {
   if (req.path === '/api/health' || req.path === '/') {
     return next();
   }
-  if (mongoose.connection.readyState !== 1) {
-    try {
-      const db = await connectDB();
-      if (!db || mongoose.connection.readyState !== 1) {
-        return res.status(503).json({
-          success: false,
-          message: 'ડેટાબેઝ કનેક્શન ઉપલબ્ધ નથી (Database connection unavailable). Please verify MONGODB_URI in Vercel settings.',
-          hint: 'Make sure MONGODB_URI is set in Vercel Environment Variables and 0.0.0.0/0 is whitelisted in MongoDB Atlas Network Access.',
-        });
-      }
-    } catch (connErr) {
-      return res.status(503).json({
-        success: false,
-        message: 'ડેટાબેઝ કનેક્શન ઉપલબ્ધ નથી (Database connection unavailable).',
-        error: connErr.message,
-        hint: 'Please check your Vercel Environment Variables (MONGODB_URI) and MongoDB Atlas IP Whitelist (0.0.0.0/0).',
-      });
+
+  try {
+    if (mongoose.connection.readyState !== 1) {
+      await connectDB();
     }
+    next();
+  } catch (connErr) {
+    console.error('Database connection middleware error:', connErr.message);
+    next();
   }
-  next();
 });
 
 // Rate Limiting for Auth

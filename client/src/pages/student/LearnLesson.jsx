@@ -40,7 +40,36 @@ export default function LearnLesson() {
           setData(res.data);
         }
       } catch (err) {
-        console.error('Error fetching lesson:', err);
+        console.warn('Backend unavailable, using built-in offline competency curriculum fallback:', err);
+        const upperCode = (code || 'M-01').toUpperCase();
+        const isMathComp = upperCode.startsWith('M');
+        const numPart = parseInt(upperCode.replace(/\D/g, ''), 10) || 1;
+
+        const fallbackTitles = {
+          'M-01': 'સરખામણી (સૌથી નાનું - સૌથી મોટું)',
+          'M-02': 'અવકાશીય સંકલ્પના (ઉપર-નીચે, નજીક-દૂર)',
+          'M-03': '૧ થી ૫ સુધીનું સંખ્યાજ્ઞાન',
+          'M-04': '૧ થી ૯ સુધીનું સંખ્યાજ્ઞાન',
+          'G-01': 'મૌખિક અભિવ્યક્તિ અને વાતચીત',
+          'G-02': 'મૂળાક્ષર ઓળખ (ક, બ, અ, છ)',
+          'G-03': 'સરળ શબ્દ વાચન',
+        };
+
+        setData({
+          competency: {
+            code: upperCode,
+            subject: isMathComp ? 'mathematics' : 'gujarati',
+            sequence: numPart,
+            titleGujarati: fallbackTitles[upperCode] || `${isMathComp ? 'ગણિત' : 'ગુજરાતી'} - કૌશલ્ય ${upperCode}`,
+            descriptionGujarati: 'પાયાની સાક્ષરતા અને સંખ્યાજ્ઞાન શિક્ષણ',
+            stage: 'FLN પાયાનું શિક્ષણ',
+          },
+          learningContent: {
+            headlineGujarati: fallbackTitles[upperCode] || `કૌશલ્ય ${upperCode}`,
+            instructionGujarati: 'ધ્યાનથી શીખો અને રમતો રમો',
+            examples: [],
+          }
+        });
       } finally {
         setLoading(false);
       }
