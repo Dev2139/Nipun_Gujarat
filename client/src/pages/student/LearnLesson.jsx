@@ -11,6 +11,7 @@ import InteractiveClockDayNight from '../../components/math/InteractiveClockDayN
 import SmallestBiggestModule from '../../components/math/SmallestBiggestModule';
 import SpatialConceptsModule from '../../components/math/SpatialConceptsModule';
 import Numbers1to5Module from '../../components/math/Numbers1to5Module';
+import Numbers1to9Module from '../../components/math/Numbers1to9Module';
 import StandardInteractiveModule from '../../components/common/StandardInteractiveModule';
 import {
   ArrowLeft,
@@ -179,6 +180,12 @@ export default function LearnLesson() {
         />
       ) : code?.toUpperCase() === 'M-03' ? (
         <Numbers1to5Module
+          competency={competency}
+          progress={data?.progress}
+          onTestReady={() => setPracticeDone(true)}
+        />
+      ) : code?.toUpperCase() === 'M-04' ? (
+        <Numbers1to9Module
           competency={competency}
           progress={data?.progress}
           onTestReady={() => setPracticeDone(true)}

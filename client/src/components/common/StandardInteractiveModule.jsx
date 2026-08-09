@@ -28,7 +28,7 @@ const COMPETENCY_VIDEOS = {
   'M-01': 'H3jL2bC9d30', // Comparison / Smallest & Biggest
   'M-02': 'N8j7r6m4Q9I', // Spatial Concepts (Top-Bottom, Near-Far)
   'M-03': 'eeEqwHkgqrI', // Numbers 1 to 5
-  'M-04': 'pBvM6RzE8xI', // Numbers 6 to 9
+  'M-04': 'GUp5gpDZqMk', // Numbers 1 to 9 (૧ થી ૯ સુધીનું સંખ્યાજ્ઞાન)
   'M-05': 'k2C_v8kG4jM', // Zero (0) concept
   'M-06': 'yV8t5P9q2wA', // Numbers 10 to 20
   'M-07': 'W5mR2k8t9pL', // Single digit addition
