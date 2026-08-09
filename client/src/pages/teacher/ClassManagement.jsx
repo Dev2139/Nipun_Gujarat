@@ -222,8 +222,35 @@ export default function ClassManagement() {
             />
           </div>
 
-          {/* Students Table */}
-          <div className="overflow-x-auto">
+          {/* Students List: Mobile Card View + Desktop Table View */}
+          <div className="sm:hidden space-y-2.5 font-gujarati">
+            {filteredStudents.map((st) => (
+              <div key={st._id} className="p-3.5 rounded-2xl border border-slate-200 bg-slate-50/50 flex items-center justify-between gap-3">
+                <div className="space-y-1">
+                  <div className="font-bold text-slate-900 text-sm">{st.name}</div>
+                  <div className="flex items-center gap-2 text-[11px] text-slate-500 font-mono">
+                    <span className="font-bold text-emerald-700">{st.uid}</span>
+                    <span>•</span>
+                    <span>{st.grade} ({st.section})</span>
+                  </div>
+                  <div className="text-[11px] font-mono text-slate-600">
+                    ⭐ {st.totalStars || 0} • 🔥 {st.streakDays || 1}d
+                  </div>
+                </div>
+
+                <Link
+                  to={`/teacher/students/${st._id}`}
+                  className="px-3 py-2 bg-emerald-50 text-emerald-800 hover:bg-emerald-100 font-bold text-xs rounded-xl flex items-center gap-1 active:scale-95 shrink-0"
+                >
+                  <span>પ્રોફાઇલ</span>
+                  <ChevronRight className="w-3.5 h-3.5" />
+                </Link>
+              </div>
+            ))}
+          </div>
+
+          {/* Desktop / Tablet Students Table */}
+          <div className="hidden sm:block overflow-x-auto">
             <table className="w-full text-left text-xs font-gujarati">
               <thead>
                 <tr className="bg-slate-50 text-slate-500 font-bold border-b border-slate-200">

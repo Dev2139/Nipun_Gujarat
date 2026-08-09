@@ -30,11 +30,11 @@ export default function TeacherLayout() {
   ];
 
   return (
-    <div className="min-h-screen flex flex-col bg-slate-50 pb-20 md:pb-0">
+    <div className="min-h-screen flex flex-col bg-slate-50 pb-24 md:pb-0">
       <Navbar />
       <div className="flex-1 flex">
         <Sidebar />
-        <main className="flex-1 p-3 sm:p-4 md:p-8 max-w-7xl mx-auto w-full overflow-x-hidden">
+        <main className="flex-1 px-3 py-3 sm:px-4 sm:py-4 md:p-8 max-w-7xl mx-auto w-full overflow-x-hidden">
           <Outlet />
         </main>
       </div>
@@ -43,7 +43,7 @@ export default function TeacherLayout() {
       <InstallAppBanner />
 
       {/* Teacher Mobile Bottom Navigation Bar */}
-      <div className="fixed bottom-0 left-0 right-0 z-40 bg-white/95 backdrop-blur-md border-t border-slate-200 px-3 py-2 flex justify-around md:hidden shadow-lg safe-bottom">
+      <div className="fixed bottom-0 left-0 right-0 z-40 bg-white/95 backdrop-blur-md border-t border-slate-200 px-2 py-1.5 flex justify-around md:hidden shadow-lg safe-bottom">
         {mobileNavItems.map((item) => {
           const Icon = item.icon;
           return (
@@ -51,15 +51,15 @@ export default function TeacherLayout() {
               key={item.to}
               to={item.to}
               className={({ isActive }) =>
-                `flex flex-col items-center gap-1 text-[11px] font-bold font-gujarati transition-all py-1 px-2.5 rounded-xl ${
+                `flex flex-col items-center gap-0.5 text-[10px] sm:text-[11px] font-bold font-gujarati transition-all py-1.5 px-2 rounded-xl active:scale-95 touch-target justify-center ${
                   isActive
-                    ? 'text-emerald-700 bg-emerald-50 scale-105 shadow-xs'
+                    ? 'text-emerald-800 bg-emerald-100/90 scale-105 shadow-xs font-black'
                     : 'text-slate-500 hover:text-slate-800'
                 }`
               }
             >
               <Icon className="w-4 h-4" />
-              <span>{item.label}</span>
+              <span className="truncate max-w-[54px] text-center">{item.label}</span>
             </NavLink>
           );
         })}

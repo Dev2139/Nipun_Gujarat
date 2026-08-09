@@ -63,20 +63,42 @@ if (process.env.NODE_ENV === 'development') {
 const PORT = process.env.PORT || 5000;
 const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://127.0.0.1:27017/nipun_gujarat';
 
-// Database connection logic (handles both standalone Express server and Vercel serverless)
-let cachedDb = null;
+// Database connection logic with robust serverless connection caching
+let cached = global.mongoose;
+if (!cached) {
+  cached = global.mongoose = { conn: null, promise: null };
+}
+
 const connectDB = async () => {
-  if (cachedDb && mongoose.connection.readyState === 1) {
-    return cachedDb;
+  if (cached.conn && mongoose.connection.readyState === 1) {
+    return cached.conn;
   }
-  try {
-    cachedDb = await mongoose.connect(MONGODB_URI, {
-      serverSelectionTimeoutMS: 5000,
+
+  if (!process.env.MONGODB_URI) {
+    console.error('❌ MONGODB_URI environment variable is missing!');
+    return null;
+  }
+
+  if (!cached.promise) {
+    const opts = {
+      bufferCommands: false,
+      serverSelectionTimeoutMS: 10000,
+    };
+    cached.promise = mongoose.connect(process.env.MONGODB_URI, opts).then((m) => {
+      console.log('✅ MongoDB connected successfully');
+      return m;
+    }).catch((err) => {
+      cached.promise = null;
+      console.error('❌ MongoDB connection error:', err.message);
+      throw err;
     });
-    console.log(`✅ MongoDB connected successfully`);
-    return cachedDb;
+  }
+
+  try {
+    cached.conn = await cached.promise;
+    return cached.conn;
   } catch (err) {
-    console.error('❌ MongoDB connection error:', err.message);
+    cached.promise = null;
     return null;
   }
 };
@@ -87,12 +109,21 @@ app.use(async (req, res, next) => {
     return next();
   }
   if (mongoose.connection.readyState !== 1) {
-    const db = await connectDB();
-    if (!db || mongoose.connection.readyState !== 1) {
+    try {
+      const db = await connectDB();
+      if (!db || mongoose.connection.readyState !== 1) {
+        return res.status(503).json({
+          success: false,
+          message: 'ડેટાબેઝ કનેક્શન ઉપલબ્ધ નથી (Database connection unavailable). Please verify MONGODB_URI in Vercel settings.',
+          hint: 'Make sure MONGODB_URI is set in Vercel Environment Variables and 0.0.0.0/0 is whitelisted in MongoDB Atlas Network Access.',
+        });
+      }
+    } catch (connErr) {
       return res.status(503).json({
         success: false,
-        message: 'ડેટાબેઝ કનેક્શન ઉપલબ્ધ નથી (Database connection unavailable). Please verify MONGODB_URI in Vercel settings.',
-        hint: 'Make sure MONGODB_URI (MongoDB Atlas connection string) is set in your Vercel Environment Variables.',
+        message: 'ડેટાબેઝ કનેક્શન ઉપલબ્ધ નથી (Database connection unavailable).',
+        error: connErr.message,
+        hint: 'Please check your Vercel Environment Variables (MONGODB_URI) and MongoDB Atlas IP Whitelist (0.0.0.0/0).',
       });
     }
   }

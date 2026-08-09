@@ -83,25 +83,31 @@ export default function HeatmapGrid({ competencies = [], matrix = [], onSelectCe
         </div>
       </div>
 
+      {/* Mobile Scroll Indicator */}
+      <div className="md:hidden px-4 py-1.5 bg-emerald-50 border-b border-emerald-100 text-[11px] font-bold text-emerald-800 font-gujarati flex items-center justify-between">
+        <span>👉 બધી ક્ષમતાઓ જોવા માટે આડી સ્ક્રોલ કરો (Swipe horizontally)</span>
+        <span className="text-emerald-600 font-mono">⇄</span>
+      </div>
+
       {/* Grid Table */}
-      <div className="overflow-x-auto">
+      <div className="overflow-x-auto no-scrollbar" style={{ WebkitOverflowScrolling: 'touch' }}>
         <table className="w-full text-left border-collapse">
           <thead>
-            <tr className="bg-slate-100/80 border-b border-slate-200 text-xs font-bold text-slate-700">
-              <th className="p-3.5 sticky left-0 bg-slate-100 z-10 min-w-[200px] border-r border-slate-200">
+            <tr className="bg-slate-100/90 border-b border-slate-200 text-xs font-bold text-slate-700">
+              <th className="p-2.5 sm:p-3.5 sticky left-0 bg-slate-100 z-10 min-w-[140px] sm:min-w-[200px] border-r border-slate-200 shadow-[2px_0_5px_rgba(0,0,0,0.04)]">
                 વિદ્યાર્થી (Student)
               </th>
-              <th className="p-3.5 text-center min-w-[100px] border-r border-slate-200">
+              <th className="p-2 sm:p-3.5 text-center min-w-[75px] sm:min-w-[100px] border-r border-slate-200">
                 સિદ્ધિ %
               </th>
               {competencies.map((comp) => (
                 <th
                   key={comp.code}
-                  className="p-3 text-center min-w-[64px] border-r border-slate-200 hover:bg-slate-200/50 transition-colors"
+                  className="p-2 sm:p-3 text-center min-w-[56px] sm:min-w-[64px] border-r border-slate-200 hover:bg-slate-200/50 transition-colors"
                   title={`${comp.code}: ${comp.titleGujarati}`}
                 >
                   <div className="text-[11px] font-black text-slate-900">{comp.code}</div>
-                  <div className="text-[9px] text-slate-500 truncate max-w-[60px]">{comp.subject === 'gujarati' ? 'ગુજ' : 'ગણિત'}</div>
+                  <div className="text-[9px] text-slate-500 truncate max-w-[50px]">{comp.subject === 'gujarati' ? 'ગુજ' : 'ગણિત'}</div>
                 </th>
               ))}
             </tr>
@@ -109,24 +115,24 @@ export default function HeatmapGrid({ competencies = [], matrix = [], onSelectCe
           <tbody className="divide-y divide-slate-100 text-sm">
             {matrix.map((row) => (
               <tr key={row.studentId} className="hover:bg-slate-50/80 transition-colors">
-                <td className="p-3.5 sticky left-0 bg-white hover:bg-slate-50 z-10 border-r border-slate-200">
+                <td className="p-2.5 sm:p-3.5 sticky left-0 bg-white hover:bg-slate-50 z-10 border-r border-slate-200 shadow-[2px_0_5px_rgba(0,0,0,0.04)]">
                   <Link
                     to={`/teacher/students/${row.studentId}`}
                     className="group block"
                   >
-                    <div className="font-bold text-slate-900 group-hover:text-emerald-700 flex items-center gap-1.5 font-gujarati">
+                    <div className="font-bold text-xs sm:text-sm text-slate-900 group-hover:text-emerald-700 flex items-center gap-1.5 font-gujarati truncate max-w-[130px] sm:max-w-[180px]">
                       <span>{row.name}</span>
                     </div>
-                    <div className="text-xs text-slate-500 font-mono flex items-center gap-2 mt-0.5">
+                    <div className="text-[10px] sm:text-xs text-slate-500 font-mono flex items-center gap-1 sm:gap-2 mt-0.5">
                       <span>{row.uid}</span>
                       <span>•</span>
-                      <span>{row.grade} ({row.section})</span>
+                      <span>{row.grade.replace('Grade ', 'Gr ')}</span>
                     </div>
                   </Link>
                 </td>
-                <td className="p-3.5 text-center border-r border-slate-200 font-mono font-bold text-xs">
+                <td className="p-2 sm:p-3.5 text-center border-r border-slate-200 font-mono font-bold text-xs">
                   <span
-                    className={`px-2.5 py-1 rounded-full ${
+                    className={`px-2 py-0.5 sm:px-2.5 sm:py-1 rounded-full text-[10px] sm:text-xs ${
                       row.progressPercent >= 70
                         ? 'bg-emerald-100 text-emerald-800'
                         : row.progressPercent >= 40
@@ -140,7 +146,7 @@ export default function HeatmapGrid({ competencies = [], matrix = [], onSelectCe
                 {row.cells.map((cell) => (
                   <td
                     key={cell.competencyCode}
-                    className="p-2 text-center border-r border-slate-100"
+                    className="p-1.5 sm:p-2 text-center border-r border-slate-100"
                     onClick={() => onSelectCell && onSelectCell(row, cell)}
                   >
                     <div className="flex justify-center">

@@ -223,55 +223,92 @@ export default function TeacherDashboard() {
             <span>ખૂબ સરસ! હાલમાં કોઈ વિદ્યાર્થીને તાત્કાલિક હસ્તક્ષેપની જરૂર નથી.</span>
           </div>
         ) : (
-          <div className="divide-y divide-slate-100 overflow-x-auto">
-            <table className="w-full text-left text-xs font-gujarati">
-              <thead>
-                <tr className="text-slate-400 font-bold border-b border-slate-100 pb-2">
-                  <th className="py-2">વિદ્યાર્થી (Student)</th>
-                  <th className="py-2">વિષય (Subject)</th>
-                  <th className="py-2">ક્ષમતા (Competency)</th>
-                  <th className="py-2">પ્રયત્નો (Attempts)</th>
-                  <th className="py-2">છેલ્લો સ્કોર</th>
-                  <th className="py-2 text-right">ક્રિયા (Action)</th>
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-slate-100">
-                {overview?.studentsNeedingAttention?.map((st, idx) => (
-                  <tr key={idx} className="hover:bg-slate-50 transition-colors">
-                    <td className="py-3 font-bold text-slate-900">
-                      <Link to={`/teacher/students/${st.studentId}`} className="hover:text-emerald-700">
-                        {st.studentName} <span className="font-mono text-slate-400 font-normal">({st.studentUid})</span>
+          <>
+            {/* Mobile Card View */}
+            <div className="sm:hidden space-y-3 font-gujarati">
+              {overview?.studentsNeedingAttention?.map((st, idx) => (
+                <div key={idx} className="p-3.5 rounded-2xl border border-rose-200 bg-rose-50/30 space-y-2.5">
+                  <div className="flex items-start justify-between">
+                    <div>
+                      <Link to={`/teacher/students/${st.studentId}`} className="font-bold text-slate-900 text-sm hover:text-emerald-700">
+                        {st.studentName}
                       </Link>
-                    </td>
-                    <td className="py-3 font-semibold capitalize">
-                      {st.subject === 'gujarati' ? '📖 ગુજરાતી' : '🔢 ગણિત'}
-                    </td>
-                    <td className="py-3 font-medium text-slate-700">
-                      <span className="font-mono font-bold text-emerald-700 mr-1">{st.competencyCode}:</span>
-                      {st.competencyTitleGujarati}
-                    </td>
-                    <td className="py-3 font-mono font-bold text-rose-600">
-                      {st.attempts} વખત
-                    </td>
-                    <td className="py-3 font-mono font-bold">
-                      <span className="px-2 py-0.5 rounded-md bg-rose-100 text-rose-800">
-                        {st.latestScore}%
-                      </span>
-                    </td>
-                    <td className="py-3 text-right space-x-2">
-                      <button
-                        onClick={() => handleOpenNote(st)}
-                        className="px-3 py-1 bg-emerald-600 hover:bg-emerald-700 text-white font-bold rounded-lg shadow-xs active:scale-95 inline-flex items-center gap-1"
-                      >
-                        <MessageSquare className="w-3 h-3" />
-                        <span>નોંધ ઉમેરો</span>
-                      </button>
-                    </td>
+                      <div className="text-[11px] text-slate-500 font-mono">{st.studentUid}</div>
+                    </div>
+                    <span className="px-2 py-0.5 rounded-md bg-rose-100 text-rose-800 font-mono font-bold text-xs">
+                      {st.latestScore}%
+                    </span>
+                  </div>
+
+                  <div className="text-xs text-slate-700 space-y-1">
+                    <div><span className="font-bold text-emerald-700 font-mono">{st.competencyCode}:</span> {st.competencyTitleGujarati}</div>
+                    <div className="text-[11px] text-rose-700 font-bold">નિષ્ફળ પ્રયત્નો: {st.attempts} વખત</div>
+                  </div>
+
+                  <div className="pt-1 flex justify-end">
+                    <button
+                      onClick={() => handleOpenNote(st)}
+                      className="px-3.5 py-1.5 bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs rounded-xl shadow-xs active:scale-95 flex items-center gap-1"
+                    >
+                      <MessageSquare className="w-3.5 h-3.5" />
+                      <span>નોંધ ઉમેરો</span>
+                    </button>
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            {/* Desktop / Tablet Table View */}
+            <div className="hidden sm:block divide-y divide-slate-100 overflow-x-auto">
+              <table className="w-full text-left text-xs font-gujarati">
+                <thead>
+                  <tr className="text-slate-400 font-bold border-b border-slate-100 pb-2">
+                    <th className="py-2">વિદ્યાર્થી (Student)</th>
+                    <th className="py-2">વિષય (Subject)</th>
+                    <th className="py-2">ક્ષમતા (Competency)</th>
+                    <th className="py-2">પ્રયત્નો (Attempts)</th>
+                    <th className="py-2">છેલ્લો સ્કોર</th>
+                    <th className="py-2 text-right">ક્રિયા (Action)</th>
                   </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
+                </thead>
+                <tbody className="divide-y divide-slate-100">
+                  {overview?.studentsNeedingAttention?.map((st, idx) => (
+                    <tr key={idx} className="hover:bg-slate-50 transition-colors">
+                      <td className="py-3 font-bold text-slate-900">
+                        <Link to={`/teacher/students/${st.studentId}`} className="hover:text-emerald-700">
+                          {st.studentName} <span className="font-mono text-slate-400 font-normal">({st.studentUid})</span>
+                        </Link>
+                      </td>
+                      <td className="py-3 font-semibold capitalize">
+                        {st.subject === 'gujarati' ? '📖 ગુજરાતી' : '🔢 ગણિત'}
+                      </td>
+                      <td className="py-3 font-medium text-slate-700">
+                        <span className="font-mono font-bold text-emerald-700 mr-1">{st.competencyCode}:</span>
+                        {st.competencyTitleGujarati}
+                      </td>
+                      <td className="py-3 font-mono font-bold text-rose-600">
+                        {st.attempts} વખત
+                      </td>
+                      <td className="py-3 font-mono font-bold">
+                        <span className="px-2 py-0.5 rounded-md bg-rose-100 text-rose-800">
+                          {st.latestScore}%
+                        </span>
+                      </td>
+                      <td className="py-3 text-right space-x-2">
+                        <button
+                          onClick={() => handleOpenNote(st)}
+                          className="px-3 py-1 bg-emerald-600 hover:bg-emerald-700 text-white font-bold rounded-lg shadow-xs active:scale-95 inline-flex items-center gap-1"
+                        >
+                          <MessageSquare className="w-3 h-3" />
+                          <span>નોંધ ઉમેરો</span>
+                        </button>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </>
         )}
       </div>
 

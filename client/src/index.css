@@ -48,14 +48,41 @@
 * {
   -webkit-tap-highlight-color: transparent;
   touch-action: manipulation;
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+  scroll-behavior: smooth;
+}
+
+body {
+  min-height: 100dvh;
+  overscroll-behavior-y: none;
 }
 
 .safe-bottom {
-  padding-bottom: max(0.5rem, env(safe-area-inset-bottom));
+  padding-bottom: max(0.75rem, env(safe-area-inset-bottom, 1rem));
 }
 
 .safe-top {
-  padding-top: max(0.5rem, env(safe-area-inset-top));
+  padding-top: max(0.5rem, env(safe-area-inset-top, 0.5rem));
+}
+
+/* Mobile Horizontal Smooth Scroll */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Touch Friendly Mobile Tap Targets */
+.touch-target {
+  min-height: 44px;
+  min-width: 44px;
 }
 
 /* Pulsing effect for currently unlocked competency */
@@ -64,10 +91,11 @@
     box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.4);
   }
   50% {
-    box-shadow: 0 0 0 12px rgba(16, 185, 129, 0);
+    box-shadow: 0 0 0 10px rgba(16, 185, 129, 0);
   }
 }
 
 .current-skill-pulse {
   animation: pulseGlow 2.5s infinite;
 }
+
