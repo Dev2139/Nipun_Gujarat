@@ -33,12 +33,41 @@ export default function StudentLogin() {
     }
   };
 
-  const sampleStudents = [
+  const [availableStudents, setAvailableStudents] = useState([]);
+
+  React.useEffect(() => {
+    const fetchStudents = async () => {
+      try {
+        const res = await fetch('/api/auth/students');
+        const json = await res.json();
+        if (json.success && json.data && json.data.length > 0) {
+          setAvailableStudents(json.data);
+          if (!uid) {
+            setUid(json.data[0].uid);
+          }
+        }
+      } catch (err) {
+        console.error('Error fetching students for quick select:', err);
+      }
+    };
+    fetchStudents();
+  }, []);
+
+  const defaultStudents = [
     { name: 'રવિ પટેલ (Ravi)', uid: 'NG-2026-001', grade: 'ધોરણ ૧', emoji: '👦' },
     { name: 'કૃષા શાહ (Krisha)', uid: 'NG-2026-002', grade: 'ધોરણ ૧', emoji: '👧' },
     { name: 'આરવ પટેલ (Aarav)', uid: 'NG-2026-003', grade: 'ધોરણ ૧', emoji: '👦' },
     { name: 'દિયા પ્રજાપતિ (Diya)', uid: 'NG-2026-004', grade: 'ધોરણ ૧', emoji: '👧' },
   ];
+
+  const studentsToShow = availableStudents.length > 0
+    ? availableStudents.map(s => ({
+        name: s.name,
+        uid: s.uid,
+        grade: s.grade,
+        emoji: s.gender === 'Girl' || s.gender === 'કન્યા' ? '👧' : '👦'
+      }))
+    : defaultStudents;
 
   return (
     <div className="min-h-[calc(100vh-8rem)] flex items-center justify-center p-4">
@@ -98,10 +127,10 @@ export default function StudentLogin() {
         {/* Quick Demo Pickers for Children / Testing */}
         <div className="pt-2 border-t border-slate-100 space-y-2.5">
           <p className="text-xs font-bold text-slate-600 font-gujarati text-center">
-            અથવા ડેમો વિદ્યાર્થી પસંદ કરો:
+            વિદ્યાર્થી પસંદ કરો અથવા ઉપર UID લખો:
           </p>
-          <div className="grid grid-cols-2 gap-2">
-            {sampleStudents.map((st) => (
+          <div className="grid grid-cols-2 gap-2 max-h-48 overflow-y-auto pr-1">
+            {studentsToShow.map((st) => (
               <button
                 key={st.uid}
                 type="button"

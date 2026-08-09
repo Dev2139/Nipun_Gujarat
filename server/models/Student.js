@@ -16,13 +16,12 @@ const studentSchema = new mongoose.Schema({
   },
   gender: {
     type: String,
-    enum: ['Boy', 'Girl', 'Other', 'કુમાર', 'કન્યા'],
     default: 'Boy',
   },
   grade: {
     type: String,
     required: true,
-    enum: ['Balvatika', 'Grade 1', 'Grade 2', 'બાલવાટિકા', 'ધોરણ 1', 'ધોરણ 2'],
+    default: 'Grade 1',
   },
   section: {
     type: String,

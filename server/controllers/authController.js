@@ -128,3 +128,18 @@ exports.getMe = async (req, res, next) => {
     next(error);
   }
 };
+
+// @desc    Get public active students list for quick selection
+// @route   GET /api/auth/students
+exports.getPublicStudents = async (req, res, next) => {
+  try {
+    const students = await Student.find({ active: true })
+      .select('uid name gender grade section profileImage totalStars streakDays')
+      .sort({ uid: 1 });
+    res.status(200).json({ success: true, data: students });
+  } catch (error) {
+    next(error);
+  }
+};
+
+

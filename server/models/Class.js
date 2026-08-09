@@ -9,7 +9,7 @@ const classSchema = new mongoose.Schema({
   grade: {
     type: String,
     required: true,
-    enum: ['Balvatika', 'Grade 1', 'Grade 2', 'બાલવાટિકા', 'ધોરણ 1', 'ધોરણ 2'],
+    default: 'Grade 1',
   },
   section: {
     type: String,
