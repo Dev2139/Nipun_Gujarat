@@ -29,25 +29,32 @@ export default function LearningPath() {
         const subjectData = isGujarati ? res.data.subjects.gujarati : res.data.subjects.mathematics;
         let list = subjectData.competencies || [];
 
-        // Check if Module 1 was completed locally
+        // Check if Module 1 or Module 2 was completed locally
         if (!isGujarati) {
           const m1Data = localStorage.getItem('nipun_math_module_01_progress_v2');
-          if (m1Data) {
-            try {
-              const parsed = JSON.parse(m1Data);
-              if (parsed.passed) {
-                list = list.map((item) => {
-                  if (item.competencyCode === 'M-01') {
-                    return { ...item, status: 'MASTERED', latestScore: parsed.latestTestScore || 100 };
-                  }
-                  if (item.competencyCode === 'M-02' && item.status === 'LOCKED') {
-                    return { ...item, status: 'AVAILABLE' };
-                  }
-                  return item;
-                });
-              }
-            } catch (e) {}
-          }
+          const m2Data = localStorage.getItem('nipun_math_module_02_progress_v2');
+
+          list = list.map((item) => {
+            if (m1Data) {
+              try {
+                const parsed1 = JSON.parse(m1Data);
+                if (parsed1.passed) {
+                  if (item.competencyCode === 'M-01') return { ...item, status: 'MASTERED', latestScore: parsed1.latestTestScore || 100 };
+                  if (item.competencyCode === 'M-02' && item.status === 'LOCKED') return { ...item, status: 'AVAILABLE' };
+                }
+              } catch (e) {}
+            }
+            if (m2Data) {
+              try {
+                const parsed2 = JSON.parse(m2Data);
+                if (parsed2.passed) {
+                  if (item.competencyCode === 'M-02') return { ...item, status: 'MASTERED', latestScore: parsed2.latestTestScore || 100 };
+                  if (item.competencyCode === 'M-03' && item.status === 'LOCKED') return { ...item, status: 'AVAILABLE' };
+                }
+              } catch (e) {}
+            }
+            return item;
+          });
         }
 
         setCompetencies(list);
