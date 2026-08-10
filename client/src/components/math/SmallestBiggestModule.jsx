@@ -356,11 +356,20 @@ export default function SmallestBiggestModule({ competency, progress, onTestRead
    Interactive Presentation Player with Gujarati Audio, Real SVG Objects, Scenes
    ========================================================================== */
 function VideoStage({ moduleState, onVideoComplete, onGoToLearning }) {
+  const [videoMode, setVideoMode] = useState('youtube'); // 'youtube' | 'interactive'
   const [currentSceneIndex, setCurrentSceneIndex] = useState(0);
   const [isPlaying, setIsPlaying] = useState(false);
   const [videoFinished, setVideoFinished] = useState(moduleState.videoCompleted || false);
-  const [hasUserInteracted, setHasUserInteracted] = useState(false);
   const timerRef = useRef(null);
+
+  const youtubeVideoId = 'osssUip3vHk';
+  const youtubeEmbedUrl = `https://www.youtube-nocookie.com/embed/${youtubeVideoId}?rel=0&modestbranding=1&playsinline=1`;
+
+  const handleMarkVideoDone = () => {
+    playSuccessSound();
+    setVideoFinished(true);
+    onVideoComplete();
+  };
 
   const scenes = [
     {
@@ -525,7 +534,6 @@ function VideoStage({ moduleState, onVideoComplete, onGoToLearning }) {
   };
 
   const handlePlay = () => {
-    setHasUserInteracted(true);
     setIsPlaying(true);
     speakCurrentScene(currentSceneIndex);
   };
@@ -547,8 +555,7 @@ function VideoStage({ moduleState, onVideoComplete, onGoToLearning }) {
     } else {
       // Video Finished
       setIsPlaying(false);
-      setVideoFinished(true);
-      onVideoComplete();
+      handleMarkVideoDone();
     }
   };
 
@@ -577,100 +584,167 @@ function VideoStage({ moduleState, onVideoComplete, onGoToLearning }) {
             <span>તબક્કો ૧: શૈક્ષણિક વિડિયો (Stage 1 - Educational Video)</span>
           </div>
           <h2 className="text-2xl md:text-3xl font-black text-slate-900 font-gujarati">
-            કદ ઓળખીએ (Understanding Size)
+            કદ ઓળખીએ: શું નાનું, શું મોટું ?
           </h2>
           <p className="text-xs md:text-sm text-slate-600 font-gujarati">
             ચાલો શીખીએ કે કઈ વસ્તુ નાની છે અને કઈ વસ્તુ મોટી છે.
           </p>
         </div>
 
-        <GujaratiVoiceButton
-          text={currentScene.narration}
-          label="આ સંવાદ સાંભળો"
-          size="md"
-        />
-      </div>
-
-      {/* Video Player Container */}
-      <div className="relative bg-gradient-to-b from-slate-900 via-slate-800 to-slate-950 rounded-3xl p-6 md:p-8 text-white shadow-2xl border-4 border-slate-700 overflow-hidden min-h-[360px] flex flex-col justify-between">
-        {/* Top Video Header */}
-        <div className="flex items-center justify-between z-10">
-          <div className="flex items-center gap-2">
-            <span className="px-3 py-1 rounded-full bg-emerald-500/80 text-white font-bold text-xs font-mono">
-              ભાગ {currentSceneIndex + 1} / {scenes.length}
-            </span>
-            <span className="text-sm font-bold text-emerald-300 font-gujarati">
-              {currentScene.title}
-            </span>
-          </div>
-
+        {/* Video Mode Switcher */}
+        <div className="flex items-center gap-2 bg-slate-100 p-1 rounded-2xl border border-slate-200">
           <button
-            onClick={() => speakCurrentScene(currentSceneIndex)}
-            className="p-2 rounded-xl bg-white/10 hover:bg-white/20 text-white transition-all flex items-center gap-1 text-xs font-gujarati"
+            onClick={() => {
+              playClickSound();
+              setVideoMode('youtube');
+            }}
+            className={`px-3 py-1.5 rounded-xl text-xs font-bold font-gujarati transition-all ${
+              videoMode === 'youtube'
+                ? 'bg-rose-600 text-white shadow-sm'
+                : 'text-slate-600 hover:text-slate-900'
+            }`}
           >
-            <Volume2 className="w-4 h-4 text-amber-400" />
-            <span>અવાજ</span>
+            🎬 યૂટ્યુબ વિડિયો (YouTube)
           </button>
-        </div>
-
-        {/* Video Canvas / Animation Area */}
-        <div className="my-auto py-4 bg-white/5 backdrop-blur-md rounded-2xl border border-white/10 p-4">
-          {currentScene.renderIllustration()}
-        </div>
-
-        {/* Subtitles Box */}
-        <div className="bg-black/60 backdrop-blur-md rounded-2xl p-4 border border-white/15 text-center space-y-1">
-          <p className="text-sm md:text-base font-bold text-emerald-200 font-gujarati leading-relaxed">
-            "{currentScene.narration}"
-          </p>
-        </div>
-
-        {/* Timeline Progress Bar */}
-        <div className="w-full bg-white/20 h-2 rounded-full mt-4 overflow-hidden">
-          <div
-            className="bg-emerald-400 h-full transition-all duration-300 rounded-full"
-            style={{ width: `${((currentSceneIndex + 1) / scenes.length) * 100}%` }}
-          />
-        </div>
-
-        {/* Playback Controls */}
-        <div className="flex items-center justify-between pt-4 mt-2 border-t border-white/10">
           <button
-            onClick={handlePrevScene}
-            disabled={currentSceneIndex === 0}
-            className="px-3.5 py-2 rounded-xl bg-white/10 hover:bg-white/20 disabled:opacity-30 text-white font-bold text-xs font-gujarati flex items-center gap-1"
+            onClick={() => {
+              playClickSound();
+              setVideoMode('interactive');
+            }}
+            className={`px-3 py-1.5 rounded-xl text-xs font-bold font-gujarati transition-all ${
+              videoMode === 'interactive'
+                ? 'bg-emerald-600 text-white shadow-sm'
+                : 'text-slate-600 hover:text-slate-900'
+            }`}
           >
-            <ArrowLeft className="w-3.5 h-3.5" />
-            <span>પાછળ</span>
-          </button>
-
-          <div className="flex items-center gap-3">
-            <button
-              onClick={handleRestart}
-              className="p-2.5 rounded-full bg-white/10 hover:bg-white/20 text-white"
-              title="ફરીથી શરૂ કરો"
-            >
-              <RotateCcw className="w-4 h-4" />
-            </button>
-
-            <button
-              onClick={isPlaying ? handlePause : handlePlay}
-              className="px-6 py-2.5 rounded-2xl bg-emerald-500 hover:bg-emerald-600 text-white font-black text-sm font-gujarati flex items-center gap-2 shadow-lg shadow-emerald-900/50"
-            >
-              {isPlaying ? <Pause className="w-4 h-4" /> : <Play className="w-4 h-4 fill-white" />}
-              <span>{isPlaying ? 'રોકો' : 'શરૂ કરો'}</span>
-            </button>
-          </div>
-
-          <button
-            onClick={handleNextScene}
-            className="px-4 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-black text-xs font-gujarati flex items-center gap-1 shadow-md"
-          >
-            <span>{currentSceneIndex === scenes.length - 1 ? 'વિડિયો પૂર્ણ કરો' : 'આગળ'}</span>
-            <ArrowRight className="w-3.5 h-3.5" />
+            ✨ એનિમેશન પાર્ટ
           </button>
         </div>
       </div>
+
+      {/* YOUTUBE EMBEDDED PLAYER */}
+      {videoMode === 'youtube' && (
+        <div className="space-y-4">
+          <div className="relative w-full rounded-3xl overflow-hidden shadow-2xl border-4 border-slate-800 bg-black aspect-video max-h-[480px]">
+            <iframe
+              src={youtubeEmbedUrl}
+              title="શું નાનું, શું મોટું ? || small and big || smallest and biggest"
+              className="w-full h-full"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+              allowFullScreen
+            />
+          </div>
+
+          <div className="flex flex-col sm:flex-row items-center justify-between gap-4 bg-slate-50 p-4 rounded-2xl border border-slate-200">
+            <div className="text-left space-y-0.5">
+              <span className="text-xs font-bold text-slate-800 font-gujarati">
+                📺 શીર્ષક: શું નાનું, શું મોટું ? (Small & Big Concepts)
+              </span>
+              <p className="text-[11px] text-slate-500 font-gujarati">
+                વિડિયો પૂરો જોયા પછી નીચેના બટન પર ક્લિક કરીને આગળનું શિક્ષણ શરૂ કરો.
+              </p>
+            </div>
+
+            {!videoFinished ? (
+              <button
+                onClick={handleMarkVideoDone}
+                className="px-6 py-3 bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-700 hover:to-teal-700 text-white font-black text-xs rounded-xl shadow-lg shadow-emerald-200 flex items-center gap-2 active:scale-95 transition-all font-gujarati whitespace-nowrap"
+              >
+                <CheckCircle2 className="w-4 h-4" />
+                <span>મેં વિડિયો જોયો (Mark as Completed)</span>
+              </button>
+            ) : (
+              <span className="px-4 py-2 bg-emerald-100 text-emerald-800 font-bold text-xs rounded-xl font-gujarati flex items-center gap-1.5">
+                <Check className="w-4 h-4 stroke-[3]" />
+                <span>વિડિયો પૂર્ણ થયો ✅</span>
+              </span>
+            )}
+          </div>
+        </div>
+      )}
+
+      {/* INTERACTIVE ANIMATED CONCEPT WALKTHROUGH */}
+      {videoMode === 'interactive' && (
+        <div className="relative bg-gradient-to-b from-slate-900 via-slate-800 to-slate-950 rounded-3xl p-6 md:p-8 text-white shadow-2xl border-4 border-slate-700 overflow-hidden min-h-[360px] flex flex-col justify-between">
+          {/* Top Video Header */}
+          <div className="flex items-center justify-between z-10">
+            <div className="flex items-center gap-2">
+              <span className="px-3 py-1 rounded-full bg-emerald-500/80 text-white font-bold text-xs font-mono">
+                ભાગ {currentSceneIndex + 1} / {scenes.length}
+              </span>
+              <span className="text-sm font-bold text-emerald-300 font-gujarati">
+                {currentScene.title}
+              </span>
+            </div>
+
+            <button
+              onClick={() => speakCurrentScene(currentSceneIndex)}
+              className="p-2 rounded-xl bg-white/10 hover:bg-white/20 text-white transition-all flex items-center gap-1 text-xs font-gujarati"
+            >
+              <Volume2 className="w-4 h-4 text-amber-400" />
+              <span>અવાજ</span>
+            </button>
+          </div>
+
+          {/* Video Canvas / Animation Area */}
+          <div className="my-auto py-4 bg-white/5 backdrop-blur-md rounded-2xl border border-white/10 p-4">
+            {currentScene.renderIllustration()}
+          </div>
+
+          {/* Subtitles Box */}
+          <div className="bg-black/60 backdrop-blur-md rounded-2xl p-4 border border-white/15 text-center space-y-1">
+            <p className="text-sm md:text-base font-bold text-emerald-200 font-gujarati leading-relaxed">
+              "{currentScene.narration}"
+            </p>
+          </div>
+
+          {/* Timeline Progress Bar */}
+          <div className="w-full bg-white/20 h-2 rounded-full mt-4 overflow-hidden">
+            <div
+              className="bg-emerald-400 h-full transition-all duration-300 rounded-full"
+              style={{ width: `${((currentSceneIndex + 1) / scenes.length) * 100}%` }}
+            />
+          </div>
+
+          {/* Playback Controls */}
+          <div className="flex items-center justify-between pt-4 mt-2 border-t border-white/10">
+            <button
+              onClick={handlePrevScene}
+              disabled={currentSceneIndex === 0}
+              className="px-3.5 py-2 rounded-xl bg-white/10 hover:bg-white/20 disabled:opacity-30 text-white font-bold text-xs font-gujarati flex items-center gap-1"
+            >
+              <ArrowLeft className="w-3.5 h-3.5" />
+              <span>પાછળ</span>
+            </button>
+
+            <div className="flex items-center gap-3">
+              <button
+                onClick={handleRestart}
+                className="p-2.5 rounded-full bg-white/10 hover:bg-white/20 text-white"
+                title="ફરીથી શરૂ કરો"
+              >
+                <RotateCcw className="w-4 h-4" />
+              </button>
+
+              <button
+                onClick={isPlaying ? handlePause : handlePlay}
+                className="px-6 py-2.5 rounded-2xl bg-emerald-500 hover:bg-emerald-600 text-white font-black text-sm font-gujarati flex items-center gap-2 shadow-lg shadow-emerald-900/50"
+              >
+                {isPlaying ? <Pause className="w-4 h-4" /> : <Play className="w-4 h-4 fill-white" />}
+                <span>{isPlaying ? 'રોકો' : 'શરૂ કરો'}</span>
+              </button>
+            </div>
+
+            <button
+              onClick={handleNextScene}
+              className="px-4 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-black text-xs font-gujarati flex items-center gap-1 shadow-md"
+            >
+              <span>{currentSceneIndex === scenes.length - 1 ? 'વિડિયો પૂર્ણ કરો' : 'આગળ'}</span>
+              <ArrowRight className="w-3.5 h-3.5" />
+            </button>
+          </div>
+        </div>
+      )}
 
       {/* Video Completed Screen / Unlock Prompt */}
       {videoFinished && (
@@ -683,7 +757,7 @@ function VideoStage({ moduleState, onVideoComplete, onGoToLearning }) {
               વિડિયો પૂર્ણ થયો!
             </h3>
             <p className="text-xs font-semibold text-emerald-700 font-gujarati mt-1">
-              તમે કદની સરખામણીનો પરિચય સફળતાપૂર્વક મેળવી લીધો છે. હવે ઇન્ટરેક્ટિવ રીતે શીખીએ!
+              તમે કદની સરખામણીનો વિડિયો સફળતાપૂર્વક જોઈ લીધો છે. હવે આગળનું ઇન્ટરેક્ટિવ શિક્ષણ શરૂ કરીએ!
             </p>
           </div>
 
@@ -691,7 +765,7 @@ function VideoStage({ moduleState, onVideoComplete, onGoToLearning }) {
             onClick={onGoToLearning}
             className="px-8 py-3.5 bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-700 hover:to-teal-700 text-white font-black text-sm rounded-2xl shadow-xl shadow-emerald-200 flex items-center gap-2 mx-auto active:scale-95 transition-all font-gujarati"
           >
-            <span>આગળ શીખીએ (Go to Learning)</span>
+            <span>આગળ શીખીએ (Go to Learning →)</span>
             <ArrowRight className="w-4 h-4" />
           </button>
         </div>
@@ -699,6 +773,8 @@ function VideoStage({ moduleState, onVideoComplete, onGoToLearning }) {
     </div>
   );
 }
+
+
 
 /* ==========================================================================
    STAGE 2: LEARNING STAGE (7 INTERACTIVE STEPS)
