@@ -33,9 +33,11 @@ export default function StudentDashboard() {
 
         const m1Data = localStorage.getItem('nipun_math_module_01_progress_v2');
         const m2Data = localStorage.getItem('nipun_math_module_02_progress_v2');
+        const m3Data = localStorage.getItem('nipun_math_module_03_progress_v2');
 
         let isM1Passed = false;
         let isM2Passed = false;
+        let isM3Passed = false;
 
         if (m1Data) {
           try {
@@ -49,6 +51,12 @@ export default function StudentDashboard() {
             if (p2.passed) isM2Passed = true;
           } catch (e) {}
         }
+        if (m3Data) {
+          try {
+            const p3 = JSON.parse(m3Data);
+            if (p3.passed) isM3Passed = true;
+          } catch (e) {}
+        }
 
         // Apply completion overrides so student profile immediately reflects mastery
         mathList = mathList.map((item) => {
@@ -59,7 +67,11 @@ export default function StudentDashboard() {
             if (isM2Passed) return { ...item, status: 'MASTERED', latestScore: 100 };
             if (isM1Passed && item.status === 'LOCKED') return { ...item, status: 'AVAILABLE' };
           }
-          if (item.competencyCode === 'M-03' && isM2Passed && item.status === 'LOCKED') {
+          if (item.competencyCode === 'M-03') {
+            if (isM3Passed) return { ...item, status: 'MASTERED', latestScore: 100 };
+            if (isM2Passed && item.status === 'LOCKED') return { ...item, status: 'AVAILABLE' };
+          }
+          if (item.competencyCode === 'M-04' && isM3Passed && item.status === 'LOCKED') {
             return { ...item, status: 'AVAILABLE' };
           }
           return item;

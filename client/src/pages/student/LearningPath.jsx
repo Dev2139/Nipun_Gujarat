@@ -29,10 +29,11 @@ export default function LearningPath() {
         const subjectData = isGujarati ? res.data.subjects.gujarati : res.data.subjects.mathematics;
         let list = subjectData.competencies || [];
 
-        // Check if Module 1 or Module 2 was completed locally
+        // Check if Module 1, Module 2, or Module 3 was completed locally
         if (!isGujarati) {
           const m1Data = localStorage.getItem('nipun_math_module_01_progress_v2');
           const m2Data = localStorage.getItem('nipun_math_module_02_progress_v2');
+          const m3Data = localStorage.getItem('nipun_math_module_03_progress_v2');
 
           list = list.map((item) => {
             if (m1Data) {
@@ -50,6 +51,15 @@ export default function LearningPath() {
                 if (parsed2.passed) {
                   if (item.competencyCode === 'M-02') return { ...item, status: 'MASTERED', latestScore: parsed2.latestTestScore || 100 };
                   if (item.competencyCode === 'M-03' && item.status === 'LOCKED') return { ...item, status: 'AVAILABLE' };
+                }
+              } catch (e) {}
+            }
+            if (m3Data) {
+              try {
+                const parsed3 = JSON.parse(m3Data);
+                if (parsed3.passed) {
+                  if (item.competencyCode === 'M-03') return { ...item, status: 'MASTERED', latestScore: parsed3.latestTestScore || 100 };
+                  if (item.competencyCode === 'M-04' && item.status === 'LOCKED') return { ...item, status: 'AVAILABLE' };
                 }
               } catch (e) {}
             }
