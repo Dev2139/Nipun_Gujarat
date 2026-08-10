@@ -114,6 +114,9 @@ export const syncModule2ProgressWithBackend = async (state) => {
       activitiesCompleted: state.guidedActivitiesDone.length + (state.practiceCompleted ? 10 : 0),
       practiceScore: state.practiceAccuracy || state.practiceScore,
       unlockAssessment: state.practiceCompleted,
+      testPassed: state.passed,
+      testScore: state.testScore,
+      isMastered: state.passed,
       hintsUsed: state.hintsUsed || 0,
       weakAreas: state.weakConcepts || [],
       activityDetails: {

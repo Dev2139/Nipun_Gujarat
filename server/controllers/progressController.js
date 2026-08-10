@@ -186,6 +186,64 @@ exports.trackLearningActivity = async (req, res, next) => {
       }
     }
 
+    // Process Test Completion & Competency Mastery
+    const isTestPassed = req.body.testPassed === true ||
+      activityDetails?.testPassed === true ||
+      req.body.isMastered === true ||
+      (req.body.testScore !== undefined && Number(req.body.testScore) >= 80);
+
+    if (isTestPassed) {
+      const finalScore = Number(req.body.testScore || activityDetails?.testScore || 100);
+      progress.status = 'MASTERED';
+      progress.progressPercentage = 100;
+      progress.learningCompleted = true;
+      progress.practiceCompleted = true;
+      progress.assessmentUnlocked = true;
+      progress.latestScore = finalScore;
+      progress.highestScore = Math.max(progress.highestScore || 0, finalScore);
+      progress.attempts = (progress.attempts || 0) + 1;
+      progress.masteredAt = new Date();
+      progress.needsIntervention = false;
+
+      // Award stars to student
+      try {
+        await Student.findByIdAndUpdate(studentId, { $inc: { totalStars: 10 } });
+      } catch (e) {}
+
+      // Unlock next sequential competency in the same subject
+      try {
+        const nextComp = await Competency.findOne({
+          subject: progress.subject,
+          sequence: progress.sequence + 1,
+          active: true,
+        });
+
+        if (nextComp) {
+          let nextProg = await StudentProgress.findOne({
+            studentId,
+            competencyCode: nextComp.code,
+          });
+
+          if (!nextProg) {
+            await StudentProgress.create({
+              studentId,
+              studentUid: progress.studentUid,
+              subject: nextComp.subject,
+              competencyCode: nextComp.code,
+              competencyId: nextComp._id,
+              sequence: nextComp.sequence,
+              status: 'AVAILABLE',
+            });
+          } else if (nextProg.status === 'LOCKED') {
+            nextProg.status = 'AVAILABLE';
+            await nextProg.save();
+          }
+        }
+      } catch (e) {
+        console.warn('[ProgressController] Error unlocking next competency:', e);
+      }
+    }
+
     await progress.save();
 
     res.status(200).json({

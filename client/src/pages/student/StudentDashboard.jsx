@@ -28,7 +28,57 @@ export default function StudentDashboard() {
       setLoading(true);
       const res = await progressService.getMyProgress();
       if (res.success) {
-        setData(res.data);
+        let dashboardData = { ...res.data };
+        let mathList = dashboardData.subjects.mathematics.competencies || [];
+
+        const m1Data = localStorage.getItem('nipun_math_module_01_progress_v2');
+        const m2Data = localStorage.getItem('nipun_math_module_02_progress_v2');
+
+        let isM1Passed = false;
+        let isM2Passed = false;
+
+        if (m1Data) {
+          try {
+            const p1 = JSON.parse(m1Data);
+            if (p1.passed) isM1Passed = true;
+          } catch (e) {}
+        }
+        if (m2Data) {
+          try {
+            const p2 = JSON.parse(m2Data);
+            if (p2.passed) isM2Passed = true;
+          } catch (e) {}
+        }
+
+        // Apply completion overrides so student profile immediately reflects mastery
+        mathList = mathList.map((item) => {
+          if (item.competencyCode === 'M-01' && isM1Passed) {
+            return { ...item, status: 'MASTERED', latestScore: 100 };
+          }
+          if (item.competencyCode === 'M-02') {
+            if (isM2Passed) return { ...item, status: 'MASTERED', latestScore: 100 };
+            if (isM1Passed && item.status === 'LOCKED') return { ...item, status: 'AVAILABLE' };
+          }
+          if (item.competencyCode === 'M-03' && isM2Passed && item.status === 'LOCKED') {
+            return { ...item, status: 'AVAILABLE' };
+          }
+          return item;
+        });
+
+        const mathMastered = mathList.filter((p) => p.status === 'MASTERED').length;
+        const mathTotal = mathList.length || 30;
+        const mathPercentage = Math.round((mathMastered / mathTotal) * 100);
+        const currentMath = mathList.find((p) => p.status === 'AVAILABLE' || p.status === 'LEARNING' || p.status === 'PRACTICE' || p.status === 'RELEARN' || p.status === 'TEST_AVAILABLE') || mathList[0];
+
+        dashboardData.subjects.mathematics = {
+          ...dashboardData.subjects.mathematics,
+          masteredCount: mathMastered,
+          progressPercentage: mathPercentage,
+          currentCompetency: currentMath,
+          competencies: mathList,
+        };
+
+        setData(dashboardData);
       }
     } catch (err) {
       console.error('Error fetching student dashboard data:', err);

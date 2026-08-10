@@ -116,6 +116,9 @@ export const syncModule1ProgressWithBackend = async (state) => {
       activitiesCompleted: state.learningStepsCompleted.length + state.activitiesCompleted,
       practiceScore: state.practiceAccuracy || state.practiceScore,
       unlockAssessment: state.practiceCompleted,
+      testPassed: state.passed,
+      testScore: state.testScore,
+      isMastered: state.passed,
       hintsUsed: 0,
       activityDetails: {
         learningCompleted: state.learningCompleted,
