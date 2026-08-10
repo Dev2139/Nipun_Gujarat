@@ -1,1396 +1,1963 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
+import confetti from 'canvas-confetti';
+import SvgObject, { OBJECT_CATALOG } from './SvgObjectLibrary';
 import GujaratiVoiceButton from '../GujaratiVoiceButton';
-import api from '../../services/api';
+import { speakGujarati } from '../../utils/gujaratiAudio';
+import {
+  playSuccessSound,
+  playErrorSound,
+  playClickSound,
+  playFanfareSound,
+  playStarSound,
+} from '../../utils/soundEffects';
+import {
+  getSavedModule1Progress,
+  saveModule1Progress,
+  resetModule1Progress,
+} from '../../services/module1ProgressState';
 import {
   Play,
-  CheckCircle2,
-  Sparkles,
-  HelpCircle,
-  ArrowRight,
+  Pause,
   RotateCcw,
-  Star,
+  CheckCircle2,
+  Lock,
+  Sparkles,
+  ArrowRight,
+  ArrowLeft,
+  Volume2,
   Award,
   Video,
-  Layers,
+  BookOpen,
+  Gamepad2,
+  FileCheck2,
+  Trophy,
   ChevronRight,
-  TrendingUp,
-  TrendingDown,
-  AlertCircle
+  HelpCircle,
+  RefreshCw,
+  Star,
+  Check,
+  Flame,
+  Lightbulb
 } from 'lucide-react';
 
 export default function SmallestBiggestModule({ competency, progress, onTestReady }) {
   const navigate = useNavigate();
 
-  // Active Tab / Flow Stage
-  // 1: welcome, 2: video, 3: concept, 4: act1_groups, 5: act2_smallest, 6: act3_biggest, 7: act4_both, 8: ordering, 9: numberline, 10: practice, 11: test_ready
-  const [currentStage, setCurrentStage] = useState(1);
+  // Load persistent progress state
+  const [moduleState, setModuleState] = useState(() => getSavedModule1Progress());
 
-  // Tracking metrics
-  const [videoStarted, setVideoStarted] = useState(false);
-  const [videoCompleted, setVideoCompleted] = useState(progress?.videoWatched || false);
-  const [activitiesDone, setActivitiesDone] = useState(progress?.activitiesCompleted || 0);
-  const [hintsUsedCount, setHintsUsedCount] = useState(progress?.hintsUsed || 0);
-  const [practiceScore, setPracticeScore] = useState(progress?.practiceScore || 0);
-  const [practiceFinished, setPracticeFinished] = useState(progress?.practiceCompleted || false);
-  const [isTestUnlocked, setIsTestUnlocked] = useState(progress?.assessmentUnlocked || false);
+  // Active Stage: 'video' | 'learning' | 'practice' | 'test' | 'completed'
+  const [activeStage, setActiveStage] = useState(() => {
+    const saved = getSavedModule1Progress();
+    if (saved.passed) return 'completed';
+    if (saved.practiceCompleted) return 'test';
+    if (saved.learningCompleted) return 'practice';
+    if (saved.videoCompleted) return 'learning';
+    return 'video';
+  });
 
-  // Sync with backend API
-  const saveActivityProgress = async (patch) => {
-    try {
-      await api.post('/progress/activity-update', {
-        competencyCode: 'M-01',
-        ...patch,
-      });
-    } catch (err) {
-      console.warn('[M-01 Module] Activity tracking sync error:', err);
+  // Keep state synced
+  const updateState = (patch) => {
+    const next = saveModule1Progress(patch);
+    setModuleState({ ...next });
+    if (next.practiceCompleted && onTestReady) {
+      onTestReady();
     }
   };
 
-  /* -------------------------------------------------------------
-     STEP 2: VIDEO TRACKING
-  ------------------------------------------------------------- */
-  const handleVideoCompleted = () => {
-    setVideoCompleted(true);
-    saveActivityProgress({
-      videoWatched: true,
-      videoWatchedPercentage: 100,
-    });
-  };
+  // Re-read on mount
+  useEffect(() => {
+    const saved = getSavedModule1Progress();
+    setModuleState(saved);
+  }, []);
 
-  /* -------------------------------------------------------------
-     STEP 3: VISUAL CONCEPT INTRO STATE
-  ------------------------------------------------------------- */
-  const [conceptSelectedGroup, setConceptSelectedGroup] = useState(null);
-
-  /* -------------------------------------------------------------
-     STEP 4: ACTIVITY 1 - OBJECT COMPARISON (DYNAMIC OBJECTS)
-  ------------------------------------------------------------- */
-  const objectThemes = [
-    { emoji: '🍎', name: 'સફરજન' },
-    { emoji: '🍊', name: 'નારંગી' },
-    { emoji: '⭐', name: 'તારા' },
-    { emoji: '🐟', name: 'માછલીઓ' },
-    { emoji: '🌸', name: 'ફૂલો' },
-    { emoji: '🧸', name: 'ઢીંગલીઓ' },
-    { emoji: '⚽', name: 'દડા' },
-  ];
-  const [act1ThemeIndex, setAct1ThemeIndex] = useState(0);
-  const [act1Counts, setAct1Counts] = useState({ left: 3, right: 6 });
-  const [act1Selected, setAct1Selected] = useState(null);
-  const [act1Feedback, setAct1Feedback] = useState(null);
-
-  const resetAct1 = () => {
-    const nextIdx = (act1ThemeIndex + 1) % objectThemes.length;
-    setAct1ThemeIndex(nextIdx);
-    const left = Math.floor(Math.random() * 4) + 2; // 2 to 5
-    let right = Math.floor(Math.random() * 5) + 3; // 3 to 7
-    if (right === left) right += 2;
-    setAct1Counts({ left, right });
-    setAct1Selected(null);
-    setAct1Feedback(null);
-  };
-
-  const handleAct1Check = (choice) => {
-    setAct1Selected(choice);
-    const isCorrect = (choice === 'left' && act1Counts.left > act1Counts.right) ||
-                      (choice === 'right' && act1Counts.right > act1Counts.left);
-    if (isCorrect) {
-      setAct1Feedback({ correct: true, text: '🎉 સરસ! આ સમૂહ મોટો છે.' });
-      const nextDone = Math.max(activitiesDone, 1);
-      setActivitiesDone(nextDone);
-      saveActivityProgress({ activitiesCompleted: nextDone });
-    } else {
-      setAct1Feedback({ correct: false, text: 'ફરીથી જુઓ. કયા સમૂહમાં વધુ વસ્તુઓ છે?' });
-    }
-  };
-
-  /* -------------------------------------------------------------
-     STEP 5: ACTIVITY 2 - SMALLEST NUMBER (3 LEVELS)
-  ------------------------------------------------------------- */
-  const act2Levels = [
-    { level: 'સરળ (Easy)', numbers: [2, 5, 7], correct: 2 },
-    { level: 'મધ્યમ (Medium)', numbers: [8, 3, 6], correct: 3 },
-    { level: 'પડકાર (Harder)', numbers: [12, 7, 15], correct: 7 },
-  ];
-  const [act2LevelIdx, setAct2LevelIdx] = useState(0);
-  const [act2Selected, setAct2Selected] = useState(null);
-  const [act2Feedback, setAct2Feedback] = useState(null);
-
-  const handleAct2Check = (num) => {
-    setAct2Selected(num);
-    const current = act2Levels[act2LevelIdx];
-    if (num === current.correct) {
-      setAct2Feedback({ correct: true, text: `🎉 વાહ! ${num} સૌથી નાનો છે.` });
-      const nextDone = Math.max(activitiesDone, 2);
-      setActivitiesDone(nextDone);
-      saveActivityProgress({ activitiesCompleted: nextDone });
-    } else {
-      setAct2Feedback({ correct: false, text: 'ફરી પ્રયત્ન કરો. કઈ સંખ્યા સૌથી ઓછી છે?' });
-    }
-  };
-
-  /* -------------------------------------------------------------
-     STEP 6: ACTIVITY 3 - BIGGEST NUMBER
-  ------------------------------------------------------------- */
-  const act3Rounds = [
-    { numbers: [4, 9, 6], correct: 9 },
-    { numbers: [14, 8, 11], correct: 14 },
-    { numbers: [5, 18, 12], correct: 18 },
-  ];
-  const [act3RoundIdx, setAct3RoundIdx] = useState(0);
-  const [act3Selected, setAct3Selected] = useState(null);
-  const [act3Feedback, setAct3Feedback] = useState(null);
-
-  const handleAct3Check = (num) => {
-    setAct3Selected(num);
-    const current = act3Rounds[act3RoundIdx];
-    if (num === current.correct) {
-      setAct3Feedback({ correct: true, text: `🎉 સાચો જવાબ! ${num} સૌથી મોટો નંબર છે.` });
-      const nextDone = Math.max(activitiesDone, 3);
-      setActivitiesDone(nextDone);
-      saveActivityProgress({ activitiesCompleted: nextDone });
-    } else {
-      setAct3Feedback({ correct: false, text: 'ફરીથી વિચારો. કઈ સંખ્યા સૌથી મોટી છે?' });
-    }
-  };
-
-  /* -------------------------------------------------------------
-     STEP 7: ACTIVITY 4 - FIND BOTH (SMALLEST & BIGGEST)
-  ------------------------------------------------------------- */
-  const act4Data = {
-    numbers: [12, 7, 18, 9],
-    correctSmallest: 7,
-    correctBiggest: 18,
-  };
-  const [act4Smallest, setAct4Smallest] = useState(null);
-  const [act4Biggest, setAct4Biggest] = useState(null);
-  const [act4Feedback, setAct4Feedback] = useState(null);
-
-  const handleAct4Validate = () => {
-    if (!act4Smallest || !act4Biggest) {
-      setAct4Feedback({ correct: false, text: 'કૃપા કરીને બંને સંખ્યાઓ (નાની અને મોટી) પસંદ કરો.' });
-      return;
-    }
-    if (act4Smallest === act4Data.correctSmallest && act4Biggest === act4Data.correctBiggest) {
-      setAct4Feedback({ correct: true, text: '🎉 અદ્ભુત! સૌથી નાનો ૭ અને સૌથી મોટો ૧૮ છે.' });
-      const nextDone = Math.max(activitiesDone, 4);
-      setActivitiesDone(nextDone);
-      saveActivityProgress({ activitiesCompleted: nextDone });
-    } else {
-      setAct4Feedback({ correct: false, text: 'ફરીથી તપાસો. ૧૨, ૭, ૧૮, ૯ માંથી કઈ સૌથી નાની અને કઈ સૌથી મોટી છે?' });
-    }
-  };
-
-  /* -------------------------------------------------------------
-     STEP 8: TOUCH DRAG-AND-DROP / TAP ORDERING
-  ------------------------------------------------------------- */
-  // Ascending Round
-  const [ascPool, setAscPool] = useState([7, 2, 5, 3]);
-  const [ascSelected, setAscSelected] = useState([]);
-  const [ascFeedback, setAscFeedback] = useState(null);
-
-  const handleAscTap = (num) => {
-    if (ascSelected.includes(num)) return;
-    const nextArr = [...ascSelected, num];
-    setAscSelected(nextArr);
-    if (nextArr.length === 4) {
-      const isCorrect = nextArr.join(',') === '2,3,5,7';
-      if (isCorrect) {
-        setAscFeedback({ correct: true, text: '🎉 ખૂબ સરસ! તમે સંખ્યાઓને નાનાથી મોટા ક્રમમાં ગોઠવી (૨ → ૩ → ૫ → ૮).' });
-      } else {
-        setAscFeedback({ correct: false, text: 'ક્રમ યોગ્ય નથી. ફરી પ્રયત્ન કરો!' });
-      }
-    }
-  };
-
-  const resetAsc = () => {
-    setAscSelected([]);
-    setAscFeedback(null);
-  };
-
-  // Descending Round
-  const [descPool] = useState([9, 3, 7, 5]);
-  const [descSelected, setDescSelected] = useState([]);
-  const [descFeedback, setDescFeedback] = useState(null);
-
-  const handleDescTap = (num) => {
-    if (descSelected.includes(num)) return;
-    const nextArr = [...descSelected, num];
-    setDescSelected(nextArr);
-    if (nextArr.length === 4) {
-      const isCorrect = nextArr.join(',') === '9,7,5,3';
-      if (isCorrect) {
-        setDescFeedback({ correct: true, text: '🎉 ખૂબ સરસ! તમે સંખ્યાઓને મોટાથી નાના ક્રમમાં ગોઠવી (૯ → ૭ → ૫ → ૩).' });
-      } else {
-        setDescFeedback({ correct: false, text: 'ક્રમ યોગ્ય નથી. ફરી પ્રયત્ન કરો!' });
-      }
-    }
-  };
-
-  const resetDesc = () => {
-    setDescSelected([]);
-    setDescFeedback(null);
-  };
-
-  /* -------------------------------------------------------------
-     STEP 9: INTERACTIVE NUMBER LINE (BUNNY HOPPING)
-  ------------------------------------------------------------- */
-  const [bunnyPosition, setBunnyPosition] = useState(1);
-  const [numberLineQuestion, setNumberLineQuestion] = useState('smallest'); // 'smallest' | 'biggest'
-  const [numberLineFeedback, setNumberLineFeedback] = useState(null);
-
-  const handleNumberLineTap = (num) => {
-    setBunnyPosition(num);
-    if (numberLineQuestion === 'smallest') {
-      if (num === 1) {
-        setNumberLineFeedback({ correct: true, text: '🎉 સાચું! ૧ એ સૌથી નાની સંખ્યા છે (સસલું શરૂઆતમાં છે 🐰).' });
-      } else {
-        setNumberLineFeedback({ correct: false, text: 'ડાબી બાજુ સૌથી નાની સંખ્યા ૧ છે.' });
-      }
-    } else {
-      if (num === 10) {
-        setNumberLineFeedback({ correct: true, text: '🎉 સાચું! ૧૦ એ સૌથી મોટી સંખ્યા છે (સસલું છેડે પહોંચી ગયું 🐰).' });
-      } else {
-        setNumberLineFeedback({ correct: false, text: 'જમણી બાજુ સૌથી મોટી સંખ્યા ૧૦ છે.' });
-      }
-    }
-  };
-
-  /* -------------------------------------------------------------
-     STEP 10: PRACTICE ROUND (8 QUESTIONS WITH 3-TIER HINTS)
-  ------------------------------------------------------------- */
-  const practiceQuestions = [
+  /* ==========================================================================
+     TOP PROGRESS JOURNEY STEPPER
+     1. 🎬 Video  2. 📚 Learning  3. 🎮 Practice  4. 📝 Test  5. 🏆 Completed
+     ========================================================================== */
+  const journeyStages = [
     {
-      id: 'P1',
-      type: 'smallest_group',
-      questionText: 'સૌથી ઓછી વસ્તુઓ વાળો સમૂહ પસંદ કરો:',
-      options: [
-        { label: '🐟🐟🐟 (૩ માછલીઓ)', value: 'A', items: '🐟🐟🐟' },
-        { label: '🐟🐟 (૨ માછલીઓ)', value: 'B', items: '🐟🐟' },
-      ],
-      correct: 'B',
-      hint1: 'બંને સમૂહ ગણો.',
-      hint2: '૨ માછલીઓ ઓછી છે કે ૩?',
-      hint3: 'સાચો જવાબ B (૨ માછલીઓ) છે.',
+      id: 'video',
+      titleGujarati: 'વિડિયો',
+      titleEnglish: 'Video',
+      icon: Video,
+      isUnlocked: true,
+      isCompleted: moduleState.videoCompleted,
     },
     {
-      id: 'P2',
-      type: 'biggest_group',
-      questionText: 'સૌથી વધુ તારા (મોટો સમૂહ) પસંદ કરો:',
-      options: [
-        { label: '⭐⭐⭐⭐⭐ (૫ તારા)', value: 'A', items: '⭐⭐⭐⭐⭐' },
-        { label: '⭐⭐⭐ (૩ તારા)', value: 'B', items: '⭐⭐⭐' },
-      ],
-      correct: 'A',
-      hint1: 'તારા ગણો.',
-      hint2: '૫ તારા ૩ કરતાં વધુ છે.',
-      hint3: 'સાચો જવાબ A (૫ તારા) છે.',
+      id: 'learning',
+      titleGujarati: 'શીખવું',
+      titleEnglish: 'Learning',
+      icon: BookOpen,
+      isUnlocked: moduleState.videoCompleted,
+      isCompleted: moduleState.learningCompleted,
     },
     {
-      id: 'P3',
-      type: 'smallest_number',
-      questionText: '૬, ૧, ૪ માંથી સૌથી નાનો નંબર કયો છે?',
-      options: [
-        { label: '૬', value: '6' },
-        { label: '૧', value: '1' },
-        { label: '૪', value: '4' },
-      ],
-      correct: '1',
-      hint1: 'સંખ્યા ફરીથી ધ્યાનથી જુઓ.',
-      hint2: 'કઈ સંખ્યા સૌથી ઓછી છે?',
-      hint3: '૧ સૌથી નાનો નંબર છે.',
+      id: 'practice',
+      titleGujarati: 'મહાવરો',
+      titleEnglish: 'Practice',
+      icon: Gamepad2,
+      isUnlocked: moduleState.learningCompleted,
+      isCompleted: moduleState.practiceCompleted,
     },
     {
-      id: 'P4',
-      type: 'biggest_number',
-      questionText: '૫, ૯, ૨ માંથી સૌથી મોટો નંબર કયો છે?',
-      options: [
-        { label: '૫', value: '5' },
-        { label: '૯', value: '9' },
-        { label: '૨', value: '2' },
-      ],
-      correct: '9',
-      hint1: 'ગણતરી કરો ૧ થી ૯.',
-      hint2: 'સૌથી છેલ્લે કઈ સંખ્યા આવે?',
-      hint3: '૯ સૌથી મોટો નંબર છે.',
+      id: 'test',
+      titleGujarati: 'કસોટી',
+      titleEnglish: 'Test',
+      icon: FileCheck2,
+      isUnlocked: moduleState.practiceCompleted,
+      isCompleted: moduleState.passed,
     },
     {
-      id: 'P5',
-      type: 'smallest_number',
-      questionText: '૧૧, ૪, ૮ માંથી સૌથી નાનો નંબર કયો છે?',
-      options: [
-        { label: '૧૧', value: '11' },
-        { label: '૪', value: '4' },
-        { label: '૮', value: '8' },
-      ],
-      correct: '4',
-      hint1: 'સંખ્યાઓ ફરીથી જુઓ.',
-      hint2: '૪ સૌથી નાની સંખ્યા છે.',
-      hint3: 'સાચો જવાબ ૪ છે.',
-    },
-    {
-      id: 'P6',
-      type: 'biggest_number',
-      questionText: '૭, ૧૫, ૧૦ માંથી સૌથી મોટો નંબર કયો છે?',
-      options: [
-        { label: '૭', value: '7' },
-        { label: '૧૫', value: '15' },
-        { label: '૧૦', value: '10' },
-      ],
-      correct: '15',
-      hint1: 'દસકાથી મોટી સંખ્યા જુઓ.',
-      hint2: '૧૫ સૌથી વધુ છે.',
-      hint3: 'સાચો જવાબ ૧૫ છે.',
-    },
-    {
-      id: 'P7',
-      type: 'find_both',
-      questionText: '૯, ૨, ૭ માંથી સૌથી નાનો અને સૌથી મોટો નંબર કયો?',
-      options: [
-        { label: 'નાનો: ૨, મોટો: ૯', value: 'correct' },
-        { label: 'નાનો: ૭, મોટો: ૯', value: 'wrong1' },
-        { label: 'નાનો: ૨, મોટો: ૭', value: 'wrong2' },
-      ],
-      correct: 'correct',
-      hint1: 'સૌથી ઓછો ૨ અને સૌથી વધુ ૯ છે.',
-      hint2: 'નાનો ૨ અને મોટો ૯ પસંદ કરો.',
-      hint3: 'સાચો જવાબ પહેલો વિકલ્પ છે.',
-    },
-    {
-      id: 'P8',
-      type: 'ordering',
-      questionText: '૧, ૫, ૩ ને નાનાથી મોટા ક્રમમાં ગોઠવો:',
-      options: [
-        { label: '૧ → ૩ → ૫', value: '1_3_5' },
-        { label: '૫ → ૩ → ૧', value: '5_3_1' },
-        { label: '૩ → ૧ → ૫', value: '3_1_5' },
-      ],
-      correct: '1_3_5',
-      hint1: 'પહેલા સૌથી નાની સંખ્યા ૧ આવશે.',
-      hint2: '૧ પછી ૩ અને પછી ૫.',
-      hint3: 'સાચો જવાબ ૧ → ૩ → ૫ છે.',
+      id: 'completed',
+      titleGujarati: 'સફળતા',
+      titleEnglish: 'Complete',
+      icon: Trophy,
+      isUnlocked: moduleState.passed,
+      isCompleted: moduleState.passed,
     },
   ];
 
-  const [practiceIdx, setPracticeIdx] = useState(0);
-  const [practiceSelected, setPracticeSelected] = useState(null);
-  const [practiceHintLevel, setPracticeHintLevel] = useState(0);
-  const [practiceFeedback, setPracticeFeedback] = useState(null);
-  const [practiceCorrectCount, setPracticeCorrectCount] = useState(0);
-
-  const currentPracticeQ = practiceQuestions[practiceIdx];
-
-  const handlePracticeSubmit = (val) => {
-    setPracticeSelected(val);
-    if (val === currentPracticeQ.correct) {
-      setPracticeFeedback({ correct: true, text: '✓ સાચો જવાબ! (Correct)' });
-      setPracticeCorrectCount((prev) => prev + 1);
+  const handleStageClick = (stage) => {
+    playClickSound();
+    if (stage.isUnlocked || stage.isCompleted) {
+      setActiveStage(stage.id);
     } else {
-      setPracticeFeedback({ correct: false, text: '↻ ફરી પ્રયત્ન કરો (Try Again)' });
+      playErrorSound();
+      speakGujarati('પહેલાં આગળનું પગલું પૂર્ણ કરો');
     }
   };
-
-  const handlePracticeNext = () => {
-    if (practiceIdx < practiceQuestions.length - 1) {
-      setPracticeIdx(practiceIdx + 1);
-      setPracticeSelected(null);
-      setPracticeHintLevel(0);
-      setPracticeFeedback(null);
-    } else {
-      // Completed practice
-      const finalScore = Math.round(((practiceCorrectCount + (practiceFeedback?.correct ? 1 : 0)) / practiceQuestions.length) * 100);
-      setPracticeScore(finalScore);
-      setPracticeFinished(true);
-      setIsTestUnlocked(true);
-      saveActivityProgress({
-        practiceScore: finalScore,
-        practiceCompleted: true,
-        hintsUsed: hintsUsedCount,
-        unlockAssessment: true,
-      });
-      if (onTestReady) onTestReady();
-    }
-  };
-
-  const usePracticeHint = () => {
-    setPracticeHintLevel((prev) => Math.min(prev + 1, 3));
-    setHintsUsedCount((prev) => prev + 1);
-  };
-
-  // Step Tabs definition
-  const stages = [
-    { id: 1, label: 'પરિચય', emoji: '👋' },
-    { id: 2, label: 'વિડિયો', emoji: '🎬' },
-    { id: 3, label: 'સંકલ્પના', emoji: '🍎' },
-    { id: 4, label: 'સમૂહ', emoji: '⭐' },
-    { id: 5, label: 'નાનો અંક', emoji: '🔢' },
-    { id: 6, label: 'મોટો અંક', emoji: '🔝' },
-    { id: 7, label: 'બંને શોધો', emoji: '🎯' },
-    { id: 8, label: 'ક્રમ', emoji: '🔄' },
-    { id: 9, label: 'સંખ્યા રેખા', emoji: '🐰' },
-    { id: 10, label: 'મહાવરો', emoji: '🧩' },
-  ];
 
   return (
-    <div className="space-y-6 font-gujarati">
-      {/* 12-Step Progress Indicator Ribbon */}
-      <div className="bg-white rounded-2xl p-2.5 sm:p-3.5 border border-emerald-200 shadow-sm overflow-x-auto">
-        <div className="flex items-center gap-1.5 min-w-max">
-          {stages.map((st) => (
-            <button
-              key={st.id}
-              onClick={() => setCurrentStage(st.id)}
-              className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-all flex items-center gap-1.5 ${
-                currentStage === st.id
-                  ? 'bg-emerald-600 text-white shadow-md scale-105'
-                  : 'bg-slate-100 text-slate-600 hover:bg-emerald-50 hover:text-emerald-800'
-              }`}
-            >
-              <span>{st.emoji}</span>
-              <span>{st.label}</span>
-              {st.id === 2 && videoCompleted && <CheckCircle2 className="w-3 h-3 text-amber-300 inline" />}
-              {st.id >= 4 && st.id <= 7 && activitiesDone >= (st.id - 3) && (
-                <CheckCircle2 className="w-3 h-3 text-emerald-200 inline" />
-              )}
-            </button>
-          ))}
+    <div className="space-y-6">
+      {/* =========================================================================
+          JOURNEY PROGRESS BAR AT TOP
+          ========================================================================= */}
+      <div className="bg-white/90 backdrop-blur-md rounded-3xl p-4 md:p-6 border-2 border-emerald-200 shadow-xl space-y-3">
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-2">
+            <span className="p-2 rounded-2xl bg-emerald-500 text-white font-black text-xs font-mono shadow-sm">
+              M-01
+            </span>
+            <div>
+              <span className="text-[11px] font-bold uppercase tracking-wider text-emerald-700 font-gujarati">
+                ગણિત અધ્યયન યાત્રા (Learning Journey)
+              </span>
+              <h2 className="text-base md:text-lg font-black text-slate-900 font-gujarati">
+                સૌથી નાની અને સૌથી મોટી વસ્તુઓની સરખામણી કરે છે
+              </h2>
+            </div>
+          </div>
+
+          <div className="hidden sm:flex items-center gap-2">
+            <GujaratiVoiceButton
+              text="સૌથી નાની અને સૌથી મોટી વસ્તુઓની સરખામણી કરે છે. વિડિયો, શીખવું, મહાવરો અને કસોટી પૂર્ણ કરો."
+              label="સાંભળો"
+              size="sm"
+            />
+          </div>
+        </div>
+
+        {/* Stepper Nodes */}
+        <div className="grid grid-cols-5 gap-2 pt-2">
+          {journeyStages.map((stage, idx) => {
+            const Icon = stage.icon;
+            const isActive = activeStage === stage.id;
+            const isDone = stage.isCompleted;
+            const isLocked = !stage.isUnlocked && !stage.isCompleted;
+
+            return (
+              <button
+                key={stage.id}
+                onClick={() => handleStageClick(stage)}
+                disabled={isLocked}
+                className={`relative flex flex-col items-center justify-center p-2.5 md:p-3.5 rounded-2xl transition-all duration-300 ${
+                  isActive
+                    ? 'bg-gradient-to-b from-emerald-500 to-teal-600 text-white shadow-lg shadow-emerald-200 ring-4 ring-emerald-200 scale-105 z-10'
+                    : isDone
+                    ? 'bg-emerald-50 text-emerald-800 border-2 border-emerald-300 hover:bg-emerald-100 cursor-pointer'
+                    : isLocked
+                    ? 'bg-slate-100 text-slate-400 border border-slate-200 cursor-not-allowed opacity-75'
+                    : 'bg-white text-slate-700 border-2 border-amber-300 hover:border-amber-400 cursor-pointer shadow-xs'
+                }`}
+              >
+                <div className="flex items-center justify-center mb-1">
+                  {isDone && !isActive ? (
+                    <div className="w-6 h-6 rounded-full bg-emerald-600 text-white flex items-center justify-center text-xs">
+                      <Check className="w-3.5 h-3.5 stroke-[3]" />
+                    </div>
+                  ) : isLocked ? (
+                    <div className="w-6 h-6 rounded-full bg-slate-200 text-slate-500 flex items-center justify-center text-xs">
+                      <Lock className="w-3.5 h-3.5" />
+                    </div>
+                  ) : (
+                    <Icon className={`w-5 h-5 md:w-6 md:h-6 ${isActive ? 'animate-bounce' : ''}`} />
+                  )}
+                </div>
+
+                <span className={`text-[11px] md:text-xs font-black font-gujarati tracking-tight text-center ${
+                  isActive ? 'text-white' : ''
+                }`}>
+                  {idx + 1}. {stage.titleGujarati}
+                </span>
+
+                {/* Sub status */}
+                <span className={`text-[9px] font-bold mt-0.5 ${
+                  isActive
+                    ? 'text-emerald-100'
+                    : isDone
+                    ? 'text-emerald-600'
+                    : isLocked
+                    ? 'text-slate-400'
+                    : 'text-amber-600'
+                }`}>
+                  {isDone ? '✅ પૂર્ણ' : isActive ? '🚀 ચાલુ' : isLocked ? '🔒 લૉક' : '🔓 તૈયાર'}
+                </span>
+              </button>
+            );
+          })}
+        </div>
+      </div>
+
+      {/* =========================================================================
+          STAGE 1: VIDEO STAGE
+          ========================================================================= */}
+      {activeStage === 'video' && (
+        <VideoStage
+          moduleState={moduleState}
+          onVideoComplete={() => {
+            playSuccessSound();
+            updateState({
+              videoCompleted: true,
+              videoWatchedPercentage: 100,
+              learningUnlocked: true,
+            });
+          }}
+          onGoToLearning={() => {
+            playClickSound();
+            setActiveStage('learning');
+          }}
+        />
+      )}
+
+      {/* =========================================================================
+          STAGE 2: LEARNING STAGE (7 STEPS)
+          ========================================================================= */}
+      {activeStage === 'learning' && (
+        <LearningStage
+          moduleState={moduleState}
+          onStepComplete={(stepNumber) => {
+            const currentSteps = moduleState.learningStepsCompleted || [];
+            const updatedSteps = Array.from(new Set([...currentSteps, stepNumber]));
+            const isAllDone = updatedSteps.length >= 7;
+            updateState({
+              learningStepsCompleted: updatedSteps,
+              currentLearningStep: Math.min(stepNumber + 1, 7),
+              learningCompleted: isAllDone,
+            });
+          }}
+          onGoToPractice={() => {
+            playClickSound();
+            setActiveStage('practice');
+          }}
+        />
+      )}
+
+      {/* =========================================================================
+          STAGE 3: PRACTICE STAGE (10 ACTIVITIES)
+          ========================================================================= */}
+      {activeStage === 'practice' && (
+        <PracticeStage
+          moduleState={moduleState}
+          onPracticeComplete={({ accuracy, score, total }) => {
+            playSuccessSound();
+            updateState({
+              practiceCompleted: true,
+              practiceAccuracy: accuracy,
+              practiceScore: score,
+              testUnlocked: true,
+              activitiesCompleted: total,
+            });
+          }}
+          onGoToTest={() => {
+            playClickSound();
+            setActiveStage('test');
+          }}
+        />
+      )}
+
+      {/* =========================================================================
+          STAGE 4: TEST STAGE (10 QUESTIONS)
+          ========================================================================= */}
+      {activeStage === 'test' && (
+        <TestStage
+          moduleState={moduleState}
+          onTestFinished={({ score, total, percentage, passed }) => {
+            if (passed) {
+              playFanfareSound();
+              confetti({ particleCount: 120, spread: 80, origin: { y: 0.6 } });
+            } else {
+              playErrorSound();
+            }
+            updateState({
+              testCompleted: true,
+              testScore: score,
+              testTotal: total,
+              latestTestScore: percentage,
+              bestTestScore: Math.max(moduleState.bestTestScore || 0, percentage),
+              testAttempts: (moduleState.testAttempts || 0) + 1,
+              passed: passed,
+              nextModuleUnlocked: passed,
+              completedAt: passed ? new Date().toISOString() : null,
+            });
+          }}
+          onRetryPractice={() => {
+            playClickSound();
+            setActiveStage('practice');
+          }}
+          onGoToComplete={() => {
+            playClickSound();
+            setActiveStage('completed');
+          }}
+        />
+      )}
+
+      {/* =========================================================================
+          STAGE 5: MODULE COMPLETED / MASTERY SCREEN
+          ========================================================================= */}
+      {activeStage === 'completed' && (
+        <CompletedStage
+          moduleState={moduleState}
+          onRevisitVideo={() => {
+            playClickSound();
+            setActiveStage('video');
+          }}
+          onRevisitLearning={() => {
+            playClickSound();
+            setActiveStage('learning');
+          }}
+          onRevisitPractice={() => {
+            playClickSound();
+            setActiveStage('practice');
+          }}
+          onProceedNextModule={() => {
+            playClickSound();
+            navigate('/student/path/mathematics');
+          }}
+        />
+      )}
+    </div>
+  );
+}
+
+/* ==========================================================================
+   STAGE 1: VIDEO STAGE COMPONENT
+   Interactive Presentation Player with Gujarati Audio, Real SVG Objects, Scenes
+   ========================================================================== */
+function VideoStage({ moduleState, onVideoComplete, onGoToLearning }) {
+  const [currentSceneIndex, setCurrentSceneIndex] = useState(0);
+  const [isPlaying, setIsPlaying] = useState(false);
+  const [videoFinished, setVideoFinished] = useState(moduleState.videoCompleted || false);
+  const [hasUserInteracted, setHasUserInteracted] = useState(false);
+  const timerRef = useRef(null);
+
+  const scenes = [
+    {
+      id: 1,
+      title: 'કદ ઓળખીએ (What is Size?)',
+      narration: 'ચાલો શીખીએ કે કઈ વસ્તુ નાની છે અને કઈ વસ્તુ મોટી છે. આપણી આસપાસની દરેક વસ્તુનું કદ અલગ અલગ હોય છે!',
+      renderIllustration: () => (
+        <div className="flex items-center justify-center gap-6 py-6 animate-fade-in">
+          <div className="text-center space-y-2">
+            <SvgObject name="ball" size="small" highlight />
+            <span className="block text-xs font-black text-blue-800 bg-blue-100 px-3 py-1 rounded-full font-gujarati">
+              નાનું (Small)
+            </span>
+          </div>
+          <span className="text-3xl text-slate-400 font-bold">vs</span>
+          <div className="text-center space-y-2">
+            <SvgObject name="ball" size="large" highlight />
+            <span className="block text-xs font-black text-indigo-800 bg-indigo-100 px-3 py-1 rounded-full font-gujarati">
+              મોટું (Large)
+            </span>
+          </div>
+        </div>
+      ),
+    },
+    {
+      id: 2,
+      title: 'નાનું અને મોટું (Small vs Big)',
+      narration: 'જુઓ! આ પીળી પેન્સિલ નાની છે, અને આ લીલું ઝાડ મોટું છે. નાની વસ્તુ ઓછી જગ્યા રોકે, મોટી વસ્તુ વધારે જગ્યા રોકે!',
+      renderIllustration: () => (
+        <div className="flex items-end justify-center gap-8 py-6">
+          <div className="text-center space-y-2">
+            <SvgObject name="pencil" size="small" />
+            <span className="block text-xs font-black text-amber-800 bg-amber-100 px-3 py-1 rounded-full font-gujarati">
+              નાની પેન્સિલ ✏️
+            </span>
+          </div>
+          <div className="text-center space-y-2">
+            <SvgObject name="tree" size="large" />
+            <span className="block text-xs font-black text-emerald-800 bg-emerald-100 px-3 py-1 rounded-full font-gujarati">
+              મોટું ઝાડ 🌳
+            </span>
+          </div>
+        </div>
+      ),
+    },
+    {
+      id: 3,
+      title: 'નાનું, મધ્યમ, મોટું (Three Sizes)',
+      narration: 'જ્યારે ત્રણ વસ્તુઓ હોય, ત્યારે નાનું, મધ્યમ અને મોટું કદ ઓળખી શકાય. જેમ કે સફરજન: નાનું સફરજન, મધ્યમ સફરજન, અને મોટું સફરજન!',
+      renderIllustration: () => (
+        <div className="flex items-end justify-center gap-6 py-6">
+          <div className="text-center space-y-2 animate-bounce" style={{ animationDelay: '0ms' }}>
+            <SvgObject name="apple" size="small" />
+            <span className="block text-[11px] font-bold text-rose-700 bg-rose-100 px-2.5 py-0.5 rounded-full font-gujarati">
+              ૧. નાનું
+            </span>
+          </div>
+          <div className="text-center space-y-2 animate-bounce" style={{ animationDelay: '200ms' }}>
+            <SvgObject name="apple" size="medium" />
+            <span className="block text-[11px] font-bold text-rose-800 bg-rose-100 px-2.5 py-0.5 rounded-full font-gujarati">
+              ૨. મધ્યમ
+            </span>
+          </div>
+          <div className="text-center space-y-2 animate-bounce" style={{ animationDelay: '400ms' }}>
+            <SvgObject name="apple" size="large" />
+            <span className="block text-[11px] font-bold text-rose-900 bg-rose-200 px-2.5 py-0.5 rounded-full font-gujarati">
+              ૩. મોટું
+            </span>
+          </div>
+        </div>
+      ),
+    },
+    {
+      id: 4,
+      title: 'સૌથી નાનું ઓળખીએ (Finding the Smallest)',
+      narration: 'બધી વસ્તુઓમાંથી જેનું કદ સૌથી ઓછું હોય, તેને સૌથી નાની વસ્તુ કહેવાય. અહીં ઉંદર સૌથી નાનો છે!',
+      renderIllustration: () => (
+        <div className="flex items-end justify-center gap-6 py-6">
+          <div className="text-center space-y-2 ring-4 ring-emerald-400 bg-emerald-50 rounded-2xl p-2 scale-110 shadow-md">
+            <SvgObject name="mouse" size="small" />
+            <span className="block text-xs font-black text-emerald-800 bg-emerald-200 px-3 py-1 rounded-full font-gujarati">
+              ⭐ સૌથી નાનો ઉંદર
+            </span>
+          </div>
+          <div className="text-center space-y-2 opacity-60">
+            <SvgObject name="cup" size="medium" />
+            <span className="block text-xs font-semibold text-slate-600 font-gujarati">
+              કપ
+            </span>
+          </div>
+          <div className="text-center space-y-2 opacity-60">
+            <SvgObject name="bottle" size="large" />
+            <span className="block text-xs font-semibold text-slate-600 font-gujarati">
+              બોટલ
+            </span>
+          </div>
+        </div>
+      ),
+    },
+    {
+      id: 5,
+      title: 'સૌથી મોટું ઓળખીએ (Finding the Largest)',
+      narration: 'બધી વસ્તુઓમાંથી જેનું કદ સૌથી વધારે વિશાળ હોય, તેને સૌથી મોટી વસ્તુ કહેવાય. અહીં હાથી સૌથી મોટો છે!',
+      renderIllustration: () => (
+        <div className="flex items-end justify-center gap-6 py-6">
+          <div className="text-center space-y-2 opacity-60">
+            <SvgObject name="ball" size="small" />
+            <span className="block text-xs font-semibold text-slate-600 font-gujarati">
+              દડો
+            </span>
+          </div>
+          <div className="text-center space-y-2 opacity-60">
+            <SvgObject name="car" size="medium" />
+            <span className="block text-xs font-semibold text-slate-600 font-gujarati">
+              ગાડી
+            </span>
+          </div>
+          <div className="text-center space-y-2 ring-4 ring-emerald-400 bg-emerald-50 rounded-2xl p-2 scale-110 shadow-md">
+            <SvgObject name="elephant" size="large" />
+            <span className="block text-xs font-black text-emerald-800 bg-emerald-200 px-3 py-1 rounded-full font-gujarati">
+              ⭐ સૌથી મોટો હાથી
+            </span>
+          </div>
+        </div>
+      ),
+    },
+    {
+      id: 6,
+      title: 'સારાંશ અને નિષ્કર્ષ (Summary)',
+      narration: 'અદ્ભુત! હવે તમે નાનું, મોટું, સૌથી નાનું અને સૌથી મોટું ઓળખવાનું શીખી ગયા છો. ચાલો હવે જાતે શીખીએ!',
+      renderIllustration: () => (
+        <div className="grid grid-cols-4 gap-4 py-4 max-w-md mx-auto">
+          <div className="text-center">
+            <SvgObject name="apple" size="small" />
+            <span className="text-[10px] font-bold text-slate-700 font-gujarati">નાનું</span>
+          </div>
+          <div className="text-center">
+            <SvgObject name="bottle" size="medium" />
+            <span className="text-[10px] font-bold text-slate-700 font-gujarati">મધ્યમ</span>
+          </div>
+          <div className="text-center">
+            <SvgObject name="tree" size="large" />
+            <span className="text-[10px] font-bold text-slate-700 font-gujarati">મોટું</span>
+          </div>
+          <div className="text-center">
+            <SvgObject name="elephant" size="large" />
+            <span className="text-[10px] font-bold text-slate-700 font-gujarati">સૌથી મોટું</span>
+          </div>
+        </div>
+      ),
+    },
+  ];
+
+  const currentScene = scenes[currentSceneIndex];
+
+  // Speak narration when scene changes
+  const speakCurrentScene = (idx = currentSceneIndex) => {
+    const text = scenes[idx]?.narration;
+    if (text) {
+      speakGujarati(text);
+    }
+  };
+
+  const handlePlay = () => {
+    setHasUserInteracted(true);
+    setIsPlaying(true);
+    speakCurrentScene(currentSceneIndex);
+  };
+
+  const handlePause = () => {
+    setIsPlaying(false);
+    if ('speechSynthesis' in window) {
+      window.speechSynthesis.cancel();
+    }
+    if (timerRef.current) clearTimeout(timerRef.current);
+  };
+
+  const handleNextScene = () => {
+    if (currentSceneIndex < scenes.length - 1) {
+      const nextIdx = currentSceneIndex + 1;
+      setCurrentSceneIndex(nextIdx);
+      playClickSound();
+      speakCurrentScene(nextIdx);
+    } else {
+      // Video Finished
+      setIsPlaying(false);
+      setVideoFinished(true);
+      onVideoComplete();
+    }
+  };
+
+  const handlePrevScene = () => {
+    if (currentSceneIndex > 0) {
+      const prevIdx = currentSceneIndex - 1;
+      setCurrentSceneIndex(prevIdx);
+      playClickSound();
+      speakCurrentScene(prevIdx);
+    }
+  };
+
+  const handleRestart = () => {
+    setCurrentSceneIndex(0);
+    playClickSound();
+    handlePlay();
+  };
+
+  return (
+    <div className="bg-white rounded-3xl p-6 md:p-8 border-2 border-emerald-300 shadow-xl space-y-6">
+      {/* Stage Header */}
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-100 pb-4">
+        <div>
+          <div className="inline-flex items-center gap-2 px-3 py-1 bg-emerald-100 text-emerald-800 rounded-full text-xs font-bold font-gujarati mb-1">
+            <Video className="w-3.5 h-3.5" />
+            <span>તબક્કો ૧: શૈક્ષણિક વિડિયો (Stage 1 - Educational Video)</span>
+          </div>
+          <h2 className="text-2xl md:text-3xl font-black text-slate-900 font-gujarati">
+            કદ ઓળખીએ (Understanding Size)
+          </h2>
+          <p className="text-xs md:text-sm text-slate-600 font-gujarati">
+            ચાલો શીખીએ કે કઈ વસ્તુ નાની છે અને કઈ વસ્તુ મોટી છે.
+          </p>
+        </div>
+
+        <GujaratiVoiceButton
+          text={currentScene.narration}
+          label="આ સંવાદ સાંભળો"
+          size="md"
+        />
+      </div>
+
+      {/* Video Player Container */}
+      <div className="relative bg-gradient-to-b from-slate-900 via-slate-800 to-slate-950 rounded-3xl p-6 md:p-8 text-white shadow-2xl border-4 border-slate-700 overflow-hidden min-h-[360px] flex flex-col justify-between">
+        {/* Top Video Header */}
+        <div className="flex items-center justify-between z-10">
+          <div className="flex items-center gap-2">
+            <span className="px-3 py-1 rounded-full bg-emerald-500/80 text-white font-bold text-xs font-mono">
+              ભાગ {currentSceneIndex + 1} / {scenes.length}
+            </span>
+            <span className="text-sm font-bold text-emerald-300 font-gujarati">
+              {currentScene.title}
+            </span>
+          </div>
 
           <button
-            onClick={() => setCurrentStage(11)}
-            className={`px-3.5 py-1.5 rounded-xl text-xs font-black transition-all flex items-center gap-1.5 ${
-              currentStage === 11
-                ? 'bg-amber-500 text-slate-950 shadow-md scale-105'
-                : (isTestUnlocked
-                  ? 'bg-amber-100 text-amber-900 border border-amber-300 hover:bg-amber-200'
-                  : 'bg-slate-100 text-slate-400 opacity-60')
-            }`}
+            onClick={() => speakCurrentScene(currentSceneIndex)}
+            className="p-2 rounded-xl bg-white/10 hover:bg-white/20 text-white transition-all flex items-center gap-1 text-xs font-gujarati"
           >
-            <span>📝</span>
-            <span>કસોટી (Test)</span>
+            <Volume2 className="w-4 h-4 text-amber-400" />
+            <span>અવાજ</span>
+          </button>
+        </div>
+
+        {/* Video Canvas / Animation Area */}
+        <div className="my-auto py-4 bg-white/5 backdrop-blur-md rounded-2xl border border-white/10 p-4">
+          {currentScene.renderIllustration()}
+        </div>
+
+        {/* Subtitles Box */}
+        <div className="bg-black/60 backdrop-blur-md rounded-2xl p-4 border border-white/15 text-center space-y-1">
+          <p className="text-sm md:text-base font-bold text-emerald-200 font-gujarati leading-relaxed">
+            "{currentScene.narration}"
+          </p>
+        </div>
+
+        {/* Timeline Progress Bar */}
+        <div className="w-full bg-white/20 h-2 rounded-full mt-4 overflow-hidden">
+          <div
+            className="bg-emerald-400 h-full transition-all duration-300 rounded-full"
+            style={{ width: `${((currentSceneIndex + 1) / scenes.length) * 100}%` }}
+          />
+        </div>
+
+        {/* Playback Controls */}
+        <div className="flex items-center justify-between pt-4 mt-2 border-t border-white/10">
+          <button
+            onClick={handlePrevScene}
+            disabled={currentSceneIndex === 0}
+            className="px-3.5 py-2 rounded-xl bg-white/10 hover:bg-white/20 disabled:opacity-30 text-white font-bold text-xs font-gujarati flex items-center gap-1"
+          >
+            <ArrowLeft className="w-3.5 h-3.5" />
+            <span>પાછળ</span>
+          </button>
+
+          <div className="flex items-center gap-3">
+            <button
+              onClick={handleRestart}
+              className="p-2.5 rounded-full bg-white/10 hover:bg-white/20 text-white"
+              title="ફરીથી શરૂ કરો"
+            >
+              <RotateCcw className="w-4 h-4" />
+            </button>
+
+            <button
+              onClick={isPlaying ? handlePause : handlePlay}
+              className="px-6 py-2.5 rounded-2xl bg-emerald-500 hover:bg-emerald-600 text-white font-black text-sm font-gujarati flex items-center gap-2 shadow-lg shadow-emerald-900/50"
+            >
+              {isPlaying ? <Pause className="w-4 h-4" /> : <Play className="w-4 h-4 fill-white" />}
+              <span>{isPlaying ? 'રોકો' : 'શરૂ કરો'}</span>
+            </button>
+          </div>
+
+          <button
+            onClick={handleNextScene}
+            className="px-4 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-black text-xs font-gujarati flex items-center gap-1 shadow-md"
+          >
+            <span>{currentSceneIndex === scenes.length - 1 ? 'વિડિયો પૂર્ણ કરો' : 'આગળ'}</span>
+            <ArrowRight className="w-3.5 h-3.5" />
           </button>
         </div>
       </div>
 
-      {/* =============================================================
-          STAGE 1: WELCOME / INTRO
-      ============================================================= */}
-      {currentStage === 1 && (
-        <div className="bg-white rounded-3xl p-6 sm:p-8 border-2 border-emerald-300 shadow-xl space-y-6 text-center animate-in fade-in-50 duration-300">
-          <div className="w-20 h-20 mx-auto rounded-3xl bg-gradient-to-tr from-emerald-500 to-teal-400 text-white flex items-center justify-center text-4xl shadow-lg shadow-emerald-200">
-            🐘
+      {/* Video Completed Screen / Unlock Prompt */}
+      {videoFinished && (
+        <div className="bg-gradient-to-r from-emerald-50 via-teal-50 to-emerald-100 rounded-3xl p-6 border-2 border-emerald-400 text-center space-y-4 shadow-lg animate-fade-in">
+          <div className="w-14 h-14 bg-emerald-500 text-white rounded-2xl flex items-center justify-center mx-auto text-2xl shadow-md">
+            🎉
           </div>
-
-          <div className="space-y-2">
-            <span className="px-3 py-1 bg-emerald-100 text-emerald-800 text-xs font-black rounded-full uppercase tracking-wider">
-              ગણિત • ક્ષમતા M-01
-            </span>
-            <h2 className="text-2xl sm:text-3xl font-black text-slate-900">
-              સૌથી નાનું અને સૌથી મોટું (Smallest & Biggest)
-            </h2>
-            <p className="text-sm text-slate-600 max-w-lg mx-auto">
-              આ પાઠમાં આપણે વિડિયો જોઈશું, રમતો રમીશું, સંખ્યાઓ ગોઠવીશું અને નિપુણ બનીશું!
+          <div>
+            <h3 className="text-xl font-black text-emerald-900 font-gujarati">
+              વિડિયો પૂર્ણ થયો!
+            </h3>
+            <p className="text-xs font-semibold text-emerald-700 font-gujarati mt-1">
+              તમે કદની સરખામણીનો પરિચય સફળતાપૂર્વક મેળવી લીધો છે. હવે ઇન્ટરેક્ટિવ રીતે શીખીએ!
             </p>
           </div>
 
-          <div className="flex flex-wrap items-center justify-center gap-3 pt-2">
-            <GujaratiVoiceButton
-              text="સૌથી નાનું અને સૌથી મોટું પાઠમાં તમારું સ્વાગત છે! ચાલો પહેલા સુંદર વિડિયો જોઈએ."
-              label="પાઠ પરિચય સાંભળો"
-            />
-
-            <button
-              onClick={() => setCurrentStage(2)}
-              className="px-6 py-3.5 bg-emerald-600 hover:bg-emerald-700 text-white font-black rounded-2xl shadow-md active:scale-95 transition-all flex items-center gap-2 text-sm"
-            >
-              <span>વિડિયો જુઓ (Watch Video)</span>
-              <ArrowRight className="w-4 h-4" />
-            </button>
-          </div>
+          <button
+            onClick={onGoToLearning}
+            className="px-8 py-3.5 bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-700 hover:to-teal-700 text-white font-black text-sm rounded-2xl shadow-xl shadow-emerald-200 flex items-center gap-2 mx-auto active:scale-95 transition-all font-gujarati"
+          >
+            <span>આગળ શીખીએ (Go to Learning)</span>
+            <ArrowRight className="w-4 h-4" />
+          </button>
         </div>
       )}
+    </div>
+  );
+}
 
-      {/* =============================================================
-          STAGE 2: EMBEDDED YOUTUBE VIDEO SECTION
-      ============================================================= */}
-      {currentStage === 2 && (
-        <div className="bg-white rounded-3xl p-5 sm:p-7 border-2 border-emerald-300 shadow-xl space-y-5 animate-in fade-in-50 duration-300">
-          <div className="flex items-center justify-between gap-3 border-b border-slate-100 pb-4">
-            <div>
-              <div className="flex items-center gap-2">
-                <span className="text-xl">🎬</span>
-                <h3 className="text-lg sm:text-xl font-black text-slate-900">
-                  ચાલો શીખીએ! 🎬
-                </h3>
-              </div>
-              <p className="text-xs text-slate-500 font-bold mt-0.5">
-                સૌથી નાનું અને સૌથી મોટું (Smallest and Biggest)
+/* ==========================================================================
+   STAGE 2: LEARNING STAGE (7 INTERACTIVE STEPS)
+   ========================================================================== */
+function LearningStage({ moduleState, onStepComplete, onGoToPractice }) {
+  const [currentStep, setCurrentStep] = useState(moduleState.currentLearningStep || 1);
+  const [completedSteps, setCompletedSteps] = useState(moduleState.learningStepsCompleted || []);
+  const [stepFeedback, setStepFeedback] = useState(null);
+  const [stepInteractionDone, setStepInteractionDone] = useState(false);
+
+  const isStepUnlocked = (stepNum) => {
+    if (stepNum === 1) return true;
+    return completedSteps.includes(stepNum - 1) || completedSteps.includes(stepNum);
+  };
+
+  const handleStepSelect = (stepNum) => {
+    if (isStepUnlocked(stepNum)) {
+      playClickSound();
+      setCurrentStep(stepNum);
+      setStepFeedback(null);
+      setStepInteractionDone(completedSteps.includes(stepNum));
+    } else {
+      playErrorSound();
+      speakGujarati('પહેલાં આના આગળનું પગથિયું પૂર્ણ કરો');
+    }
+  };
+
+  const handleCorrectStep = (customFeedback = '🎉 સરસ! તમે સાચો જવાબ આપ્યો.') => {
+    playSuccessSound();
+    setStepFeedback({ correct: true, text: customFeedback });
+    setStepInteractionDone(true);
+    const updated = Array.from(new Set([...completedSteps, currentStep]));
+    setCompletedSteps(updated);
+    onStepComplete(currentStep);
+  };
+
+  const handleWrongStep = (hintText = 'ફરીથી પ્રયત્ન કરો. કદ ધ્યાનથી જુઓ!') => {
+    playErrorSound();
+    setStepFeedback({ correct: false, text: hintText });
+    speakGujarati(hintText);
+  };
+
+  const handleNextStep = () => {
+    playClickSound();
+    setStepFeedback(null);
+    setStepInteractionDone(false);
+    if (currentStep < 7) {
+      setCurrentStep(currentStep + 1);
+    }
+  };
+
+  const allCompleted = completedSteps.length >= 7;
+
+  return (
+    <div className="bg-white rounded-3xl p-6 md:p-8 border-2 border-emerald-300 shadow-xl space-y-6">
+      {/* Learning Stage Header */}
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-100 pb-4">
+        <div>
+          <div className="inline-flex items-center gap-2 px-3 py-1 bg-amber-100 text-amber-800 rounded-full text-xs font-bold font-gujarati mb-1">
+            <BookOpen className="w-3.5 h-3.5" />
+            <span>તબક્કો ૨: ઇન્ટરેક્ટિવ શિક્ષણ (Stage 2 - Interactive Learning)</span>
+          </div>
+          <h2 className="text-2xl md:text-3xl font-black text-slate-900 font-gujarati">
+            શીખવાનું પગથિયું: {currentStep} / 7
+          </h2>
+          <p className="text-xs md:text-sm text-slate-600 font-gujarati">
+            એક પછી એક પગથિયું શીખો અને આગળ વધો.
+          </p>
+        </div>
+
+        {/* Step Progress Pills */}
+        <div className="flex items-center gap-1.5 overflow-x-auto pb-1">
+          {[1, 2, 3, 4, 5, 6, 7].map((num) => {
+            const isDone = completedSteps.includes(num);
+            const isCurrent = currentStep === num;
+            const isUnlocked = isStepUnlocked(num);
+
+            return (
+              <button
+                key={num}
+                onClick={() => handleStepSelect(num)}
+                disabled={!isUnlocked}
+                className={`w-8 h-8 rounded-xl font-bold text-xs font-mono transition-all flex items-center justify-center ${
+                  isCurrent
+                    ? 'bg-amber-500 text-white ring-4 ring-amber-200 scale-110 shadow-md'
+                    : isDone
+                    ? 'bg-emerald-100 text-emerald-800 hover:bg-emerald-200 cursor-pointer'
+                    : isUnlocked
+                    ? 'bg-white text-slate-700 border border-slate-200 cursor-pointer'
+                    : 'bg-slate-100 text-slate-400 cursor-not-allowed opacity-60'
+                }`}
+                title={`પગથિયું ${num}`}
+              >
+                {isDone ? '✓' : num}
+              </button>
+            );
+          })}
+        </div>
+      </div>
+
+      {/* Step Content Card */}
+      <div className="bg-slate-50 rounded-3xl p-6 md:p-8 border-2 border-slate-200 space-y-6">
+        {/* Step 1: નાનું એટલે શું? */}
+        {currentStep === 1 && (
+          <div className="space-y-6 text-center">
+            <div className="space-y-1">
+              <span className="text-xs font-bold text-emerald-700 uppercase tracking-wider font-gujarati">
+                પગથિયું ૧ (Step 1)
+              </span>
+              <h3 className="text-xl md:text-2xl font-black text-slate-900 font-gujarati">
+                નાનું એટલે શું? (What is Small?)
+              </h3>
+              <p className="text-sm text-slate-600 font-gujarati">
+                અહીં બે દડા છે. જે દડો નાનો છે તેને સ્પર્શ (ટેપ) કરો:
               </p>
             </div>
 
-            <GujaratiVoiceButton
-              text="વિડિયો ધ્યાનથી જુઓ અને પછી રમતો રમો!"
-              label="સૂચના"
-              size="sm"
-            />
+            <div className="flex items-center justify-center gap-10 py-6">
+              <div className="text-center space-y-2">
+                <SvgObject
+                  name="ball"
+                  size="small"
+                  onClick={() => handleCorrectStep('🎉 શાબાશ! આ બોલ નાનો છે.')}
+                  className="hover:bg-emerald-50 rounded-3xl"
+                />
+                <span className="block text-xs font-bold text-slate-600 font-gujarati">દડો ૧</span>
+              </div>
+
+              <div className="text-center space-y-2">
+                <SvgObject
+                  name="ball"
+                  size="large"
+                  onClick={() => handleWrongStep('ના, આ બોલ તો મોટો છે. નાનો બોલ પસંદ કરો!')}
+                  className="hover:bg-rose-50 rounded-3xl"
+                />
+                <span className="block text-xs font-bold text-slate-600 font-gujarati">દડો ૨</span>
+              </div>
+            </div>
           </div>
+        )}
 
-          {/* Responsive Embedded YouTube Player */}
-          <div className="relative w-full aspect-video rounded-2xl overflow-hidden border-2 border-slate-200 shadow-lg bg-slate-950">
-            <iframe
-              src="https://www.youtube.com/embed/osssUip3vHk?enablejsapi=1"
-              title="શું નાનું, શું મોટું ? || small and big || smallest and biggest || maths std 1"
-              className="w-full h-full"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-              allowFullScreen
-              onLoad={() => setVideoStarted(true)}
-            />
+        {/* Step 2: મોટું એટલે શું? */}
+        {currentStep === 2 && (
+          <div className="space-y-6 text-center">
+            <div className="space-y-1">
+              <span className="text-xs font-bold text-emerald-700 uppercase tracking-wider font-gujarati">
+                પગથિયું ૨ (Step 2)
+              </span>
+              <h3 className="text-xl md:text-2xl font-black text-slate-900 font-gujarati">
+                મોટું એટલે શું? (What is Big?)
+              </h3>
+              <p className="text-sm text-slate-600 font-gujarati">
+                અહીં બે સફરજન છે. મોટો સફરજન પસંદ કરો:
+              </p>
+            </div>
+
+            <div className="flex items-center justify-center gap-10 py-6">
+              <div className="text-center space-y-2">
+                <SvgObject
+                  name="apple"
+                  size="small"
+                  onClick={() => handleWrongStep('આ તો નાનું સફરજન છે. મોટો સફરજન પસંદ કરો!')}
+                  className="hover:bg-rose-50 rounded-3xl"
+                />
+                <span className="block text-xs font-bold text-slate-600 font-gujarati">સફરજન ૧</span>
+              </div>
+
+              <div className="text-center space-y-2">
+                <SvgObject
+                  name="apple"
+                  size="large"
+                  onClick={() => handleCorrectStep('🎉 ઉત્તમ! તમે મોટો સફરજન ઓળખી લીધો.')}
+                  className="hover:bg-emerald-50 rounded-3xl"
+                />
+                <span className="block text-xs font-bold text-slate-600 font-gujarati">સફરજન ૨</span>
+              </div>
+            </div>
           </div>
+        )}
 
-          <div className="p-3 bg-emerald-50 rounded-2xl border border-emerald-200 flex flex-col sm:flex-row items-center justify-between gap-3">
-            <p className="text-xs text-emerald-900 font-bold text-center sm:text-left">
-              💡 વિડિયો ધ્યાનથી જુઓ અને પછી નીચે આપેલ રમતો રમો!
-            </p>
+        {/* Step 3: નાનું, મધ્યમ, મોટું */}
+        {currentStep === 3 && (
+          <div className="space-y-6 text-center">
+            <div className="space-y-1">
+              <span className="text-xs font-bold text-emerald-700 uppercase tracking-wider font-gujarati">
+                પગથિયું ૩ (Step 3)
+              </span>
+              <h3 className="text-xl md:text-2xl font-black text-slate-900 font-gujarati">
+                નાનું, મધ્યમ અને મોટું (3 Sizes: Small, Medium, Large)
+              </h3>
+              <p className="text-sm text-slate-600 font-gujarati">
+                ત્રણેય કપને ક્રમમાં જુઓ અને દરેકમાં રહેલ કદનો તફાવત સમજો:
+              </p>
+            </div>
 
+            <div className="flex items-end justify-center gap-6 py-6">
+              <div className="text-center space-y-2">
+                <SvgObject name="cup" size="small" showLabel labelOverride="નાનું" />
+              </div>
+              <div className="text-center space-y-2">
+                <SvgObject name="cup" size="medium" showLabel labelOverride="મધ્યમ" />
+              </div>
+              <div className="text-center space-y-2">
+                <SvgObject name="cup" size="large" showLabel labelOverride="મોટું" />
+              </div>
+            </div>
+
+            <div className="pt-2">
+              <button
+                onClick={() => handleCorrectStep('🎉 બરાબર! નાનું → મધ્યમ → મોટું સમજાઈ ગયું.')}
+                className="px-6 py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs rounded-xl shadow-md font-gujarati"
+              >
+                મેં કદ સમજી લીધું 👍
+              </button>
+            </div>
+          </div>
+        )}
+
+        {/* Step 4: સૌથી નાનું શોધો */}
+        {currentStep === 4 && (
+          <div className="space-y-6 text-center">
+            <div className="space-y-1">
+              <span className="text-xs font-bold text-emerald-700 uppercase tracking-wider font-gujarati">
+                પગથિયું ૪ (Step 4)
+              </span>
+              <h3 className="text-xl md:text-2xl font-black text-slate-900 font-gujarati">
+                સૌથી નાનું શોધો (Find the Smallest)
+              </h3>
+              <p className="text-sm text-slate-600 font-gujarati">
+                આ ત્રણ પેન્સિલમાંથી <span className="font-black text-emerald-700">સૌથી નાની</span> પેન્સિલ કઈ છે?
+              </p>
+            </div>
+
+            <div className="flex items-end justify-center gap-8 py-6">
+              <div className="text-center space-y-2">
+                <SvgObject
+                  name="pencil"
+                  size="large"
+                  onClick={() => handleWrongStep('આ સૌથી મોટી પેન્સિલ છે. સૌથી નાની શોધો!')}
+                />
+                <span className="text-xs font-bold text-slate-600 font-gujarati">પેન્સિલ A</span>
+              </div>
+              <div className="text-center space-y-2">
+                <SvgObject
+                  name="pencil"
+                  size="small"
+                  onClick={() => handleCorrectStep('🎉 સાચો જવાબ! આ પેન્સિલ સૌથી નાની છે.')}
+                />
+                <span className="text-xs font-bold text-slate-600 font-gujarati">પેન્સિલ B</span>
+              </div>
+              <div className="text-center space-y-2">
+                <SvgObject
+                  name="pencil"
+                  size="medium"
+                  onClick={() => handleWrongStep('આ મધ્યમ પેન્સિલ છે. સૌથી નાની શોધો!')}
+                />
+                <span className="text-xs font-bold text-slate-600 font-gujarati">પેન્સિલ C</span>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* Step 5: સૌથી મોટું શોધો */}
+        {currentStep === 5 && (
+          <div className="space-y-6 text-center">
+            <div className="space-y-1">
+              <span className="text-xs font-bold text-emerald-700 uppercase tracking-wider font-gujarati">
+                પગથિયું ૫ (Step 5)
+              </span>
+              <h3 className="text-xl md:text-2xl font-black text-slate-900 font-gujarati">
+                સૌથી મોટું શોધો (Find the Largest)
+              </h3>
+              <p className="text-sm text-slate-600 font-gujarati">
+                આ ત્રણ બોટલમાંથી <span className="font-black text-emerald-700">સૌથી મોટી</span> બોટલ પસંદ કરો:
+              </p>
+            </div>
+
+            <div className="flex items-end justify-center gap-8 py-6">
+              <div className="text-center space-y-2">
+                <SvgObject
+                  name="bottle"
+                  size="small"
+                  onClick={() => handleWrongStep('આ તો સૌથી નાની બોટલ છે. સૌથી મોટી બોટલ શોધો!')}
+                />
+                <span className="text-xs font-bold text-slate-600 font-gujarati">બોટલ A</span>
+              </div>
+              <div className="text-center space-y-2">
+                <SvgObject
+                  name="bottle"
+                  size="large"
+                  onClick={() => handleCorrectStep('🎉 બરાબર! આ બોટલ સૌથી મોટી છે.')}
+                />
+                <span className="text-xs font-bold text-slate-600 font-gujarati">બોટલ B</span>
+              </div>
+              <div className="text-center space-y-2">
+                <SvgObject
+                  name="bottle"
+                  size="medium"
+                  onClick={() => handleWrongStep('આ મધ્યમ બોટલ છે. સૌથી મોટી બોટલ શોધો!')}
+                />
+                <span className="text-xs font-bold text-slate-600 font-gujarati">બોટલ C</span>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* Step 6: કદ પ્રમાણે ગોઠવો */}
+        {currentStep === 6 && (
+          <Step6OrderingActivity
+            onComplete={() => handleCorrectStep('🎉 અદ્ભુત! તમે કદ પ્રમાણે સાચો ક્રમ ગોઠવ્યો.')}
+          />
+        )}
+
+        {/* Step 7: વ્યવહારુ ઉદાહરણો (Real World) */}
+        {currentStep === 7 && (
+          <Step7RealWorldActivity
+            onComplete={() => handleCorrectStep('🎉 અભિનંદન! તમે બધાં વ્યવહારુ ઉદાહરણો શીખી લીધા.')}
+          />
+        )}
+
+        {/* Feedback Banner */}
+        {stepFeedback && (
+          <div
+            className={`p-4 rounded-2xl font-gujarati text-sm font-bold text-center flex items-center justify-center gap-2 ${
+              stepFeedback.correct
+                ? 'bg-emerald-100 text-emerald-900 border border-emerald-300'
+                : 'bg-rose-100 text-rose-900 border border-rose-300 animate-shake'
+            }`}
+          >
+            {stepFeedback.correct ? <CheckCircle2 className="w-5 h-5 text-emerald-600" /> : <HelpCircle className="w-5 h-5 text-rose-600" />}
+            <span>{stepFeedback.text}</span>
+          </div>
+        )}
+
+        {/* Continue to Next Step Button */}
+        {stepInteractionDone && currentStep < 7 && (
+          <div className="text-center pt-2">
             <button
-              onClick={handleVideoCompleted}
-              className={`px-4 py-2.5 rounded-xl font-black text-xs transition-all flex items-center gap-2 shadow-sm ${
-                videoCompleted
-                  ? 'bg-emerald-600 text-white'
-                  : 'bg-amber-400 hover:bg-amber-500 text-slate-950 active:scale-95'
-              }`}
+              onClick={handleNextStep}
+              className="px-6 py-3 bg-emerald-600 hover:bg-emerald-700 text-white font-black text-xs rounded-xl shadow-md font-gujarati inline-flex items-center gap-2"
             >
-              <CheckCircle2 className="w-4 h-4" />
-              <span>{videoCompleted ? 'વિડિયો જોયો ✓' : 'મેં વિડિયો જોયો ✓'}</span>
+              <span>આગળનું પગથિયું (Step {currentStep + 1})</span>
+              <ArrowRight className="w-4 h-4" />
             </button>
           </div>
+        )}
+      </div>
 
-          <div className="flex justify-end pt-2">
-            <button
-              onClick={() => setCurrentStage(3)}
-              className="px-5 py-3 bg-emerald-600 hover:bg-emerald-700 text-white font-black text-xs rounded-xl shadow-md flex items-center gap-2 active:scale-95 transition-all"
+      {/* Completion Banner when all 7 steps done */}
+      {allCompleted && (
+        <div className="bg-gradient-to-r from-emerald-50 via-teal-50 to-emerald-100 rounded-3xl p-6 border-2 border-emerald-400 text-center space-y-4 shadow-lg animate-fade-in">
+          <div className="w-14 h-14 bg-emerald-500 text-white rounded-2xl flex items-center justify-center mx-auto text-2xl shadow-md">
+            🎉
+          </div>
+          <div>
+            <h3 className="text-xl font-black text-emerald-900 font-gujarati">
+              શીખવાનું પૂર્ણ થયું! (Learning Completed)
+            </h3>
+            <p className="text-xs font-semibold text-emerald-700 font-gujarati mt-1">
+              તમે તમામ ૭ પગથિયાં સફળતાપૂર્વક પૂર્ણ કર્યા છે. હવે સ્વતંત્ર મહાવરો કરીએ!
+            </p>
+          </div>
+
+          <button
+            onClick={onGoToPractice}
+            className="px-8 py-3.5 bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-700 hover:to-teal-700 text-white font-black text-sm rounded-2xl shadow-xl shadow-emerald-200 flex items-center gap-2 mx-auto active:scale-95 transition-all font-gujarati"
+          >
+            <span>હવે પ્રેક્ટિસ કરીએ (Go to Practice →)</span>
+            <ArrowRight className="w-4 h-4" />
+          </button>
+        </div>
+      )}
+    </div>
+  );
+}
+
+/* -------------------------------------------------------------
+   Step 6 Subcomponent: Order Small -> Medium -> Large
+------------------------------------------------------------- */
+function Step6OrderingActivity({ onComplete }) {
+  const [selectedItems, setSelectedItems] = useState([]);
+  const [availableItems, setAvailableItems] = useState([
+    { id: 'large', size: 'large', label: 'મોટો બ્લૉક' },
+    { id: 'small', size: 'small', label: 'નાનો બ્લૉક' },
+    { id: 'medium', size: 'medium', label: 'મધ્યમ બ્લૉક' },
+  ]);
+
+  const handlePick = (item) => {
+    playClickSound();
+    const nextSelected = [...selectedItems, item];
+    setSelectedItems(nextSelected);
+    setAvailableItems(availableItems.filter((i) => i.id !== item.id));
+
+    if (nextSelected.length === 3) {
+      // Check if order is small -> medium -> large
+      if (nextSelected[0].size === 'small' && nextSelected[1].size === 'medium' && nextSelected[2].size === 'large') {
+        onComplete();
+      } else {
+        playErrorSound();
+        speakGujarati('ક્રમ સાચો નથી. પહેલાં નાનું, પછી મધ્યમ, પછી મોટું મૂકો!');
+        setTimeout(() => {
+          setSelectedItems([]);
+          setAvailableItems([
+            { id: 'large', size: 'large', label: 'મોટો બ્લૉક' },
+            { id: 'small', size: 'small', label: 'નાનો બ્લૉક' },
+            { id: 'medium', size: 'medium', label: 'મધ્યમ બ્લૉક' },
+          ]);
+        }, 1500);
+      }
+    }
+  };
+
+  const handleReset = () => {
+    setSelectedItems([]);
+    setAvailableItems([
+      { id: 'large', size: 'large', label: 'મોટો બ્લૉક' },
+      { id: 'small', size: 'small', label: 'નાનો બ્લૉક' },
+      { id: 'medium', size: 'medium', label: 'મધ્યમ બ્લૉક' },
+    ]);
+  };
+
+  return (
+    <div className="space-y-6 text-center">
+      <div className="space-y-1">
+        <span className="text-xs font-bold text-emerald-700 uppercase tracking-wider font-gujarati">
+          પગથિયું ૬ (Step 6)
+        </span>
+        <h3 className="text-xl md:text-2xl font-black text-slate-900 font-gujarati">
+          કદ પ્રમાણે ગોઠવો: નાનું ➔ મધ્યમ ➔ મોટું
+        </h3>
+        <p className="text-sm text-slate-600 font-gujarati">
+          બ્લૉકને તેના કદ મુજબ નાનાથી મોટા ક્રમમાં પસંદ કરો:
+        </p>
+      </div>
+
+      {/* Target Placement Slots */}
+      <div className="grid grid-cols-3 gap-4 max-w-md mx-auto py-4">
+        {[0, 1, 2].map((slotIdx) => {
+          const filled = selectedItems[slotIdx];
+          const slotLabels = ['૧. સૌથી નાનું', '૨. મધ્યમ', '૩. સૌથી મોટું'];
+
+          return (
+            <div
+              key={slotIdx}
+              className="h-36 rounded-2xl border-2 border-dashed border-slate-300 bg-white/80 flex flex-col items-center justify-center p-2 shadow-xs"
             >
-              <span>આગળ વધો (Explore Concept)</span>
+              {filled ? (
+                <div className="animate-scale-in">
+                  <SvgObject name="block" size={filled.size} />
+                  <span className="text-[10px] font-bold text-slate-700 font-gujarati block mt-1">
+                    {filled.label}
+                  </span>
+                </div>
+              ) : (
+                <span className="text-xs font-bold text-slate-400 font-gujarati">
+                  {slotLabels[slotIdx]}
+                </span>
+              )}
+            </div>
+          );
+        })}
+      </div>
+
+      {/* Available Clickable Blocks */}
+      <div className="flex items-center justify-center gap-6">
+        {availableItems.map((item) => (
+          <div
+            key={item.id}
+            onClick={() => handlePick(item)}
+            className="cursor-pointer hover:scale-105 transition-all p-2 bg-white rounded-2xl border border-slate-200 shadow-xs"
+          >
+            <SvgObject name="block" size={item.size} />
+          </div>
+        ))}
+      </div>
+
+      {selectedItems.length > 0 && selectedItems.length < 3 && (
+        <button
+          onClick={handleReset}
+          className="text-xs font-bold text-slate-500 hover:text-slate-800 font-gujarati underline"
+        >
+          ફરીથી ગોઠવો (Reset)
+        </button>
+      )}
+    </div>
+  );
+}
+
+/* -------------------------------------------------------------
+   Step 7 Subcomponent: Real World Comparisons
+------------------------------------------------------------- */
+function Step7RealWorldActivity({ onComplete }) {
+  const [subQuestion, setSubQuestion] = useState(0);
+
+  const realQuestions = [
+    {
+      prompt: 'હાથી અને ઉંદરમાંથી સૌથી મોટું કોણ છે?',
+      items: [
+        { name: 'elephant', size: 'large', label: 'હાથી', isCorrect: true },
+        { name: 'mouse', size: 'small', label: 'ઉંદર', isCorrect: false },
+      ],
+    },
+    {
+      prompt: 'ઝાડ અને ફૂલમાંથી સૌથી નાનું કયું છે?',
+      items: [
+        { name: 'tree', size: 'large', label: 'ઝાડ', isCorrect: false },
+        { name: 'flower', size: 'small', label: 'ફૂલ', isCorrect: true },
+      ],
+    },
+    {
+      prompt: 'ગાડી અને દડામાંથી સૌથી મોટી વસ્તુ કઈ છે?',
+      items: [
+        { name: 'ball', size: 'small', label: 'દડો', isCorrect: false },
+        { name: 'car', size: 'large', label: 'ગાડી', isCorrect: true },
+      ],
+    },
+  ];
+
+  const q = realQuestions[subQuestion];
+
+  const handleAnswer = (item) => {
+    if (item.isCorrect) {
+      playSuccessSound();
+      if (subQuestion < realQuestions.length - 1) {
+        setSubQuestion(subQuestion + 1);
+      } else {
+        onComplete();
+      }
+    } else {
+      playErrorSound();
+      speakGujarati('ફરીથી વિચારો. બંને વસ્તુઓનું કદ જુઓ!');
+    }
+  };
+
+  return (
+    <div className="space-y-6 text-center">
+      <div className="space-y-1">
+        <span className="text-xs font-bold text-emerald-700 uppercase tracking-wider font-gujarati">
+          પગથિયું ૭ (Step 7 - Real World)
+        </span>
+        <h3 className="text-xl md:text-2xl font-black text-slate-900 font-gujarati">
+          {q.prompt}
+        </h3>
+        <span className="text-xs font-mono font-bold text-slate-400">
+          પ્રશ્ન {subQuestion + 1} / {realQuestions.length}
+        </span>
+      </div>
+
+      <div className="flex items-center justify-center gap-10 py-6">
+        {q.items.map((item, idx) => (
+          <div
+            key={idx}
+            onClick={() => handleAnswer(item)}
+            className="cursor-pointer hover:scale-105 transition-all p-4 bg-white rounded-3xl border-2 border-slate-200 shadow-sm text-center space-y-2"
+          >
+            <SvgObject name={item.name} size={item.size} />
+            <span className="block text-xs font-bold text-slate-800 font-gujarati">
+              {item.label}
+            </span>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+/* ==========================================================================
+   STAGE 3: PRACTICE STAGE (10 FORGIVING ACTIVITIES)
+   ========================================================================== */
+function PracticeStage({ moduleState, onPracticeComplete, onGoToTest }) {
+  const [activityIndex, setActivityIndex] = useState(0);
+  const [correctCount, setCorrectCount] = useState(0);
+  const [feedback, setFeedback] = useState(null);
+  const [practiceDone, setPracticeDone] = useState(moduleState.practiceCompleted || false);
+
+  // 10 Practice Activities covering all comparison variations
+  const activities = [
+    {
+      id: 1,
+      type: 'smallest',
+      prompt: 'આમાંથી સૌથી નાની વસ્તુ શોધો:',
+      items: [
+        { name: 'apple', size: 'large', isCorrect: false },
+        { name: 'apple', size: 'small', isCorrect: true },
+        { name: 'apple', size: 'medium', isCorrect: false },
+      ],
+      hint: 'જે સફરજનનું કદ સૌથી ઓછું છે તે સૌથી નાનું કહેવાય.',
+    },
+    {
+      id: 2,
+      type: 'largest',
+      prompt: 'આમાંથી સૌથી મોટી વસ્તુ પસંદ કરો:',
+      items: [
+        { name: 'ball', size: 'medium', isCorrect: false },
+        { name: 'ball', size: 'large', isCorrect: true },
+        { name: 'ball', size: 'small', isCorrect: false },
+      ],
+      hint: 'જે દડો સૌથી વિશાળ દેખાય તે સૌથી મોટો છે.',
+    },
+    {
+      id: 3,
+      type: 'smaller_pair',
+      prompt: 'આ બે બોટલમાંથી કઈ બોટલ નાની છે?',
+      items: [
+        { name: 'bottle', size: 'small', isCorrect: true },
+        { name: 'bottle', size: 'large', isCorrect: false },
+      ],
+      hint: 'ઓછી ઊંચાઈ વાળી બોટલ નાની છે.',
+    },
+    {
+      id: 4,
+      type: 'larger_pair',
+      prompt: 'આ બે કપમાંથી કયો કપ મોટો છે?',
+      items: [
+        { name: 'cup', size: 'small', isCorrect: false },
+        { name: 'cup', size: 'large', isCorrect: true },
+      ],
+      hint: 'વધારે કદ વાળો કપ મોટો છે.',
+    },
+    {
+      id: 5,
+      type: 'smallest_three',
+      prompt: 'ત્રણ પેન્સિલોમાંથી સૌથી નાની પેન્સિલ પર ટેપ કરો:',
+      items: [
+        { name: 'pencil', size: 'medium', isCorrect: false },
+        { name: 'pencil', size: 'large', isCorrect: false },
+        { name: 'pencil', size: 'small', isCorrect: true },
+      ],
+      hint: 'સૌથી ટૂંકી પેન્સિલ સૌથી નાની છે.',
+    },
+    {
+      id: 6,
+      type: 'largest_three',
+      prompt: 'ત્રણ ઝાડમાંથી સૌથી મોટું ઝાડ કયું છે?',
+      items: [
+        { name: 'tree', size: 'large', isCorrect: true },
+        { name: 'tree', size: 'small', isCorrect: false },
+        { name: 'tree', size: 'medium', isCorrect: false },
+      ],
+      hint: 'સૌથી મોટું અને ઘેઘૂર ઝાડ પસંદ કરો.',
+    },
+    {
+      id: 7,
+      type: 'real_world_compare',
+      prompt: 'હાથી અને માછલીમાંથી કઈ વસ્તુ કદમાં સૌથી નાની છે?',
+      items: [
+        { name: 'elephant', size: 'large', label: 'હાથી', isCorrect: false },
+        { name: 'fish', size: 'small', label: 'માછલી', isCorrect: true },
+      ],
+      hint: 'માછલીનું કદ હાથી કરતાં ઘણું નાનું હોય છે.',
+    },
+    {
+      id: 8,
+      type: 'real_world_large',
+      prompt: 'ગાડી અને ફૂલમાંથી કઈ વસ્તુ કદમાં મોટી છે?',
+      items: [
+        { name: 'car', size: 'large', label: 'ગાડી', isCorrect: true },
+        { name: 'flower', size: 'small', label: 'ફૂલ', isCorrect: false },
+      ],
+      hint: 'ગાડી ફૂલ કરતાં ઘણી મોટી હોય છે.',
+    },
+    {
+      id: 9,
+      type: 'watermelon_compare',
+      prompt: 'આ ત્રણ તરબૂચમાંથી સૌથી મોટું તરબૂચ શોધો:',
+      items: [
+        { name: 'watermelon', size: 'small', isCorrect: false },
+        { name: 'watermelon', size: 'medium', isCorrect: false },
+        { name: 'watermelon', size: 'large', isCorrect: true },
+      ],
+      hint: 'સૌથી મોટો ટુકડો પસંદ કરો.',
+    },
+    {
+      id: 10,
+      type: 'mixed_smallest',
+      prompt: 'આમાંથી સૌથી નાની વસ્તુ શોધો:',
+      items: [
+        { name: 'block', size: 'large', isCorrect: false },
+        { name: 'block', size: 'small', isCorrect: true },
+        { name: 'block', size: 'medium', isCorrect: false },
+      ],
+      hint: 'નાના કદનો બ્લૉક પસંદ કરો.',
+    },
+  ];
+
+  const currentAct = activities[activityIndex];
+
+  const handleChoice = (item) => {
+    if (item.isCorrect) {
+      playSuccessSound();
+      const nextCorrect = correctCount + 1;
+      setCorrectCount(nextCorrect);
+      setFeedback({ correct: true, text: '🎉 ઉત્તમ! સાચો જવાબ છે.' });
+
+      setTimeout(() => {
+        setFeedback(null);
+        if (activityIndex < activities.length - 1) {
+          setActivityIndex(activityIndex + 1);
+        } else {
+          // Finished Practice
+          const accuracy = Math.round((nextCorrect / activities.length) * 100);
+          setPracticeDone(true);
+          onPracticeComplete({
+            accuracy,
+            score: nextCorrect,
+            total: activities.length,
+          });
+        }
+      }, 900);
+    } else {
+      // Forgiving feedback
+      playErrorSound();
+      setFeedback({
+        correct: false,
+        text: `ફરીથી પ્રયત્ન કરો. ${currentAct.hint}`,
+      });
+      speakGujarati(`ફરીથી પ્રયત્ન કરો. ${currentAct.hint}`);
+    }
+  };
+
+  return (
+    <div className="bg-white rounded-3xl p-6 md:p-8 border-2 border-emerald-300 shadow-xl space-y-6">
+      {/* Practice Header */}
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-100 pb-4">
+        <div>
+          <div className="inline-flex items-center gap-2 px-3 py-1 bg-purple-100 text-purple-800 rounded-full text-xs font-bold font-gujarati mb-1">
+            <Gamepad2 className="w-3.5 h-3.5" />
+            <span>તબક્કો ૩: સ્વતંત્ર મહાવરો (Stage 3 - Independent Practice)</span>
+          </div>
+          <h2 className="text-2xl md:text-3xl font-black text-slate-900 font-gujarati">
+            મહાવરો પ્રવૃત્તિ: {activityIndex + 1} / {activities.length}
+          </h2>
+          <p className="text-xs md:text-sm text-slate-600 font-gujarati">
+            કદ ધ્યાનથી જુઓ અને સાચો વિકલ્પ પસંદ કરો. ભૂલ પડે તો ફરી પ્રયાસ કરો!
+          </p>
+        </div>
+
+        <GujaratiVoiceButton
+          text={currentAct.prompt}
+          label="પ્રશ્ન સાંભળો"
+          size="md"
+        />
+      </div>
+
+      {!practiceDone ? (
+        <div className="bg-slate-50 rounded-3xl p-6 md:p-8 border-2 border-slate-200 space-y-6 text-center">
+          {/* Progress Bar */}
+          <div className="w-full bg-slate-200 h-2.5 rounded-full overflow-hidden">
+            <div
+              className="bg-purple-500 h-full transition-all duration-300 rounded-full"
+              style={{ width: `${((activityIndex + 1) / activities.length) * 100}%` }}
+            />
+          </div>
+
+          <h3 className="text-xl md:text-2xl font-black text-slate-900 font-gujarati">
+            {currentAct.prompt}
+          </h3>
+
+          {/* Interactive Objects */}
+          <div className="flex items-end justify-center gap-8 py-6 flex-wrap">
+            {currentAct.items.map((item, idx) => (
+              <div
+                key={idx}
+                onClick={() => handleChoice(item)}
+                className="cursor-pointer hover:scale-105 active:scale-95 transition-all p-4 bg-white rounded-3xl border-2 border-slate-200 hover:border-purple-300 shadow-sm text-center"
+              >
+                <SvgObject name={item.name} size={item.size} />
+                {item.label && (
+                  <span className="block text-xs font-bold text-slate-700 font-gujarati mt-1">
+                    {item.label}
+                  </span>
+                )}
+              </div>
+            ))}
+          </div>
+
+          {/* Feedback */}
+          {feedback && (
+            <div
+              className={`p-4 rounded-2xl font-gujarati text-sm font-bold flex items-center justify-center gap-2 ${
+                feedback.correct
+                  ? 'bg-emerald-100 text-emerald-900 border border-emerald-300'
+                  : 'bg-amber-100 text-amber-900 border border-amber-300 animate-shake'
+              }`}
+            >
+              {feedback.correct ? <CheckCircle2 className="w-5 h-5 text-emerald-600" /> : <Lightbulb className="w-5 h-5 text-amber-600" />}
+              <span>{feedback.text}</span>
+            </div>
+          )}
+        </div>
+      ) : (
+        /* Practice Completed Card */
+        <div className="bg-gradient-to-r from-purple-50 via-indigo-50 to-purple-100 rounded-3xl p-8 border-2 border-purple-400 text-center space-y-6 shadow-xl animate-fade-in">
+          <div className="w-16 h-16 bg-purple-500 text-white rounded-3xl flex items-center justify-center mx-auto text-3xl shadow-md">
+            🎉
+          </div>
+
+          <div className="space-y-2">
+            <h3 className="text-2xl md:text-3xl font-black text-purple-950 font-gujarati">
+              પ્રેક્ટિસ પૂર્ણ! (Practice Completed)
+            </h3>
+            <p className="text-sm font-semibold text-purple-800 font-gujarati">
+              તમે બધી ૧૦ પ્રવૃત્તિઓ સફળતાપૂર્વક પૂર્ણ કરી છે.
+            </p>
+          </div>
+
+          {/* Stats Badges */}
+          <div className="flex items-center justify-center gap-4 max-w-sm mx-auto">
+            <div className="flex-1 bg-white p-3.5 rounded-2xl border border-purple-200 shadow-xs">
+              <span className="text-[10px] font-bold text-slate-500 uppercase font-gujarati block">પ્રવૃત્તિઓ</span>
+              <span className="text-xl font-black text-purple-700 font-mono">૧૦ / ૧૦</span>
+            </div>
+            <div className="flex-1 bg-white p-3.5 rounded-2xl border border-purple-200 shadow-xs">
+              <span className="text-[10px] font-bold text-slate-500 uppercase font-gujarati block">ચોકસાઈ</span>
+              <span className="text-xl font-black text-emerald-600 font-mono">
+                {Math.round((correctCount / activities.length) * 100)}%
+              </span>
+            </div>
+          </div>
+
+          <div className="pt-2">
+            <button
+              onClick={onGoToTest}
+              className="px-8 py-4 bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700 text-white font-black text-sm rounded-2xl shadow-xl shadow-purple-200 flex items-center gap-2 mx-auto active:scale-95 transition-all font-gujarati"
+            >
+              <span>હવે તમે ટેસ્ટ માટે તૈયાર છો! (ટેસ્ટ શરૂ કરો →)</span>
               <ArrowRight className="w-4 h-4" />
             </button>
           </div>
         </div>
       )}
+    </div>
+  );
+}
 
-      {/* =============================================================
-          STAGE 3: CONCEPT EXPLORATION (VISUAL & SIMPLE)
-      ============================================================= */}
-      {currentStage === 3 && (
-        <div className="bg-white rounded-3xl p-6 sm:p-8 border-2 border-emerald-300 shadow-xl space-y-6 animate-in fade-in-50 duration-300">
-          <div className="text-center space-y-1">
-            <h3 className="text-xl sm:text-2xl font-black text-slate-900">
-              ચાલો સમજીએ 👇
-            </h3>
-            <p className="text-xs text-slate-500 font-bold">
-              સફરજનના સમૂહ પર ક્લિક કરીને સરખામણી કરો:
-            </p>
+/* ==========================================================================
+   STAGE 4: TEST STAGE (10 ASSESSMENT QUESTIONS - 80% PASS THRESHOLD)
+   ========================================================================== */
+function TestStage({ moduleState, onTestFinished, onRetryPractice, onGoToComplete }) {
+  const [questionIndex, setQuestionIndex] = useState(0);
+  const [userAnswers, setUserAnswers] = useState({});
+  const [testSubmitted, setTestSubmitted] = useState(moduleState.passed || false);
+  const [testResult, setTestResult] = useState(null);
+
+  // 10 Comprehensive Assessment Questions (2 smallest, 2 largest, 2 pair compare, 2 three-item compare, 2 ordering)
+  const testQuestions = [
+    {
+      id: 1,
+      type: 'smallest',
+      prompt: 'પ્રશ્ન ૧: નીચેનામાંથી સૌથી નાનો દડો પસંદ કરો:',
+      options: [
+        { id: 'opt1', name: 'ball', size: 'large' },
+        { id: 'opt2', name: 'ball', size: 'small', isCorrect: true },
+        { id: 'opt3', name: 'ball', size: 'medium' },
+      ],
+    },
+    {
+      id: 2,
+      type: 'largest',
+      prompt: 'પ્રશ્ન ૨: નીચેનામાંથી સૌથી મોટું સફરજન કયું છે?',
+      options: [
+        { id: 'opt1', name: 'apple', size: 'small' },
+        { id: 'opt2', name: 'apple', size: 'medium' },
+        { id: 'opt3', name: 'apple', size: 'large', isCorrect: true },
+      ],
+    },
+    {
+      id: 3,
+      type: 'pair_smaller',
+      prompt: 'પ્રશ્ન ૩: કઈ બોટલ નાની છે?',
+      options: [
+        { id: 'opt1', name: 'bottle', size: 'small', isCorrect: true },
+        { id: 'opt2', name: 'bottle', size: 'large' },
+      ],
+    },
+    {
+      id: 4,
+      type: 'pair_larger',
+      prompt: 'પ્રશ્ન ૪: કયો કપ મોટો છે?',
+      options: [
+        { id: 'opt1', name: 'cup', size: 'large', isCorrect: true },
+        { id: 'opt2', name: 'cup', size: 'small' },
+      ],
+    },
+    {
+      id: 5,
+      type: 'three_smallest',
+      prompt: 'પ્રશ્ન ૫: આમાંથી સૌથી નાની પેન્સિલ શોધો:',
+      options: [
+        { id: 'opt1', name: 'pencil', size: 'large' },
+        { id: 'opt2', name: 'pencil', size: 'small', isCorrect: true },
+        { id: 'opt3', name: 'pencil', size: 'medium' },
+      ],
+    },
+    {
+      id: 6,
+      type: 'three_largest',
+      prompt: 'પ્રશ્ન ૬: આમાંથી સૌથી મોટો બ્લૉક શોધો:',
+      options: [
+        { id: 'opt1', name: 'block', size: 'medium' },
+        { id: 'opt2', name: 'block', size: 'small' },
+        { id: 'opt3', name: 'block', size: 'large', isCorrect: true },
+      ],
+    },
+    {
+      id: 7,
+      type: 'real_world_smallest',
+      prompt: 'પ્રશ્ન ૭: હાથી, કપ અને ઉંદરમાંથી સૌથી નાનું કોણ છે?',
+      options: [
+        { id: 'opt1', name: 'elephant', size: 'large', label: 'હાથી' },
+        { id: 'opt2', name: 'cup', size: 'medium', label: 'કપ' },
+        { id: 'opt3', name: 'mouse', size: 'small', label: 'ઉંદર', isCorrect: true },
+      ],
+    },
+    {
+      id: 8,
+      type: 'real_world_largest',
+      prompt: 'પ્રશ્ન ૮: દડો, ઝાડ અને ફૂલમાંથી સૌથી મોટી વસ્તુ કઈ છે?',
+      options: [
+        { id: 'opt1', name: 'tree', size: 'large', label: 'ઝાડ', isCorrect: true },
+        { id: 'opt2', name: 'flower', size: 'small', label: 'ફૂલ' },
+        { id: 'opt3', name: 'ball', size: 'small', label: 'દડો' },
+      ],
+    },
+    {
+      id: 9,
+      type: 'ordering_small_to_big',
+      prompt: 'પ્રશ્ન ૯: સૌથી નાનાથી સૌથી મોટા ક્રમમાં પહેલી કઈ વસ્તુ આવે?',
+      options: [
+        { id: 'opt1', name: 'watermelon', size: 'small', label: 'નાનું તરબૂચ', isCorrect: true },
+        { id: 'opt2', name: 'watermelon', size: 'large', label: 'મોટું તરબૂચ' },
+      ],
+    },
+    {
+      id: 10,
+      type: 'ordering_big_to_small',
+      prompt: 'પ્રશ્ન ૧૦: સૌથી મોટાથી સૌથી નાના ક્રમમાં પહેલી કઈ ગાડી આવે?',
+      options: [
+        { id: 'opt1', name: 'car', size: 'large', label: 'મોટી ગાડી', isCorrect: true },
+        { id: 'opt2', name: 'car', size: 'small', label: 'નાની ગાડી' },
+      ],
+    },
+  ];
+
+  const currentQ = testQuestions[questionIndex];
+  const selectedOpt = userAnswers[currentQ?.id];
+
+  const handleOptionSelect = (optId) => {
+    playClickSound();
+    setUserAnswers((prev) => ({
+      ...prev,
+      [currentQ.id]: optId,
+    }));
+  };
+
+  const handleNext = () => {
+    if (questionIndex < testQuestions.length - 1) {
+      setQuestionIndex(questionIndex + 1);
+      playClickSound();
+    }
+  };
+
+  const handlePrev = () => {
+    if (questionIndex > 0) {
+      setQuestionIndex(questionIndex - 1);
+      playClickSound();
+    }
+  };
+
+  const handleTestSubmit = () => {
+    let score = 0;
+    testQuestions.forEach((q) => {
+      const selected = userAnswers[q.id];
+      const correctOpt = q.options.find((o) => o.isCorrect);
+      if (selected === correctOpt?.id) {
+        score += 1;
+      }
+    });
+
+    const total = testQuestions.length;
+    const percentage = Math.round((score / total) * 100);
+    const passed = percentage >= 80; // 80% passing threshold
+
+    const res = { score, total, percentage, passed };
+    setTestResult(res);
+    setTestSubmitted(true);
+    onTestFinished(res);
+  };
+
+  const allAnswered = Object.keys(userAnswers).length === testQuestions.length;
+
+  return (
+    <div className="bg-white rounded-3xl p-6 md:p-8 border-2 border-emerald-300 shadow-xl space-y-6">
+      {/* Test Stage Header */}
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-100 pb-4">
+        <div>
+          <div className="inline-flex items-center gap-2 px-3 py-1 bg-rose-100 text-rose-800 rounded-full text-xs font-bold font-gujarati mb-1">
+            <FileCheck2 className="w-3.5 h-3.5" />
+            <span>તબક્કો ૪: ક્ષમતા મૂલ્યાંકન કસોટી (Stage 4 - Competency Test)</span>
           </div>
-
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            {/* Group 1: 2 Apples */}
-            <button
-              onClick={() => setConceptSelectedGroup(2)}
-              className={`p-6 rounded-3xl border-2 text-center transition-all ${
-                conceptSelectedGroup === 2
-                  ? 'border-emerald-500 bg-emerald-50 ring-4 ring-emerald-200'
-                  : 'border-slate-200 bg-slate-50/50 hover:bg-emerald-50/50'
-              }`}
-            >
-              <div className="text-4xl sm:text-5xl tracking-widest mb-2">🍎🍎</div>
-              <div className="font-black text-slate-800 text-base">૨ સફરજન (ઓછા)</div>
-              <span className="inline-block mt-2 px-3 py-1 bg-amber-100 text-amber-900 text-xs font-bold rounded-full">
-                સૌથી નાનું સમૂહ ⬇
-              </span>
-            </button>
-
-            {/* Group 2: 5 Apples */}
-            <button
-              onClick={() => setConceptSelectedGroup(5)}
-              className={`p-6 rounded-3xl border-2 text-center transition-all ${
-                conceptSelectedGroup === 5
-                  ? 'border-emerald-500 bg-emerald-50 ring-4 ring-emerald-200'
-                  : 'border-slate-200 bg-slate-50/50 hover:bg-emerald-50/50'
-              }`}
-            >
-              <div className="text-4xl sm:text-5xl tracking-widest mb-2">🍎🍎🍎🍎🍎</div>
-              <div className="font-black text-slate-800 text-base">૫ સફરજન (વધુ)</div>
-              <span className="inline-block mt-2 px-3 py-1 bg-emerald-100 text-emerald-900 text-xs font-bold rounded-full">
-                સૌથી મોટો સમૂહ ⬆
-              </span>
-            </button>
-          </div>
-
-          <div className="p-4 bg-emerald-50/80 rounded-2xl border border-emerald-200 text-center space-y-2">
-            <p className="text-sm font-black text-emerald-900">
-              👉 ૫ સફરજન વધુ છે અને ૨ સફરજન ઓછા છે.
-            </p>
-            <div className="flex flex-wrap justify-center gap-4 text-xs font-bold text-slate-700">
-              <span className="bg-white px-3 py-1.5 rounded-xl border border-emerald-300">
-                ⭐ સૌથી નાનું = સૌથી ઓછું
-              </span>
-              <span className="bg-white px-3 py-1.5 rounded-xl border border-emerald-300">
-                ⭐ સૌથી મોટું = સૌથી વધુ
-              </span>
-            </div>
-          </div>
-
-          <div className="flex justify-between items-center pt-2">
-            <GujaratiVoiceButton
-              text="૫ સફરજન વધુ છે અને ૨ સફરજન ઓછા છે. સૌથી નાનું એટલે સૌથી ઓછું, સૌથી મોટું એટલે સૌથી વધુ."
-              label="સમજૂતી સાંભળો"
-            />
-
-            <button
-              onClick={() => setCurrentStage(4)}
-              className="px-5 py-3 bg-emerald-600 hover:bg-emerald-700 text-white font-black text-xs rounded-xl shadow-md flex items-center gap-2 active:scale-95 transition-all"
-            >
-              <span>રમત ૧: સમૂહ સરખામણી ▶</span>
-            </button>
-          </div>
-        </div>
-      )}
-
-      {/* =============================================================
-          STAGE 4: ACTIVITY 1 - OBJECT COMPARISON (DYNAMIC)
-      ============================================================= */}
-      {currentStage === 4 && (
-        <div className="bg-white rounded-3xl p-6 sm:p-8 border-2 border-emerald-300 shadow-xl space-y-6 animate-in fade-in-50 duration-300">
-          <div className="flex items-center justify-between border-b border-slate-100 pb-3">
-            <div>
-              <span className="text-xs font-black text-emerald-700 uppercase">રમત ૧ (Activity 1)</span>
-              <h3 className="text-xl font-black text-slate-900">
-                કયો સમૂહ મોટો છે?
-              </h3>
-            </div>
-            <button
-              onClick={resetAct1}
-              className="px-3 py-1.5 text-xs font-bold text-slate-600 bg-slate-100 hover:bg-slate-200 rounded-xl flex items-center gap-1"
-            >
-              <RotateCcw className="w-3.5 h-3.5" />
-              <span>નવા ચિત્રો</span>
-            </button>
-          </div>
-
-          <p className="text-xs text-slate-500 font-bold">
-            પ્રશ્ન: સૌથી મોટો સમૂહ પસંદ કરો.
+          <h2 className="text-2xl md:text-3xl font-black text-slate-900 font-gujarati">
+            {!testSubmitted ? `પ્રશ્ન ${questionIndex + 1} / ${testQuestions.length}` : 'કસોટી પરિણામ (Test Result)'}
+          </h2>
+          <p className="text-xs md:text-sm text-slate-600 font-gujarati">
+            પાસ થવા માટે ઓછામાં ઓછા ૮૦% (૮/૧૦ ગુણ) જરૂરી છે.
           </p>
-
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            {/* Left Group */}
-            <button
-              onClick={() => handleAct1Check('left')}
-              className={`p-6 rounded-3xl border-2 text-center transition-all ${
-                act1Selected === 'left'
-                  ? 'border-emerald-500 bg-emerald-50 ring-4 ring-emerald-200'
-                  : 'border-slate-200 bg-slate-50 hover:bg-emerald-50/50'
-              }`}
-            >
-              <div className="text-3xl sm:text-4xl tracking-widest mb-3 break-words">
-                {Array(act1Counts.left).fill(objectThemes[act1ThemeIndex].emoji).join('')}
-              </div>
-              <div className="font-black text-sm text-slate-800">
-                સમૂહ A: {act1Counts.left} {objectThemes[act1ThemeIndex].name}
-              </div>
-            </button>
-
-            {/* Right Group */}
-            <button
-              onClick={() => handleAct1Check('right')}
-              className={`p-6 rounded-3xl border-2 text-center transition-all ${
-                act1Selected === 'right'
-                  ? 'border-emerald-500 bg-emerald-50 ring-4 ring-emerald-200'
-                  : 'border-slate-200 bg-slate-50 hover:bg-emerald-50/50'
-              }`}
-            >
-              <div className="text-3xl sm:text-4xl tracking-widest mb-3 break-words">
-                {Array(act1Counts.right).fill(objectThemes[act1ThemeIndex].emoji).join('')}
-              </div>
-              <div className="font-black text-sm text-slate-800">
-                સમૂહ B: {act1Counts.right} {objectThemes[act1ThemeIndex].name}
-              </div>
-            </button>
-          </div>
-
-          {act1Feedback && (
-            <div
-              className={`p-4 rounded-2xl text-center font-black text-sm ${
-                act1Feedback.correct
-                  ? 'bg-emerald-100 text-emerald-900 border border-emerald-300'
-                  : 'bg-amber-100 text-amber-900 border border-amber-300'
-              }`}
-            >
-              {act1Feedback.text}
-            </div>
-          )}
-
-          <div className="flex justify-between items-center pt-2">
-            <GujaratiVoiceButton
-              text={`કયો સમૂહ મોટો છે? સમૂહ A માં ${act1Counts.left} અને સમૂહ B માં ${act1Counts.right} વસ્તુઓ છે.`}
-              label="પ્રશ્ન સાંભળો"
-            />
-
-            <button
-              onClick={() => setCurrentStage(5)}
-              className="px-5 py-3 bg-emerald-600 hover:bg-emerald-700 text-white font-black text-xs rounded-xl shadow-md flex items-center gap-2 active:scale-95 transition-all"
-            >
-              <span>રમત ૨: સૌથી નાનો નંબર ▶</span>
-            </button>
-          </div>
         </div>
-      )}
 
-      {/* =============================================================
-          STAGE 5: ACTIVITY 2 - SMALLEST NUMBER (3 STAGES)
-      ============================================================= */}
-      {currentStage === 5 && (
-        <div className="bg-white rounded-3xl p-6 sm:p-8 border-2 border-emerald-300 shadow-xl space-y-6 animate-in fade-in-50 duration-300">
-          <div className="flex items-center justify-between border-b border-slate-100 pb-3">
-            <div>
-              <span className="text-xs font-black text-emerald-700 uppercase">
-                રમત ૨ • સ્તર: {act2Levels[act2LevelIdx].level}
-              </span>
-              <h3 className="text-xl font-black text-slate-900">
-                સૌથી નાનો નંબર પસંદ કરો
-              </h3>
-            </div>
+        {!testSubmitted && (
+          <GujaratiVoiceButton
+            text={currentQ.prompt}
+            label="પ્રશ્ન સાંભળો"
+            size="md"
+          />
+        )}
+      </div>
 
-            <div className="flex gap-1.5">
-              {act2Levels.map((lvl, idx) => (
+      {!testSubmitted ? (
+        <div className="bg-slate-50 rounded-3xl p-6 md:p-8 border-2 border-slate-200 space-y-6">
+          {/* Question Navigation Bubbles */}
+          <div className="flex items-center justify-center gap-1.5 overflow-x-auto pb-2">
+            {testQuestions.map((q, idx) => {
+              const isAnswered = Boolean(userAnswers[q.id]);
+              const isCurrent = idx === questionIndex;
+
+              return (
                 <button
-                  key={lvl.level}
-                  onClick={() => {
-                    setAct2LevelIdx(idx);
-                    setAct2Selected(null);
-                    setAct2Feedback(null);
-                  }}
-                  className={`px-2.5 py-1 rounded-lg text-[11px] font-bold ${
-                    act2LevelIdx === idx
-                      ? 'bg-emerald-600 text-white'
-                      : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
+                  key={q.id}
+                  onClick={() => setQuestionIndex(idx)}
+                  className={`w-7 h-7 rounded-lg text-xs font-mono font-bold transition-all ${
+                    isCurrent
+                      ? 'bg-rose-500 text-white ring-2 ring-rose-300 scale-110'
+                      : isAnswered
+                      ? 'bg-emerald-500 text-white'
+                      : 'bg-white text-slate-600 border border-slate-200'
                   }`}
                 >
                   {idx + 1}
                 </button>
-              ))}
-            </div>
+              );
+            })}
           </div>
 
-          <div className="grid grid-cols-3 gap-3 sm:gap-6 max-w-lg mx-auto py-2">
-            {act2Levels[act2LevelIdx].numbers.map((num) => (
-              <button
-                key={num}
-                onClick={() => handleAct2Check(num)}
-                className={`py-8 sm:py-10 rounded-3xl font-black text-3xl sm:text-5xl shadow-md transition-all active:scale-95 ${
-                  act2Selected === num
-                    ? (num === act2Levels[act2LevelIdx].correct
-                      ? 'bg-emerald-600 text-white ring-4 ring-emerald-300 scale-105'
-                      : 'bg-rose-500 text-white ring-4 ring-rose-300')
-                    : 'bg-slate-100 text-slate-800 hover:bg-emerald-100 hover:text-emerald-900'
-                }`}
-              >
-                {num}
-              </button>
-            ))}
-          </div>
-
-          {act2Feedback && (
-            <div
-              className={`p-4 rounded-2xl text-center font-black text-sm ${
-                act2Feedback.correct
-                  ? 'bg-emerald-100 text-emerald-900 border border-emerald-300'
-                  : 'bg-amber-100 text-amber-900 border border-amber-300'
-              }`}
-            >
-              {act2Feedback.text}
-            </div>
-          )}
-
-          <div className="flex justify-between items-center pt-2">
-            <GujaratiVoiceButton
-              text={`આ સંખ્યાઓમાંથી સૌથી નાનો નંબર કયો છે: ${act2Levels[act2LevelIdx].numbers.join(', ')}`}
-              label="સાંભળો"
-            />
-
-            <button
-              onClick={() => setCurrentStage(6)}
-              className="px-5 py-3 bg-emerald-600 hover:bg-emerald-700 text-white font-black text-xs rounded-xl shadow-md flex items-center gap-2 active:scale-95 transition-all"
-            >
-              <span>રમત ૩: સૌથી મોટો નંબર ▶</span>
-            </button>
-          </div>
-        </div>
-      )}
-
-      {/* =============================================================
-          STAGE 6: ACTIVITY 3 - BIGGEST NUMBER
-      ============================================================= */}
-      {currentStage === 6 && (
-        <div className="bg-white rounded-3xl p-6 sm:p-8 border-2 border-emerald-300 shadow-xl space-y-6 animate-in fade-in-50 duration-300">
-          <div className="flex items-center justify-between border-b border-slate-100 pb-3">
-            <div>
-              <span className="text-xs font-black text-emerald-700 uppercase">
-                રમત ૩ • રાઉન્ડ {act3RoundIdx + 1}/{act3Rounds.length}
-              </span>
-              <h3 className="text-xl font-black text-slate-900">
-                સૌથી મોટો નંબર પસંદ કરો
-              </h3>
-            </div>
-
-            <button
-              onClick={() => {
-                setAct3RoundIdx((prev) => (prev + 1) % act3Rounds.length);
-                setAct3Selected(null);
-                setAct3Feedback(null);
-              }}
-              className="px-3 py-1.5 text-xs font-bold text-slate-600 bg-slate-100 hover:bg-slate-200 rounded-xl flex items-center gap-1"
-            >
-              <RotateCcw className="w-3.5 h-3.5" />
-              <span>બીજી સંખ્યાઓ</span>
-            </button>
-          </div>
-
-          <div className="grid grid-cols-3 gap-3 sm:gap-6 max-w-lg mx-auto py-2">
-            {act3Rounds[act3RoundIdx].numbers.map((num) => (
-              <button
-                key={num}
-                onClick={() => handleAct3Check(num)}
-                className={`py-8 sm:py-10 rounded-3xl font-black text-3xl sm:text-5xl shadow-md transition-all active:scale-95 ${
-                  act3Selected === num
-                    ? (num === act3Rounds[act3RoundIdx].correct
-                      ? 'bg-emerald-600 text-white ring-4 ring-emerald-300 scale-105'
-                      : 'bg-rose-500 text-white ring-4 ring-rose-300')
-                    : 'bg-slate-100 text-slate-800 hover:bg-emerald-100 hover:text-emerald-900'
-                }`}
-              >
-                {num}
-              </button>
-            ))}
-          </div>
-
-          {act3Feedback && (
-            <div
-              className={`p-4 rounded-2xl text-center font-black text-sm ${
-                act3Feedback.correct
-                  ? 'bg-emerald-100 text-emerald-900 border border-emerald-300'
-                  : 'bg-amber-100 text-amber-900 border border-amber-300'
-              }`}
-            >
-              {act3Feedback.text}
-            </div>
-          )}
-
-          <div className="flex justify-between items-center pt-2">
-            <GujaratiVoiceButton
-              text={`આ સંખ્યાઓમાંથી સૌથી મોટો નંબર કયો છે: ${act3Rounds[act3RoundIdx].numbers.join(', ')}`}
-              label="સાંભળો"
-            />
-
-            <button
-              onClick={() => setCurrentStage(7)}
-              className="px-5 py-3 bg-emerald-600 hover:bg-emerald-700 text-white font-black text-xs rounded-xl shadow-md flex items-center gap-2 active:scale-95 transition-all"
-            >
-              <span>રમત ૪: બંને શોધો ▶</span>
-            </button>
-          </div>
-        </div>
-      )}
-
-      {/* =============================================================
-          STAGE 7: ACTIVITY 4 - FIND BOTH (SMALLEST & BIGGEST)
-      ============================================================= */}
-      {currentStage === 7 && (
-        <div className="bg-white rounded-3xl p-6 sm:p-8 border-2 border-emerald-300 shadow-xl space-y-6 animate-in fade-in-50 duration-300">
-          <div className="text-center space-y-1">
-            <span className="text-xs font-black text-emerald-700 uppercase">રમત ૪ (Advanced)</span>
-            <h3 className="text-xl sm:text-2xl font-black text-slate-900">
-              સૌથી નાનો અને સૌથી મોટો નંબર શોધો
-            </h3>
-            <p className="text-xs text-slate-500 font-bold">
-              આપેલ સંખ્યાઓ: <span className="font-mono text-base text-slate-800">૧૨, ૭, ૧૮, ૯</span>
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 max-w-lg mx-auto">
-            {/* Box 1: Smallest */}
-            <div className="p-4 rounded-2xl bg-amber-50 border-2 border-amber-300 text-center space-y-3">
-              <span className="text-xs font-black text-amber-900 uppercase">⬇ સૌથી નાનો (Smallest)</span>
-              <div className="text-2xl font-black text-slate-900 bg-white p-3 rounded-xl border border-amber-200 min-h-[50px] flex items-center justify-center">
-                {act4Smallest !== null ? act4Smallest : '[ પસંદ કરો ]'}
-              </div>
-              <div className="flex justify-center gap-2">
-                {act4Data.numbers.map((n) => (
-                  <button
-                    key={n}
-                    onClick={() => setAct4Smallest(n)}
-                    className={`px-3 py-1.5 rounded-lg text-xs font-bold border transition-all ${
-                      act4Smallest === n
-                        ? 'bg-amber-500 text-slate-950 border-amber-600 shadow-xs'
-                        : 'bg-white text-slate-700 hover:bg-amber-100'
-                    }`}
-                  >
-                    {n}
-                  </button>
-                ))}
-              </div>
-            </div>
-
-            {/* Box 2: Biggest */}
-            <div className="p-4 rounded-2xl bg-emerald-50 border-2 border-emerald-300 text-center space-y-3">
-              <span className="text-xs font-black text-emerald-900 uppercase">⬆ સૌથી મોટો (Biggest)</span>
-              <div className="text-2xl font-black text-slate-900 bg-white p-3 rounded-xl border border-emerald-200 min-h-[50px] flex items-center justify-center">
-                {act4Biggest !== null ? act4Biggest : '[ પસંદ કરો ]'}
-              </div>
-              <div className="flex justify-center gap-2">
-                {act4Data.numbers.map((n) => (
-                  <button
-                    key={n}
-                    onClick={() => setAct4Biggest(n)}
-                    className={`px-3 py-1.5 rounded-lg text-xs font-bold border transition-all ${
-                      act4Biggest === n
-                        ? 'bg-emerald-600 text-white border-emerald-700 shadow-xs'
-                        : 'bg-white text-slate-700 hover:bg-emerald-100'
-                    }`}
-                  >
-                    {n}
-                  </button>
-                ))}
-              </div>
-            </div>
-          </div>
-
-          <div className="text-center">
-            <button
-              onClick={handleAct4Validate}
-              className="px-6 py-3 bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-700 hover:to-teal-700 text-white font-black rounded-2xl shadow-md text-sm active:scale-95 transition-all"
-            >
-              ચકાસો (Check Answer) ✓
-            </button>
-          </div>
-
-          {act4Feedback && (
-            <div
-              className={`p-4 rounded-2xl text-center font-black text-sm ${
-                act4Feedback.correct
-                  ? 'bg-emerald-100 text-emerald-900 border border-emerald-300'
-                  : 'bg-amber-100 text-amber-900 border border-amber-300'
-              }`}
-            >
-              {act4Feedback.text}
-            </div>
-          )}
-
-          <div className="flex justify-between items-center pt-2">
-            <GujaratiVoiceButton
-              text="૧૨, ૭, ૧૮, અને ૯ માંથી સૌથી નાનો અને સૌથી મોટો નંબર પસંદ કરો."
-              label="સાંભળો"
-            />
-
-            <button
-              onClick={() => setCurrentStage(8)}
-              className="px-5 py-3 bg-emerald-600 hover:bg-emerald-700 text-white font-black text-xs rounded-xl shadow-md flex items-center gap-2 active:scale-95 transition-all"
-            >
-              <span>ક્રમ ગોઠવણી (Ordering) ▶</span>
-            </button>
-          </div>
-        </div>
-      )}
-
-      {/* =============================================================
-          STAGE 8: TOUCH DRAG-AND-DROP / TAP NUMBER ORDERING
-      ============================================================= */}
-      {currentStage === 8 && (
-        <div className="bg-white rounded-3xl p-6 sm:p-8 border-2 border-emerald-300 shadow-xl space-y-7 animate-in fade-in-50 duration-300">
-          <div className="text-center space-y-1">
-            <span className="text-xs font-black text-emerald-700 uppercase">ક્રમ ગોઠવણી (Number Ordering)</span>
-            <h3 className="text-xl sm:text-2xl font-black text-slate-900">
-              સંખ્યાઓને યોગ્ય ક્રમમાં ગોઠવો
-            </h3>
-          </div>
-
-          {/* Section A: Smallest -> Biggest */}
-          <div className="p-5 rounded-3xl bg-slate-50 border-2 border-slate-200 space-y-3">
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-1.5 text-xs font-black text-slate-800">
-                <TrendingUp className="w-4 h-4 text-emerald-600" />
-                <span>૧. નાનાથી મોટા ક્રમમાં ગોઠવો (Ascending):</span>
-              </div>
-              <button
-                onClick={resetAsc}
-                className="text-[11px] font-bold text-slate-500 hover:text-slate-800 underline"
-              >
-                ફરીથી
-              </button>
-            </div>
-
-            {/* Target Slots */}
-            <div className="grid grid-cols-4 gap-2">
-              {[0, 1, 2, 3].map((slotIdx) => (
-                <div
-                  key={slotIdx}
-                  className="h-14 rounded-2xl bg-white border-2 border-dashed border-emerald-300 flex items-center justify-center font-black text-xl text-emerald-700 shadow-inner"
-                >
-                  {ascSelected[slotIdx] !== undefined ? ascSelected[slotIdx] : `${slotIdx + 1}️⃣`}
-                </div>
-              ))}
-            </div>
-
-            {/* Tap Pool */}
-            <div className="flex justify-center gap-2 pt-1">
-              {ascPool.map((n) => (
-                <button
-                  key={n}
-                  onClick={() => handleAscTap(n)}
-                  disabled={ascSelected.includes(n)}
-                  className={`w-12 h-12 rounded-2xl font-black text-base shadow-sm transition-all ${
-                    ascSelected.includes(n)
-                      ? 'bg-slate-200 text-slate-400 opacity-40'
-                      : 'bg-emerald-600 text-white hover:bg-emerald-700 active:scale-95'
-                  }`}
-                >
-                  {n}
-                </button>
-              ))}
-            </div>
-
-            {ascFeedback && (
-              <p
-                className={`text-xs font-bold text-center ${
-                  ascFeedback.correct ? 'text-emerald-700' : 'text-amber-700'
-                }`}
-              >
-                {ascFeedback.text}
-              </p>
-            )}
-          </div>
-
-          {/* Section B: Biggest -> Smallest */}
-          <div className="p-5 rounded-3xl bg-slate-50 border-2 border-slate-200 space-y-3">
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-1.5 text-xs font-black text-slate-800">
-                <TrendingDown className="w-4 h-4 text-orange-600" />
-                <span>૨. મોટાથી નાના ક્રમમાં ગોઠવો (Descending):</span>
-              </div>
-              <button
-                onClick={resetDesc}
-                className="text-[11px] font-bold text-slate-500 hover:text-slate-800 underline"
-              >
-                ફરીથી
-              </button>
-            </div>
-
-            {/* Target Slots */}
-            <div className="grid grid-cols-4 gap-2">
-              {[0, 1, 2, 3].map((slotIdx) => (
-                <div
-                  key={slotIdx}
-                  className="h-14 rounded-2xl bg-white border-2 border-dashed border-orange-300 flex items-center justify-center font-black text-xl text-orange-700 shadow-inner"
-                >
-                  {descSelected[slotIdx] !== undefined ? descSelected[slotIdx] : `${slotIdx + 1}️⃣`}
-                </div>
-              ))}
-            </div>
-
-            {/* Tap Pool */}
-            <div className="flex justify-center gap-2 pt-1">
-              {descPool.map((n) => (
-                <button
-                  key={n}
-                  onClick={() => handleDescTap(n)}
-                  disabled={descSelected.includes(n)}
-                  className={`w-12 h-12 rounded-2xl font-black text-base shadow-sm transition-all ${
-                    descSelected.includes(n)
-                      ? 'bg-slate-200 text-slate-400 opacity-40'
-                      : 'bg-orange-500 text-white hover:bg-orange-600 active:scale-95'
-                  }`}
-                >
-                  {n}
-                </button>
-              ))}
-            </div>
-
-            {descFeedback && (
-              <p
-                className={`text-xs font-bold text-center ${
-                  descFeedback.correct ? 'text-emerald-700' : 'text-amber-700'
-                }`}
-              >
-                {descFeedback.text}
-              </p>
-            )}
-          </div>
-
-          <div className="flex justify-between items-center pt-2">
-            <GujaratiVoiceButton
-              text="સંખ્યાઓને નાનાથી મોટા અને મોટાથી નાના ક્રમમાં ગોઠવો."
-              label="સાંભળો"
-            />
-
-            <button
-              onClick={() => setCurrentStage(9)}
-              className="px-5 py-3 bg-emerald-600 hover:bg-emerald-700 text-white font-black text-xs rounded-xl shadow-md flex items-center gap-2 active:scale-95 transition-all"
-            >
-              <span>સંખ્યા રેખા (Number Line) ▶</span>
-            </button>
-          </div>
-        </div>
-      )}
-
-      {/* =============================================================
-          STAGE 9: INTERACTIVE NUMBER LINE (BUNNY 🐰 HOPPING)
-      ============================================================= */}
-      {currentStage === 9 && (
-        <div className="bg-white rounded-3xl p-6 sm:p-8 border-2 border-emerald-300 shadow-xl space-y-6 animate-in fade-in-50 duration-300">
-          <div className="text-center space-y-1">
-            <span className="text-xs font-black text-emerald-700 uppercase">સંખ્યા રેખા (Number Line)</span>
-            <h3 className="text-xl sm:text-2xl font-black text-slate-900">
-              સસલું 🐰 અને ૧ થી ૧૦ ની સંખ્યા રેખા
-            </h3>
-            <p className="text-xs text-slate-500 font-bold">
-              સંખ્યા પર ક્લિક કરો અને સસલાને કૂદકો મારતો જુઓ:
-            </p>
-          </div>
-
-          {/* Mode Switcher */}
-          <div className="flex justify-center gap-3">
-            <button
-              onClick={() => {
-                setNumberLineQuestion('smallest');
-                setNumberLineFeedback(null);
-              }}
-              className={`px-4 py-2 rounded-xl text-xs font-black transition-all ${
-                numberLineQuestion === 'smallest'
-                  ? 'bg-amber-400 text-slate-950 shadow-sm ring-2 ring-amber-300'
-                  : 'bg-slate-100 text-slate-600'
-              }`}
-            >
-              પ્રશ્ન ૧: સૌથી નાની સંખ્યા શોધો ⬇
-            </button>
-
-            <button
-              onClick={() => {
-                setNumberLineQuestion('biggest');
-                setNumberLineFeedback(null);
-              }}
-              className={`px-4 py-2 rounded-xl text-xs font-black transition-all ${
-                numberLineQuestion === 'biggest'
-                  ? 'bg-emerald-600 text-white shadow-sm ring-2 ring-emerald-300'
-                  : 'bg-slate-100 text-slate-600'
-              }`}
-            >
-              પ્રશ્ન ૨: સૌથી મોટી સંખ્યા શોધો ⬆
-            </button>
-          </div>
-
-          {/* Dynamic Number Line Track */}
-          <div className="p-4 sm:p-6 bg-emerald-50/60 rounded-3xl border border-emerald-200 space-y-4">
-            {/* Bunny Track */}
-            <div className="relative h-12 flex items-center justify-between px-2">
-              <div
-                className="absolute text-3xl transition-all duration-300 transform -translate-x-1/2"
-                style={{ left: `${((bunnyPosition - 1) / 9) * 90 + 5}%` }}
-              >
-                🐰
-              </div>
-            </div>
-
-            {/* Line Bar */}
-            <div className="h-2 bg-emerald-600 rounded-full relative">
-              <div className="absolute left-0 right-0 -top-1 flex justify-between px-1">
-                {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((n) => (
-                  <div key={n} className="w-4 h-4 rounded-full bg-emerald-700" />
-                ))}
-              </div>
-            </div>
-
-            {/* Number Buttons */}
-            <div className="flex justify-between gap-1 overflow-x-auto pt-2">
-              {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((n) => (
-                <button
-                  key={n}
-                  onClick={() => handleNumberLineTap(n)}
-                  className={`w-8 h-10 sm:w-10 sm:h-12 rounded-xl font-black text-sm sm:text-base flex items-center justify-center transition-all ${
-                    bunnyPosition === n
-                      ? 'bg-emerald-600 text-white ring-2 ring-emerald-400 scale-110 shadow-md'
-                      : 'bg-white text-slate-700 border border-slate-200 hover:bg-emerald-100'
-                  }`}
-                >
-                  {n}
-                </button>
-              ))}
-            </div>
-          </div>
-
-          {numberLineFeedback && (
-            <div
-              className={`p-4 rounded-2xl text-center font-black text-sm ${
-                numberLineFeedback.correct
-                  ? 'bg-emerald-100 text-emerald-900 border border-emerald-300'
-                  : 'bg-amber-100 text-amber-900 border border-amber-300'
-              }`}
-            >
-              {numberLineFeedback.text}
-            </div>
-          )}
-
-          <div className="flex justify-between items-center pt-2">
-            <GujaratiVoiceButton
-              text={
-                numberLineQuestion === 'smallest'
-                  ? 'સંખ્યા રેખા પર સૌથી નાની સંખ્યા ૧ છે.'
-                  : 'સંખ્યા રેખા પર સૌથી મોટી સંખ્યા ૧૦ છે.'
-              }
-              label="સાંભળો"
-            />
-
-            <button
-              onClick={() => setCurrentStage(10)}
-              className="px-5 py-3 bg-emerald-600 hover:bg-emerald-700 text-white font-black text-xs rounded-xl shadow-md flex items-center gap-2 active:scale-95 transition-all"
-            >
-              <span>મહાવરો રાઉન્ડ (Practice Round) ▶</span>
-            </button>
-          </div>
-        </div>
-      )}
-
-      {/* =============================================================
-          STAGE 10: PRACTICE ROUND (8 QUESTIONS WITH 3-TIER HINTS)
-      ============================================================= */}
-      {currentStage === 10 && (
-        <div className="bg-white rounded-3xl p-6 sm:p-8 border-2 border-emerald-300 shadow-xl space-y-6 animate-in fade-in-50 duration-300">
-          <div className="flex items-center justify-between border-b border-slate-100 pb-3">
-            <div>
-              <span className="text-xs font-black text-emerald-700 uppercase">
-                મહાવરો રાઉન્ડ (Practice) • {practiceIdx + 1}/{practiceQuestions.length}
-              </span>
-              <h3 className="text-lg sm:text-xl font-black text-slate-900">
-                {currentPracticeQ.questionText}
-              </h3>
-            </div>
-
-            {/* Hint Button */}
-            <button
-              onClick={usePracticeHint}
-              className="px-3 py-1.5 bg-amber-50 hover:bg-amber-100 text-amber-900 border border-amber-300 rounded-xl text-xs font-bold flex items-center gap-1.5 transition-all"
-            >
-              <HelpCircle className="w-4 h-4 text-amber-600" />
-              <span>મદદ (Hint {practiceHintLevel > 0 ? `${practiceHintLevel}/3` : ''})</span>
-            </button>
-          </div>
-
-          {/* Hint Ladder Display */}
-          {practiceHintLevel > 0 && (
-            <div className="p-3.5 bg-amber-50/90 rounded-2xl border border-amber-200 text-xs font-bold text-amber-900 space-y-1 animate-in fade-in-50">
-              {practiceHintLevel >= 1 && <p>💡 સંકેત ૧: {currentPracticeQ.hint1}</p>}
-              {practiceHintLevel >= 2 && <p>💡 સંકેત ૨: {currentPracticeQ.hint2}</p>}
-              {practiceHintLevel >= 3 && <p className="text-emerald-800">💡 સંકેત ૩: {currentPracticeQ.hint3}</p>}
-            </div>
-          )}
+          <h3 className="text-xl md:text-2xl font-black text-slate-900 font-gujarati text-center">
+            {currentQ.prompt}
+          </h3>
 
           {/* Options Grid */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
-            {currentPracticeQ.options.map((opt) => (
-              <button
-                key={opt.value}
-                onClick={() => handlePracticeSubmit(opt.value)}
-                className={`p-4 sm:p-5 rounded-2xl border-2 text-left font-black text-sm sm:text-base transition-all flex items-center justify-between ${
-                  practiceSelected === opt.value
-                    ? (opt.value === currentPracticeQ.correct
-                      ? 'border-emerald-600 bg-emerald-50 text-emerald-950 ring-2 ring-emerald-300'
-                      : 'border-rose-400 bg-rose-50 text-rose-950 ring-2 ring-rose-300')
-                    : (practiceHintLevel === 3 && opt.value === currentPracticeQ.correct
-                      ? 'border-emerald-500 bg-emerald-50/60 ring-2 ring-emerald-300 animate-pulse'
-                      : 'border-slate-200 bg-slate-50 hover:bg-emerald-50/60 text-slate-800')
-                }`}
-              >
-                <span>{opt.label}</span>
-                {practiceSelected === opt.value && (
-                  <span>{opt.value === currentPracticeQ.correct ? '✓' : '✗'}</span>
-                )}
-              </button>
-            ))}
+          <div className="flex items-end justify-center gap-8 py-6 flex-wrap">
+            {currentQ.options.map((opt) => {
+              const isSelected = selectedOpt === opt.id;
+
+              return (
+                <div
+                  key={opt.id}
+                  onClick={() => handleOptionSelect(opt.id)}
+                  className={`cursor-pointer hover:scale-105 transition-all p-4 rounded-3xl border-3 text-center space-y-2 ${
+                    isSelected
+                      ? 'border-emerald-500 bg-emerald-50 shadow-md ring-4 ring-emerald-200'
+                      : 'border-slate-200 bg-white hover:border-slate-300 shadow-xs'
+                  }`}
+                >
+                  <SvgObject name={opt.name} size={opt.size} />
+                  {opt.label && (
+                    <span className="block text-xs font-bold text-slate-800 font-gujarati">
+                      {opt.label}
+                    </span>
+                  )}
+                </div>
+              );
+            })}
           </div>
 
-          {practiceFeedback && (
-            <div
-              className={`p-3.5 rounded-2xl text-center font-black text-xs sm:text-sm ${
-                practiceFeedback.correct
-                  ? 'bg-emerald-100 text-emerald-900 border border-emerald-300'
-                  : 'bg-amber-100 text-amber-900 border border-amber-300'
-              }`}
-            >
-              {practiceFeedback.text}
-            </div>
-          )}
-
-          <div className="flex justify-between items-center pt-2">
-            <GujaratiVoiceButton
-              text={currentPracticeQ.questionText}
-              label="પ્રશ્ન સાંભળો"
-            />
-
+          {/* Nav Controls */}
+          <div className="flex items-center justify-between pt-4 border-t border-slate-200">
             <button
-              onClick={handlePracticeNext}
-              disabled={!practiceSelected}
-              className="px-5 py-3 bg-emerald-600 hover:bg-emerald-700 text-white font-black text-xs rounded-xl shadow-md flex items-center gap-2 active:scale-95 transition-all disabled:opacity-40"
+              onClick={handlePrev}
+              disabled={questionIndex === 0}
+              className="px-4 py-2 bg-white border border-slate-300 disabled:opacity-40 rounded-xl text-xs font-bold font-gujarati flex items-center gap-1"
             >
-              <span>{practiceIdx === practiceQuestions.length - 1 ? 'મહાવરો પૂર્ણ કરો 🎉' : 'આગળનો પ્રશ્ન ▶'}</span>
+              <ArrowLeft className="w-3.5 h-3.5" />
+              <span>પાછળ</span>
             </button>
+
+            {questionIndex < testQuestions.length - 1 ? (
+              <button
+                onClick={handleNext}
+                className="px-5 py-2.5 bg-rose-600 hover:bg-rose-700 text-white font-bold text-xs rounded-xl shadow-md font-gujarati flex items-center gap-1"
+              >
+                <span>આગળ</span>
+                <ArrowRight className="w-3.5 h-3.5" />
+              </button>
+            ) : (
+              <button
+                onClick={handleTestSubmit}
+                disabled={!allAnswered}
+                className="px-6 py-2.5 bg-emerald-600 hover:bg-emerald-700 disabled:opacity-50 text-white font-black text-xs rounded-xl shadow-md font-gujarati flex items-center gap-1"
+              >
+                <span>કસોટી જમા કરો (Submit Test)</span>
+                <Check className="w-4 h-4" />
+              </button>
+            )}
           </div>
         </div>
-      )}
-
-      {/* =============================================================
-          STAGE 11: TEST UNLOCKED / READY SCREEN
-      ============================================================= */}
-      {currentStage === 11 && (
-        <div className="bg-white rounded-3xl p-6 sm:p-8 border-2 border-emerald-300 shadow-xl space-y-6 text-center animate-in fade-in-50 duration-300">
-          <div className="w-20 h-20 mx-auto rounded-3xl bg-gradient-to-tr from-amber-400 to-amber-500 text-slate-950 flex items-center justify-center text-4xl shadow-lg shadow-amber-200">
-            📝
+      ) : testResult?.passed ? (
+        /* Test Passed Result Screen (>= 80%) */
+        <div className="bg-gradient-to-b from-emerald-50 via-white to-emerald-50 rounded-3xl p-8 border-4 border-emerald-400 text-center space-y-6 shadow-2xl animate-fade-in">
+          <div className="w-20 h-20 bg-emerald-500 text-white rounded-3xl flex items-center justify-center mx-auto text-4xl shadow-xl animate-bounce">
+            🏆
           </div>
 
           <div className="space-y-2">
-            <span className="px-3 py-1 bg-emerald-100 text-emerald-800 text-xs font-black rounded-full uppercase tracking-wider">
-              અંતિમ મૂલ્યાંકન (Final Assessment)
-            </span>
-            <h2 className="text-2xl sm:text-3xl font-black text-slate-900">
-              તમે ટેસ્ટ આપવા માટે તૈયાર છો! 🎉
-            </h2>
-            <p className="text-xs sm:text-sm text-slate-600 max-w-md mx-auto">
-              આ કસોટીમાં ૧૦ સરળ પ્રશ્નો છે. ૮૦% કે તેથી વધુ ગુણ મેળવવાથી આગળનું પગલું અનલૉક થશે.
+            <div className="inline-flex items-center gap-1.5 px-4 py-1 rounded-full text-xs font-black uppercase font-mono bg-emerald-100 text-emerald-900">
+              સ્કોર: {testResult.score} / {testResult.total} ({testResult.percentage}%)
+            </div>
+            <h3 className="text-2xl md:text-3xl font-black text-slate-900 font-gujarati">
+              અભિનંદન! તમે આ મોડ્યુલ સફળતાપૂર્વક પૂર્ણ કર્યું. 🎉
+            </h3>
+            <p className="text-sm font-bold text-emerald-800 font-gujarati">
+              સિદ્ધિ સ્તર: <span className="text-emerald-900 underline">નિપુણ (Mastered)</span>
             </p>
           </div>
 
-          {/* Readiness Checklist */}
-          <div className="bg-slate-50 rounded-2xl p-4 max-w-sm mx-auto text-left text-xs font-bold text-slate-700 space-y-2 border border-slate-200">
-            <div className="flex items-center gap-2">
-              <CheckCircle2 className="w-4 h-4 text-emerald-600" />
-              <span>વિડિયો પાઠ: {videoCompleted ? 'પૂર્ણ ✓' : 'જોયેલ'}</span>
-            </div>
-            <div className="flex items-center gap-2">
-              <CheckCircle2 className="w-4 h-4 text-emerald-600" />
-              <span>ઇન્ટરેક્ટિવ રમતો: {activitiesDone}/4 પૂર્ણ</span>
-            </div>
-            <div className="flex items-center gap-2">
-              <CheckCircle2 className="w-4 h-4 text-emerald-600" />
-              <span>મહાવરો સ્કોર: {practiceScore}%</span>
-            </div>
+          {/* Unlocked Message */}
+          <div className="bg-emerald-100/70 rounded-2xl p-4 border border-emerald-300 text-emerald-900 font-gujarati text-xs font-bold max-w-md mx-auto">
+            🔓 આગળનું મોડ્યુલ (Module 2: અવકાશીય સંકલ્પના) હવે ખુલ્લું છે!
           </div>
 
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-3 pt-2">
+          <div className="pt-2 flex items-center justify-center gap-4 flex-wrap">
             <button
-              onClick={() => navigate('/student/test/M-01')}
-              className="w-full sm:w-auto px-8 py-4 bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-700 hover:to-teal-700 text-white font-black text-base rounded-2xl shadow-xl shadow-emerald-200 active:scale-95 transition-all flex items-center justify-center gap-2"
+              onClick={onGoToComplete}
+              className="px-8 py-3.5 bg-emerald-600 hover:bg-emerald-700 text-white font-black text-sm rounded-2xl shadow-lg shadow-emerald-200 flex items-center gap-2 font-gujarati"
             >
-              <span>કસોટી શરૂ કરો (Start Test) 🚀</span>
+              <span>આગળના મોડ્યુલ પર જાઓ →</span>
+              <ArrowRight className="w-4 h-4" />
+            </button>
+          </div>
+        </div>
+      ) : (
+        /* Test Failed Result Screen (< 80%) */
+        <div className="bg-gradient-to-b from-rose-50 via-white to-rose-50 rounded-3xl p-8 border-4 border-rose-300 text-center space-y-6 shadow-xl animate-fade-in">
+          <div className="w-20 h-20 bg-rose-400 text-white rounded-3xl flex items-center justify-center mx-auto text-4xl shadow-md">
+            💪
+          </div>
+
+          <div className="space-y-2">
+            <div className="inline-flex items-center gap-1.5 px-4 py-1 rounded-full text-xs font-black uppercase font-mono bg-rose-100 text-rose-900">
+              સ્કોર: {testResult?.score || 0} / {testResult?.total || 10} ({testResult?.percentage || 0}%)
+            </div>
+            <h3 className="text-2xl md:text-3xl font-black text-slate-900 font-gujarati">
+              ચાલો ફરીથી શીખીએ! ✨
+            </h3>
+            <p className="text-xs md:text-sm font-semibold text-slate-600 font-gujarati max-w-md mx-auto">
+              થોડી વધુ પ્રેક્ટિસ કરવાથી તમે વધુ સારું કરી શકશો. પાસ થવા માટે ૮૦% ગુણ જરૂરી છે.
+            </p>
+          </div>
+
+          {/* Action Buttons */}
+          <div className="flex items-center justify-center gap-4 flex-wrap pt-2">
+            <button
+              onClick={onRetryPractice}
+              className="px-6 py-3 bg-purple-600 hover:bg-purple-700 text-white font-black text-xs rounded-xl shadow-md font-gujarati flex items-center gap-1.5"
+            >
+              <RefreshCw className="w-3.5 h-3.5" />
+              <span>ફરી પ્રેક્ટિસ કરો (Retry Practice)</span>
+            </button>
+
+            <button
+              onClick={() => {
+                setTestSubmitted(false);
+                setQuestionIndex(0);
+                setUserAnswers({});
+              }}
+              className="px-6 py-3 bg-rose-600 hover:bg-rose-700 text-white font-black text-xs rounded-xl shadow-md font-gujarati flex items-center gap-1.5"
+            >
+              <RotateCcw className="w-3.5 h-3.5" />
+              <span>ફરી ટેસ્ટ આપો (Retake Test)</span>
             </button>
           </div>
         </div>
       )}
+    </div>
+  );
+}
+
+/* ==========================================================================
+   STAGE 5: COMPLETED STAGE COMPONENT (CERTIFICATE & SUMMARY)
+   ========================================================================== */
+function CompletedStage({ moduleState, onRevisitVideo, onRevisitLearning, onRevisitPractice, onProceedNextModule }) {
+  return (
+    <div className="bg-gradient-to-b from-emerald-50 via-white to-emerald-50 rounded-3xl p-8 border-4 border-emerald-400 text-center space-y-6 shadow-2xl">
+      <div className="w-24 h-24 bg-gradient-to-br from-emerald-400 to-teal-600 text-white rounded-3xl flex items-center justify-center mx-auto text-5xl shadow-xl shadow-emerald-200 animate-bounce">
+        🏆
+      </div>
+
+      <div className="space-y-2">
+        <span className="px-4 py-1 bg-emerald-100 text-emerald-800 font-bold text-xs rounded-full font-gujarati uppercase">
+          મોડ્યુલ ૧ સફળતાપૂર્વક પૂર્ણ ✅
+        </span>
+        <h2 className="text-3xl md:text-4xl font-black text-slate-900 font-gujarati">
+          સૌથી નાની અને સૌથી મોટી વસ્તુઓની સરખામણી
+        </h2>
+        <p className="text-sm font-semibold text-emerald-700 font-gujarati max-w-md mx-auto">
+          તમે વિડિયો, ૭ શીખવાના પગથિયાં, ૧૦ મહાવરો પ્રવૃત્તિઓ અને આખરી કસોટીમાં ઉત્કૃષ્ટ સિદ્ધિ મેળવી છે!
+        </p>
+      </div>
+
+      {/* Stats Summary Grid */}
+      <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 max-w-lg mx-auto py-2">
+        <div className="bg-white p-3.5 rounded-2xl border border-emerald-200 shadow-xs">
+          <span className="text-[10px] font-bold text-slate-500 font-gujarati block">વિડિયો</span>
+          <span className="text-base font-black text-emerald-700 font-gujarati">✅ પૂર્ણ</span>
+        </div>
+        <div className="bg-white p-3.5 rounded-2xl border border-emerald-200 shadow-xs">
+          <span className="text-[10px] font-bold text-slate-500 font-gujarati block">શીખવું</span>
+          <span className="text-base font-black text-emerald-700 font-mono">૭ / ૭</span>
+        </div>
+        <div className="bg-white p-3.5 rounded-2xl border border-emerald-200 shadow-xs">
+          <span className="text-[10px] font-bold text-slate-500 font-gujarati block">મહાવરો</span>
+          <span className="text-base font-black text-purple-700 font-mono">૧૦૦%</span>
+        </div>
+        <div className="bg-white p-3.5 rounded-2xl border border-emerald-200 shadow-xs">
+          <span className="text-[10px] font-bold text-slate-500 font-gujarati block">ટેસ્ટ સ્કોર</span>
+          <span className="text-base font-black text-emerald-600 font-mono">{moduleState.latestTestScore || 100}%</span>
+        </div>
+      </div>
+
+      {/* Revision Options */}
+      <div className="pt-2 flex items-center justify-center gap-3 flex-wrap">
+        <button
+          onClick={onRevisitVideo}
+          className="px-4 py-2 bg-white border border-slate-200 hover:bg-slate-50 text-slate-700 text-xs font-bold rounded-xl font-gujarati"
+        >
+          🎬 વિડિયો જુઓ
+        </button>
+        <button
+          onClick={onRevisitLearning}
+          className="px-4 py-2 bg-white border border-slate-200 hover:bg-slate-50 text-slate-700 text-xs font-bold rounded-xl font-gujarati"
+        >
+          📚 પુનરાવર્તન કરો
+        </button>
+        <button
+          onClick={onRevisitPractice}
+          className="px-4 py-2 bg-white border border-slate-200 hover:bg-slate-50 text-slate-700 text-xs font-bold rounded-xl font-gujarati"
+        >
+          🎮 મહાવરો રમો
+        </button>
+      </div>
+
+      {/* Main Next Module CTA */}
+      <div className="pt-4 border-t border-emerald-100">
+        <button
+          onClick={onProceedNextModule}
+          className="px-8 py-4 bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-700 hover:to-teal-700 text-white font-black text-base rounded-2xl shadow-xl shadow-emerald-200 flex items-center gap-2 mx-auto active:scale-95 transition-all font-gujarati"
+        >
+          <span>આગળના મોડ્યુલ પર જાઓ (Next Module M-02 ➔)</span>
+          <ArrowRight className="w-5 h-5" />
+        </button>
+      </div>
     </div>
   );
 }

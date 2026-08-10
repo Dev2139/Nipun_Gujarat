@@ -27,7 +27,30 @@ export default function LearningPath() {
       const res = await progressService.getMyProgress();
       if (res.success) {
         const subjectData = isGujarati ? res.data.subjects.gujarati : res.data.subjects.mathematics;
-        setCompetencies(subjectData.competencies || []);
+        let list = subjectData.competencies || [];
+
+        // Check if Module 1 was completed locally
+        if (!isGujarati) {
+          const m1Data = localStorage.getItem('nipun_math_module_01_progress_v2');
+          if (m1Data) {
+            try {
+              const parsed = JSON.parse(m1Data);
+              if (parsed.passed) {
+                list = list.map((item) => {
+                  if (item.competencyCode === 'M-01') {
+                    return { ...item, status: 'MASTERED', latestScore: parsed.latestTestScore || 100 };
+                  }
+                  if (item.competencyCode === 'M-02' && item.status === 'LOCKED') {
+                    return { ...item, status: 'AVAILABLE' };
+                  }
+                  return item;
+                });
+              }
+            } catch (e) {}
+          }
+        }
+
+        setCompetencies(list);
       }
     } catch (err) {
       console.error('Error loading learning path:', err);
