@@ -51,6 +51,7 @@ import {
   Compass,
   Lightbulb,
   Search,
+  Move,
 } from 'lucide-react';
 
 export default function SpatialConceptsModule({ competency, progress, onTestReady }) {
