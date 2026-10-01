@@ -17,7 +17,7 @@ export default function SchoolHeaderBanner() {
           <div className="min-w-0 flex flex-col sm:flex-row sm:items-center sm:gap-2">
             <div className="flex items-center gap-1.5 truncate">
               <span className="text-amber-300 font-black text-xs sm:text-sm md:text-base tracking-wide drop-shadow-xs truncate">
-                શ્રી જડિયાણા પ્રાથમિક શાળા
+                શ્રી ઝેર પ્રાથમિક શાળા
               </span>
               <span className="text-emerald-400 text-xs hidden sm:inline">•</span>
             </div>

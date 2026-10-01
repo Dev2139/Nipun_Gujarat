@@ -147,7 +147,7 @@ export default function UnifiedLoginPage() {
         <div className="bg-gradient-to-r from-emerald-900 via-teal-900 to-slate-950 border-2 border-amber-400 text-white rounded-2xl p-4 text-center space-y-1 shadow-lg relative overflow-hidden">
           <div className="absolute -right-6 -bottom-6 w-20 h-20 bg-amber-400/10 rounded-full blur-xl pointer-events-none" />
           <div className="text-sm sm:text-base font-black text-amber-300 flex items-center justify-center gap-1.5 drop-shadow-xs">
-            <span>🏫 શ્રી જડિયાણા પ્રાથમિક શાળા</span>
+            <span>🏫 શ્રી ઝેર પ્રાથમિક શાળા</span>
           </div>
           <div className="text-xs font-bold text-emerald-200 flex items-center justify-center gap-1">
             <MapPin className="w-3 h-3 text-amber-400" />
